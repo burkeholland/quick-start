@@ -1,8 +1,8 @@
-# An Opinionated NativeScript Style Guide
+# NativeScript Quick-Start Guide
 
-This is an opinionated guide for building mobile apps using [NativeScript](http://nativescript.org).
+This is a quick-start guide for building NativeScript CLI apps [NativeScript](http://nativescript.org).
 
-View the guide live at <http://nativescript.github.io/nativescript-style-guide>.
+View the guide live at <http://tjvantoll.github.io/nativescript-quick-start>.
 
 ## Contributing
 

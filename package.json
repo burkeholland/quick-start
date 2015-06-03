@@ -1,7 +1,7 @@
 {
   "name": "nativescript-quick-start",
   "version": "1.0.0",
-  "description": "",
+  "description": "A quick-start guide for NativeScript CLI apps",
   "repository": {
     "type": "git",
     "url": "https://github.com/tjvantoll/nativescript-quick-start.git"
