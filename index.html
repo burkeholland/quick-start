@@ -27,7 +27,9 @@
 	<div id="book">
 		<div class="chapter">
 			<h2 id="introduction">Introduction</h2>
-<p>Welcome to the NativeScript Getting Started Guide. Using this guide, you&#39;ll be able to learn about NativeScript, a cross-platform library written in JavaScript that allows developers to build mobile apps leveraging native APIs for iOS and Android. NativeScript is a project built by Telerik. </p>
+<p>Welcome to the NativeScript Getting Started Guide. Using this guide, you&#39;ll be able to learn about NativeScript, a cross-platform library written in JavaScript that allows developers to build mobile apps leveraging native APIs for iOS and Android. NativeScript is a project built by Telerik.</p>
+<p><img src="../images/nativescript-logo.jpg" alt="NativeScript.org logo"></p>
+<p>Visit <a href="nativescript.org">NativeScript.org</a> for more information</p>
 <h3 id="what-is-this-">What is this?</h3>
 <p>This guide will help you get up and running with a NativeScript-built mobile app. We&#39;ll walk through creating a mobile app step by step. This guide is not a replacement for reading the <a href="http://docs.nativescript.org">docs</a>, but is designed to help you learn how to build mobile apps using NativeScript.</p>
 <h3 id="what-you-re-building">What you&#39;re building</h3>
@@ -38,16 +40,49 @@
 <li>Login</li>
 <li>Ability to add to, edit, and delete groceries from list</li>
 </ul>
+<p>This app is going to look awesome on your iPhone 4s, 5, and 6, your iPad 2, and your Android devices. We&#39;re building a cross-platform app so if you add groceries on your iPhone, you should be able to see them if you login to your Nexus. It&#39;s going to look like a native app to satisfy the design team&#39;s requirements, but it will be written in a manner that facilitates cross-platform development so that with one codebase you can support multiple screens.</p>
+<p>Bored with creating yet another Todo app to learn about a new programming language or framework? So are we. That&#39;s why we created this awesome Grocery List app project for you to build. No more forgetting the baking soda right when you have a craving for snickerdoodles. With the Groceries App, you&#39;ll be able to make your trip to Stop &#39;n&#39; Shop that much easier.</p>
+<p>Here&#39;s what this app will look like by the time we&#39;re finished with it:</p>
+<p><img src="../images/login-screenshot.png" alt="login">
+<img src="../images/register-screenshot.png" alt="register">
+<img src="../images/list-screenshot.png" alt="list"></p>
+<p>iOS Screenshots</p>
+<p><img src="../images/screenshot-placeholder.png" alt="placeholder">
+<img src="../images/screenshot-placeholder.png" alt="placeholder">
+<img src="../images/screenshot-placeholder.png" alt="placeholder"></p>
+<p>Android Screenshots</p>
+<p>Let&#39;s get started!</p>
 
 		</div>
 		<hr>
 		<div class="chapter">
 			<h2 id="getting-up-and-running">Getting up and running</h2>
-<p>...</p>
-<h3 id="install-nativescript">Install NativeScript</h3>
-<p>...</p>
+<p>For this guide, we&#39;re assuming that you are going to develop your app on your local computer using the NativeScript Command Line Interace, or CLI. To start building your NativeScript app, you need to configure your local computer. To start, please visit the appropriate page according to your preferred development environment and follow the directions to install the proper software:</p>
+<h3 id="install-nativescript-and-configure-your-environment">Install NativeScript and Configure your Environment</h3>
+<p><strong>Step 1:</strong></p>
+<ul>
+<li><a href="http://docs.nativescript.org/setup/ns-cli-setup/ns-setup-win.html">Windows</a></li>
+<li><a href="http://docs.nativescript.org/setup/ns-cli-setup/ns-setup-os-x.html">OS X</a></li>
+<li><a href="http://docs.nativescript.org/setup/ns-cli-setup/ns-setup-linux.html">Linux</a></li>
+</ul>
+<p>Step 2: </p>
+<p>Install the CLI: <a href="http://docs.nativescript.org/setup/ab-setup/ab-cli-setup.html">CLI Installation</a></p>
+<p>Step 3: </p>
+<p>Configure your IDE. The tools you use to develop locally are up to you, but a good workflow includes Sublime Text 2, as described <a href="http://developer.telerik.com/featured/a-nativescript-development-workflow-for-sublime-text/">here</a>.</p>
 <h3 id="start-your-app">Start your app</h3>
-<p>...</p>
+<p>With NativeScript properly installed, you start working on a basic app. Navigate to a folder where you want to keep your app&#39;s code and clone the Groceries repo:</p>
+<p><code>$ git clone https://github.com/tjvantoll/groceries.git</code>
+<code>$ cd groceries</code></p>
+<p>Add both the iOS and Android platforms to this folder:</p>
+<p><code>tns platform add ios</code>
+<code>tns platform add android</code></p>
+<p>If you&#39;d like to see the app run in an emulator, you can run it now:</p>
+<p><code>tns run ios --emulator</code> or <code>tns run android --emulator</code></p>
+<p>Groceries uses <a href="JSHint">http://jshint.com/</a> and <a href="JSCS">http://jscs.info/</a> for code linting, a process to check for mistakes and to help you neaten your code. To use these helpers, install the app&#39;s dependencies via npm:</p>
+<p><code>$ npm install</code></p>
+<p>then use the app&#39;s gulp lint command:</p>
+<p><code>$ gulp lint</code></p>
+<p>Now that you have your repository ready, your environment configured, and your app ready to emulate for iOS and Android, you&#39;re ready to start taking a look at the code structure.</p>
 
 		</div>
 		<hr>
