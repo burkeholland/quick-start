@@ -2,7 +2,7 @@
 
 Welcome to the NativeScript Getting Started Guide. Using this guide, you'll be able to learn about NativeScript, a cross-platform library written in JavaScript that allows developers to build mobile apps leveraging native APIs for iOS and Android. NativeScript is a project built by Telerik.
 
-![NativeScript.org logo](/images/nativescript-logo.jpg)
+![NativeScript.org logo](./images/nativescript-logo.jpg)
 
 Visit [NativeScript.org](nativescript.org) for more information
 
