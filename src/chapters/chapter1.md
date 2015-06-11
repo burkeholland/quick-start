@@ -4,7 +4,7 @@ For this guide, we're assuming that you are going to develop your app on your lo
 
 ### Install NativeScript and Configure your Environment
 
-**Step 1:**
+Step 1:
 
 - [Windows](http://docs.nativescript.org/setup/ns-cli-setup/ns-setup-win.html)
 - [OS X](http://docs.nativescript.org/setup/ns-cli-setup/ns-setup-os-x.html)
@@ -13,10 +13,6 @@ For this guide, we're assuming that you are going to develop your app on your lo
 Step 2: 
 
 Install the CLI: [CLI Installation](http://docs.nativescript.org/setup/ab-setup/ab-cli-setup.html)
-
-Step 3: 
-
-Configure your IDE. The tools you use to develop locally are up to you, but a good workflow includes Sublime Text 2, as described [here](http://developer.telerik.com/featured/a-nativescript-development-workflow-for-sublime-text/).
 
 ### Start your app
 
@@ -36,7 +32,7 @@ If you'd like to see the app run in an emulator, you can run it now:
 
 You'll find that running the app in an iOS emulator vs. an Android emulator offers a different user experience to the user. This is because NativeScript is levering native code to present the UI.
 
-We recommend using [http://jshint.com/](JSHint) and [http://jscs.info/](JSCS) for code linting, a process to check for mistakes and to help you neaten your code. To use these helpers, install the app's dependencies via npm:
+We recommend using [JSHint](http://jshint.com/) and [JSCS](http://jscs.info/) for code linting, a process to check for mistakes and to help you neaten your code. To use these helpers, install the app's dependencies via npm:
 
 `$ npm install`
 
@@ -48,7 +44,7 @@ Now that you have your repository ready, your environment configured, and your a
 
 ### A Good NativeScript Workflow
 
-At this point, you have the NativeScript CLI downloaded and installed, as well as the iOS and Android dependencies that you need to run your app on both the iOS and Android emulators. Now you need a good development workflow to ease development. [http://developer.telerik.com/featured/a-nativescript-development-workflow-for-sublime-text/](This article) elaborates on a good workflow process that uses node, Sublime Text 3, and a Sublime Package to make building your NativeScript app for an emulator really fast and easy. We recommend that you configure your environment this way to save time.
+At this point, you have the NativeScript CLI downloaded and installed, as well as the iOS and Android dependencies that you need to run your app on both the iOS and Android emulators. Now you need a good development workflow to ease development. [This article](http://developer.telerik.com/featured/a-nativescript-development-workflow-for-sublime-text/) elaborates on a good workflow process that uses node, Sublime Text 3, and a Sublime Package to make building your NativeScript app for an emulator really fast and easy. We recommend that you configure your environment this way to save time.
 
 
 
