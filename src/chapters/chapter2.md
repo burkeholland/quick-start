@@ -9,3 +9,23 @@
 ### UI Components
 
 ...
+
+### Navigation models
+
+...
+
+### Layouts 
+
+...
+
+### Code-behind files
+
+...
+
+### Data Binding
+
+...
+
+### CSS
+
+...
