@@ -1,6 +1,6 @@
 ## Getting up and running
 
-For this guide, we're assuming that you are going to develop your app on your local computer using the NativeScript Command Line Interace, or CLI. To start building your NativeScript app, you need to configure your local computer. To start, please visit the appropriate page according to your preferred development environment and follow the directions to install the proper software:
+For this guide, we're assuming that you are going to develop your app on your local computer using the NativeScript Command Line Interface, or CLI. To start building your NativeScript app, you need to configure your local computer. To start, please visit the appropriate page according to your preferred development environment and follow the directions to install the proper software:
 
 ### Install NativeScript and Configure your Environment
 
@@ -48,5 +48,7 @@ Now that you have your repository ready, your environment configured, and your a
 
 ### A Good NativeScript Workflow
 
-TBD
+At this point, you have the NativeScript CLI downloaded and installed, as well as the iOS and Android dependencies that you need to run your app on both the iOS and Android emulators. Now you need a good development workflow to ease development. [http://developer.telerik.com/featured/a-nativescript-development-workflow-for-sublime-text/](This article) elaborates on a good workflow process that uses node, Sublime Text 3, and a Sublime Package to make building your NativeScript app for an emulator really fast and easy. We recommend that you configure your environment this way to save time.
+
+
 
