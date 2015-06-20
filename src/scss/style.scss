@@ -27,6 +27,14 @@ a:link, a:visited, a:active {
 a:hover {
 	text-decoration: underline;
 }
+.box{
+	border:solid 1px #CCC;
+	display: block;
+  	overflow-x: auto;
+  	padding: 0.5em;
+  	color: #333;
+  	background: #f8f8f8;
+}
 
 hr {
 	background: $nativescript_color;

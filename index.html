@@ -10,6 +10,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link href="css/style.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/mono-blue.css">
+	<script src="scripts/highlight.pack.js"></script>
+	<script>hljs.initHighlightingOnLoad();</script>
+
 </head>
 <body>
 
@@ -69,19 +73,21 @@
 <p>Install the CLI: <a href="http://docs.nativescript.org/setup/ab-setup/ab-cli-setup.html">CLI Installation</a></p>
 <h3 id="start-your-app">Start your app</h3>
 <p>With NativeScript properly installed, you start working on a basic app. Navigate to a folder where you want to keep your app&#39;s code and clone the Groceries repo:</p>
-<p><code>$ git clone https://github.com/tjvantoll/groceries.git</code>
-<code>$ cd groceries</code></p>
-<p>You now have the starter code available for this app. Add both the iOS and Android platforms to this folder:</p>
-<p><code>tns platform add ios</code>
-<code>tns platform add android</code></p>
-<p>If you&#39;d like to see the app run in an emulator, you can run it now:</p>
-<p><code>tns run ios --emulator</code> or <code>tns run android --emulator</code></p>
-<p>You&#39;ll find that running the app in an iOS emulator vs. an Android emulator offers a different user experience to the user. This is because NativeScript is levering native code to present the UI.</p>
+<pre><code>$ git clone https://github.com/tjvantoll/groceries.git
+$ cd groceries
+</code></pre><p>You now have the starter code available for this app. Add both the iOS and Android platforms to this folder:</p>
+<pre><code>tns platform add ios
+tns platform add android
+</code></pre><p>If you&#39;d like to see the app run in an emulator, you can run it now:</p>
+<pre><code>tns run ios --emulator
+</code></pre><p>or </p>
+<pre><code>tns run android --emulator
+</code></pre><p>You&#39;ll find that running the app in an iOS emulator vs. an Android emulator offers a different user experience to the user. This is because NativeScript is levering native code to present the UI.</p>
 <p>We recommend using <a href="http://jshint.com/">JSHint</a> and <a href="http://jscs.info/">JSCS</a> for code linting, a process to check for mistakes and to help you neaten your code. To use these helpers, install the app&#39;s dependencies via npm:</p>
-<p><code>$ npm install</code></p>
-<p>then use the app&#39;s gulp lint command:</p>
-<p><code>$ gulp lint</code></p>
-<p>Now that you have your repository ready, your environment configured, and your app ready to emulate for iOS and Android, you&#39;re ready to start taking a look at the code structure.</p>
+<pre><code>$ npm install
+</code></pre><p>then use the app&#39;s gulp lint command:</p>
+<pre><code>$ gulp lint
+</code></pre><p>Now that you have your repository ready, your environment configured, and your app ready to emulate for iOS and Android, you&#39;re ready to start taking a look at the code structure.</p>
 <h3 id="a-good-nativescript-workflow">A Good NativeScript Workflow</h3>
 <p>At this point, you have the NativeScript CLI downloaded and installed, as well as the iOS and Android dependencies that you need to run your app on both the iOS and Android emulators. Now you need a good development workflow to ease development. <a href="http://developer.telerik.com/featured/a-nativescript-development-workflow-for-sublime-text/">This article</a> elaborates on a good workflow process that uses node, Sublime Text 3, and a Sublime Package to make building your NativeScript app for an emulator really fast and easy. We recommend that you configure your environment this way to save time.</p>
 
@@ -91,19 +97,201 @@
 			<h2 id="app-building-blocks">App building blocks</h2>
 <p>Now that you have your environment set up and the initial version of the app downloaded to your local computer, you can open it in the Sublime Text editor and start exploring the codebase. Let&#39;s take a look at the directory structure of a NativeScript app.</p>
 <h3 id="directory-structure">Directory structure</h3>
-<p>...</p>
+<p>Here&#39;s the directory structure of this starter app:</p>
+<pre><code>└── app
+    ├── App_Resources
+    │   ├── Android
+    │   └── iOS
+    ├── shared
+    │   ├── models
+    │   │   ├── GroceryList.js
+    │   │   └── Users.js
+    │   └── config.js
+    ├── tns_modules
+    │   ├── LICENSE
+    │   ├── application
+    │   │   ├── application-common.js
+    │   │   ├── application.android.js
+    │   │   ├── application.ios.js
+    │   │   └── package.json
+    │   └── ...
+    ├── assets
+    ├── views
+    │   ├── list
+    │   │   ├── list-view-model.js
+    │   │   ├── list.css
+    │   │   ├── list.js
+    │   │   └── list.xml
+    │   ├── login
+    │   │   ├── login-view-model.js
+    │   │   ├── login.js
+    │   │   └── login.xml
+    │   ├── register
+    │   │   ├── register-view-model.js
+    │   │   ├── register.js
+    │   │   └── register.xml
+    ├── app.css
+    ├── app.js
+    ├── ...
+</code></pre><ul>
+<li>App_Resources: In this folder we separate iOS and Android images, such as the app icon</li>
+<li>shared: Models are in a shared folder so they can be accessed by all the app&#39;s modules. In the shared folder is also a config.js file where important items such as API keys are stored.</li>
+<li>tns_modules: Telerik NativeScript Modules are contained in this folder. They allow you to abstract platform-specific code into a platform-agnostic API, and the modules in this folder are ready-made for you to use. Read more about how tns modules work <a href="http://developer.telerik.com/featured/nativescript-works/">here</a>. </li>
+<li>views: Each element of the app is contained in its own folder under &#39;view&#39;.</li>
+<li>app.css: This file contains global styles for your app</li>
+<li>app.js: This file sets up your application&#39;s starting module and initializes the app</li>
+</ul>
 <h3 id="ui-components">UI Components</h3>
-<p>...</p>
+<p>First let&#39;s take a look at the UI components. You&#39;ll find several folders in app/views. Each folder contains one page of your app: list, login, and register are there already. If you look at app/views/login, you&#39;ll see three files: </p>
+<p>login-view-model.js<br>login.js<br>login.xml  </p>
+<p>In login.xml, you&#39;ll find the XML markup that creates your presentation tier. Notice the creation of Images, Borders, TextFields, and Buttons. These are all UI elements that can be used in a NativeScript app, constructed with XML. Learn more about the UI components available in your app <a href="http://docs.nativescript.org/ui-with-xml">here</a>.</p>
 <h3 id="navigation-models">Navigation models</h3>
-<p>...</p>
+<p>While our Groceries app doesn&#39;t use complex navigation strategies, you have several available to you to leverage. Out of the box, you can use:</p>
+<p><a href="http://docs.nativescript.org/ui-views#tabview">TabView</a><br><a href="http://docs.nativescript.org/ui-views#segmentedbar">SegmentedBar</a>  </p>
+<p>Learn more about how to link up your navigation UI <a href="http://docs.nativescript.org/navigation#navigation">here</a>.</p>
 <h3 id="layouts">Layouts</h3>
-<p>...</p>
+<p>You have many options in NativeScript when creating layouts. One of the simplest is demonstrated in login.xml, the StackLayout. Here, we see several UI components nested in StackLayout tags:</p>
+<pre><code>&lt;StackLayout orientation=&quot;vertical&quot;&gt;
+</code></pre><p>Each of those components will be stacked on top of each other, vertically. Learn more about creating NativeScript layouts here and here.</p>
+<p><strong>Exercise: Based on the login code, let&#39;s create a frontend for our registration screen.</strong></p>
+<p>In /views/register/register.xml, add the following markup:</p>
+<pre><code>&lt;Page loaded=&quot;load&quot;&gt;
+    &lt;StackLayout&gt;
+        &lt;Image src=&quot;res://logo&quot; stretch=&quot;none&quot; horizontalAlignment=&quot;center&quot;/&gt;
+
+        &lt;Border borderWidth=&quot;1&quot; borderColor=&quot;#CECED2&quot;&gt;
+            &lt;TextField text=&quot;{{ user.email_address }}&quot; id=&quot;email&quot; hint=&quot;Email Address&quot; keyboardType=&quot;email&quot; /&gt;
+        &lt;/Border&gt;
+
+        &lt;Border borderWidth=&quot;1&quot; borderColor=&quot;#CECED2&quot;&gt;
+            &lt;TextField text=&quot;{{ user.password }}&quot; secure=&quot;true&quot; hint=&quot;Password&quot; /&gt;
+        &lt;/Border&gt;
+
+        &lt;Border borderWidth=&quot;1&quot; borderColor=&quot;#0079FF&quot;&gt;
+            &lt;Button text=&quot;Sign Up&quot; tap=&quot;register&quot; /&gt;
+        &lt;/Border&gt;
+    &lt;/StackLayout&gt;
+&lt;/Page&gt;
+</code></pre><p>Notice the function that is invoked when the Page is loaded: we&#39;ll take a look at the &#39;load&#39; function in the code-behind file that we&#39;ll construct next. Notice also the way we load an image, with its source as &quot;res://logo&quot; and its stretch attribute set to &#39;none&#39;. We&#39;ll talk more about handling images below as well. Finally, note the TextField&#39;s two-way binding, set up to bind its text to &quot;user.email_address&quot; or &quot;user.password&quot;. We&#39;ll also discuss data-binding below.</p>
 <h3 id="code-behind-files">Code-behind files</h3>
-<p>...</p>
-<h3 id="data-binding">Data Binding</h3>
-<p>...</p>
+<p>In app/views/login, you&#39;ll find login.js. This is called a &#39;code-behind&#39; file because it supports the xml markup that constructs the presentation tier. You&#39;ll find that in login.xml, a tap event is registered on the button at the bottom to login a user:</p>
+<pre><code>&lt;Button text=&quot;Sign in&quot; tap=&quot;signIn&quot; /&gt;
+</code></pre><p>You can find the signIn function in the code-behind file, where it simply invokes a View Model to perform a task:</p>
+<pre><code>exports.signIn = function() {
+    viewModel.signIn();
+};
+</code></pre><p><strong>Exercise: Construct the registration code-behind file.</strong></p>
+<p>In app/views/register/register.js, add the following code:</p>
+<pre><code>var view = require(&quot;ui/core/view&quot;);
+var viewModel = require(&quot;./register-view-model&quot;);
+
+exports.load = function(args) {
+    var page = args.object;
+    var email = view.getViewById(page, &quot;email&quot;);
+
+    page.bindingContext = viewModel;
+
+    // Turn off autocorrect and autocapitalization for iOS
+    if (email.ios) {
+        email.ios.autocapitalizationType =
+            UITextAutocapitalizationType.UITextAutocapitalizationTypeNone;
+        email.ios.autocorrectionType =
+            UITextAutocorrectionType.UITextAutocorrectionTypeNo;
+        email.ios.keyboardType =
+            UIKeyboardType.UIKeyboardTypeEmailAddress;
+    }
+};
+exports.register = function() {
+    viewModel.register();
+};
+</code></pre><p>Here we find the function &#39;load&#39; to which we alluded earlier. In the code-behind file, we set up the screen to have certain behaviors on ios devices, in particular to turn off autocorrect and auto capitalization which is annoying when trying to register, as well as making the keyboard type be friendly for entering email addresses. </p>
+<p>This file also includes the register function which sets up the registration routine to pass through the View Model. Let&#39;s take a look at that View Model.</p>
+<h3 id="view-model">View Model</h3>
+<p>At the top of login.js, you see a variable created that references the View Model associated to this page:</p>
+<pre><code>var viewModel = require(&quot;./login-view-model&quot;);
+</code></pre><p>As we saw above, that View Model is where the actual function to log a user in resides:</p>
+<pre><code>LoginViewModel.prototype.signIn = function() {
+    this.get(&quot;user&quot;).login()
+        .then(function() {
+            frameModule.topmost().navigate(&quot;./views/list/list&quot;);
+        }).catch(function() {
+            dialogs.alert({
+                message: &quot;Unfortunately we could not find your account.&quot;,
+                okButtonText: &quot;OK&quot;
+            });
+        });
+};
+</code></pre><p>Some interesting things are happening here. First, in one line of code, we tell the user to login using the Model file that resides in app/shared/models. This file is called User.js. Then the View Model handles the behavior of the UI if the user passes or fails this test of his/her credentials.</p>
+<p>To make use of the View Model and Model, we need to include the observable module by adding it at the top of app/shared/models/User.js:</p>
+<pre><code>var observableModule = require(&quot;data/observable&quot;);
+</code></pre><p>The app uses the Prototype pattern to create a login routine and handle the result of the login action by making use of promises:</p>
+<pre><code>User.prototype = new observableModule.Observable();
+User.prototype.login = function() {
+    var that = this;
+    return new Promise(function(resolve, reject) {
+        http.request({
+            url: config.apiUrl + &quot;oauth/token&quot;,
+            method: &quot;POST&quot;,
+            content: JSON.stringify({
+                username: that.get(&quot;email_address&quot;),
+                password: that.get(&quot;password&quot;),
+                grant_type: &quot;password&quot;
+            }),
+            headers: {
+                &quot;Content-Type&quot;: &quot;application/json&quot;
+            }
+        }).then(function(data) {
+            config.token = data.content.toJSON().Result.access_token;
+            resolve();
+        }).catch(function() {
+            reject();
+        });
+    });
+};
+</code></pre><p><strong>Exercise: Construct the Registration View Model</strong></p>
+<p>In app/views/register/register-view-model.js, add the following code:</p>
+<pre><code>var dialogs = require(&quot;ui/dialogs&quot;);
+var frameModule = require(&quot;ui/frame&quot;);
+var observable = require(&quot;data/observable&quot;);
+var User = require(&quot;../../shared/models/User&quot;);
+
+function RegisterViewModel() {
+    this.set(&quot;user&quot;, new User());
+}
+RegisterViewModel.prototype = new observable.Observable();
+
+RegisterViewModel.prototype.register = function() {
+    this.get(&quot;user&quot;).register()
+        .then(function() {
+            dialogs
+                .alert(&quot;Your account was successfully created.&quot;)
+                .then(function() {
+                    frameModule.topmost().navigate(&quot;./views/login/login&quot;);
+                });
+        }).catch(function() {
+            dialogs.alert({
+                message: &quot;Unfortunately we were unable to create your account.&quot;,
+                okButtonText: &quot;OK&quot;
+            });
+        });
+};
+
+module.exports = new RegisterViewModel();
+</code></pre><p>Note that, similarly to the way data is handled in login, we have set up a new prototype for registration, and invoked the function that is handled in app/shared/models/Users.js. The user is either registered or there is a problem, in which case a dialog pops up. We use the dialog ui by including it at the top of the View Model file, as you saw above.</p>
+<p>We&#39;ll discuss the way the Model and View Model fit together in this framework in chapter 4. For now, observe the way the data flows: from the xml file to the code-behind .js file, to the View Model and then the Model, and back again to the frontend where we handle acceptance or rejection of these credentials.</p>
 <h3 id="css">CSS</h3>
-<p>...</p>
+<p>NativeScript supports a subset of CSS so that you can add styles to your app. We include global styles in app/app.css, where you&#39;ll find some styles for all the textfields, buttons and borders. You can also include individual css files in each view folder, which would be appropriate for styles that are isolated to a certain page. </p>
+<p>We don&#39;t have to worry about any particular CSS in the login or register screens, but let&#39;s turn our attention to the grocery list itself which appears after logging in. It needs a little massaging, so let&#39;s add a few CSS styles to app/views/list/list.css:</p>
+<pre><code>ListView {
+    margin: 10;
+}
+Label {
+    margin: 10;
+}
+Border {
+    margin: 0;
+}
+</code></pre><p>This will give us a lttle more room for our groceries to display nicely.</p>
 
 		</div>
 		<hr>
@@ -126,6 +314,8 @@
 <h3 id="what-is-mvvm-">What is MVVM?</h3>
 <p>...</p>
 <h3 id="models-views-and-viewmodels">Models, Views, and ViewModels</h3>
+<p>...</p>
+<h3 id="data-binding">Data Binding</h3>
 <p>...</p>
 
 		</div>

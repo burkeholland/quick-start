@@ -18,27 +18,41 @@ Install the CLI: [CLI Installation](http://docs.nativescript.org/setup/ab-setup/
 
 With NativeScript properly installed, you start working on a basic app. Navigate to a folder where you want to keep your app's code and clone the Groceries repo:
 
-`$ git clone https://github.com/tjvantoll/groceries.git`
-`$ cd groceries`
+```
+$ git clone https://github.com/tjvantoll/groceries.git
+$ cd groceries
+```
 
 You now have the starter code available for this app. Add both the iOS and Android platforms to this folder:
 
-`tns platform add ios`
-`tns platform add android`
+```
+tns platform add ios
+tns platform add android
+```
 
 If you'd like to see the app run in an emulator, you can run it now:
 
-`tns run ios --emulator` or `tns run android --emulator`
+```
+tns run ios --emulator
+``` 
+or 
+```
+tns run android --emulator
+```
 
 You'll find that running the app in an iOS emulator vs. an Android emulator offers a different user experience to the user. This is because NativeScript is levering native code to present the UI.
 
 We recommend using [JSHint](http://jshint.com/) and [JSCS](http://jscs.info/) for code linting, a process to check for mistakes and to help you neaten your code. To use these helpers, install the app's dependencies via npm:
 
-`$ npm install`
+```
+$ npm install
+```
 
 then use the app's gulp lint command:
 
-`$ gulp lint`
+```
+$ gulp lint
+```
 
 Now that you have your repository ready, your environment configured, and your app ready to emulate for iOS and Android, you're ready to start taking a look at the code structure.
 
