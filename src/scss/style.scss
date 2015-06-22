@@ -35,7 +35,9 @@ a:hover {
   	color: #333;
   	background: #f8f8f8;
 }
-
+strong{
+	font-size:1.2em;
+}
 hr {
 	background: $nativescript_color;
 	padding: 0.1em;

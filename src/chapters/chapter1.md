@@ -23,6 +23,8 @@ $ git clone https://github.com/tjvantoll/groceries.git
 $ cd groceries
 ```
 
+>Note, the full codebase is available on the master branch. Use the start branch for your base project, and feel free to refer to master if you get stuck.
+
 You now have the starter code available for this app. Add both the iOS and Android platforms to this folder:
 
 ```
