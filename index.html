@@ -31,30 +31,44 @@
 	<div id="book">
 		<div class="chapter">
 			<h2 id="introduction">Introduction</h2>
-<p>Welcome to the NativeScript Getting Started Guide. Using this guide, you&#39;ll be able to learn about NativeScript, a cross-platform library written in JavaScript that allows developers to build mobile apps leveraging native APIs for iOS and Android. NativeScript is a project built by Telerik.</p>
+<p>Welcome to the <a href="https://nativescript.org">NativeScript</a> Getting Started Guide. Using this guide, you&#39;ll use NativeScript, a cross-platform JavaScript framework for building native mobile apps, to build an iOS and Android app from scratch.</p>
 <p><img src="images/nativescript-logo.jpg" alt="NativeScript.org logo"></p>
-<p>Visit <a href="nativescript.org">NativeScript.org</a> for more information</p>
-<h3 id="what-is-this-">What is this?</h3>
-<p>This guide will help you get up and running with a NativeScript-built mobile app. We&#39;ll walk through creating a mobile app step by step. This guide is not a replacement for reading the <a href="http://docs.nativescript.org">docs</a>, but is designed to help you learn how to build mobile apps using NativeScript.</p>
 <h3 id="what-you-re-building">What you&#39;re building</h3>
-<p>We&#39;re going to walk you through building a Grocery List app called &quot;Groceries&quot;. This app will include: </p>
+<p>Bored with creating yet another to-do app to learn about a new programming language or framework? So are we. That&#39;s why we added a small twist to revolutionize the to-do-list-app-as-a-means-to-learn-a-technology space—grocery management! With the rather unoriginally titled <a href="https://github.com/tjvantoll/groceries">“Groceries” app</a>, you&#39;ll no longer have to worry about forgetting the baking soda right when you have a craving for snickerdoodles. You&#39;ll be able to make your trip to Stop &#39;n&#39; Shop that much easier.</p>
+<p>Here&#39;s the full premise: your boss has tasked you with creating the next great grocery management app. It&#39;s totally going to make your company millions. You&#39;re told that the app must do the following things:</p>
 <ul>
-<li>Backend services integration</li>
-<li>Registration</li>
-<li>Login</li>
-<li>Ability to add to, edit, and delete groceries from list</li>
+<li>Allow users to register and login.</li>
+<li>Allow authenticated users to add and delete groceries from a list.</li>
+<li>Connect to your companies&#39; existing RESTful services.</li>
 </ul>
-<p>This app is going to look awesome on your iPhone 4s, 5, and 6, your iPad 2, and your Android devices. We&#39;re building a cross-platform app so if you add groceries on your iPhone, you should be able to see them if you login to your Nexus. It&#39;s going to look like a native app to satisfy the design team&#39;s requirements, but it will be written in a manner that facilitates cross-platform development so that with one codebase you can support multiple screens.</p>
-<p>Bored with creating yet another Todo app to learn about a new programming language or framework? So are we. That&#39;s why we created this awesome Grocery List app project for you to build. No more forgetting the baking soda right when you have a craving for snickerdoodles. With the Groceries App, you&#39;ll be able to make your trip to Stop &#39;n&#39; Shop that much easier.</p>
-<p>Here&#39;s what this app will look like by the time we&#39;re finished with it:</p>
+<p>Your boss also says the app has to look “native” on the iPhone 4s, 5, and 6, the iPad 2, and a variety of Android devices—including the CEO&#39;s old Nexus 7. The app also must be cross-platform, so that she can add groceries from her iPhone, and her significant other can add to the same list from their Nexus.</p>
+<p>You&#39;re given some very native looking designs from your design team, a few endpoints from your backend team (below), and told to build an app out of it.</p>
+<ul>
+<li>GET <a href="http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/Groceries">http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/Groceries</a><ul>
+<li>Load all groceries</li>
+</ul>
+</li>
+<li>POST <a href="http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/Groceries">http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/Groceries</a><ul>
+<li>Add a grocery to the list</li>
+</ul>
+</li>
+<li>POST <a href="http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/Users">http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/Users</a><ul>
+<li>Register a new user</li>
+</ul>
+</li>
+<li>POST <a href="http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/oauth/token">http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/oauth/token</a><ul>
+<li>Generate a login token</li>
+</ul>
+</li>
+</ul>
+<p>Below are screenshots of what this app will look like after you complete this guide. Here&#39;s what it&#39;ll look like on iOS:</p>
 <p><img src="images/login-screenshot.png" alt="login">
 <img src="images/register-screenshot.png" alt="register">
 <img src="images/list-screenshot.png" alt="list"></p>
-<p>iOS Screenshots</p>
+<p>And here&#39;s what the app will look like on Android:</p>
 <p><img src="images/screenshot-placeholder.png" alt="placeholder">
 <img src="images/screenshot-placeholder.png" alt="placeholder">
 <img src="images/screenshot-placeholder.png" alt="placeholder"></p>
-<p>Android Screenshots</p>
 <p>Let&#39;s get started!</p>
 
 		</div>
