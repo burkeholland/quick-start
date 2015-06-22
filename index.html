@@ -69,23 +69,32 @@
 <p><img src="images/screenshot-placeholder.png" alt="placeholder">
 <img src="images/screenshot-placeholder.png" alt="placeholder">
 <img src="images/screenshot-placeholder.png" alt="placeholder"></p>
-<p>Let&#39;s get started!</p>
+<p>By building Groceries you&#39;ll see just how easy NativeScript makes building iOS and Android apps—and fun too! Let&#39;s get started.</p>
 
 		</div>
 		<hr>
 		<div class="chapter">
 			<h2 id="getting-up-and-running">Getting up and running</h2>
-<p>For this guide, we&#39;re assuming that you are going to develop your app on your local computer using the NativeScript Command Line Interface, or CLI. To start building your NativeScript app, you need to configure your local computer. To start, please visit the appropriate page according to your preferred development environment and follow the directions to install the proper software:</p>
+<p>There are two ways to use NativeScript: through the NativeScript Command-Line Interface (CLI) and through <a href="http://www.telerik.com/appbuilder">Telerik AppBuilder</a>. Although the NativeScript framework itself is the same regardless of whether you use the CLI or AppBuilder, the way you interface with NativeScript—how you run your app, how you change configuration files, and so forth—differs based on the interface you choose.</p>
+<p>For this guide, we&#39;re assuming that you are going to develop your app on your local computer using the NativeScript CLI. Although most of the steps and advice given in this guide apply equally to using NativeScript through the CLI or AppBuilder, some—mostly related to development workflow—are specific to using NativeScript through the NativeScript CLI.</p>
 <h3 id="install-nativescript-and-configure-your-environment">Install NativeScript and Configure your Environment</h3>
-<p>Step 1:</p>
+<p>The NativeScript CLI has a few system requirements you must complete before building NativeScript apps. As a first step start by going through the appropriate instructions below depending on your development machine&#39;s operating system:</p>
 <ul>
 <li><a href="http://docs.nativescript.org/setup/ns-cli-setup/ns-setup-win.html">Windows</a></li>
 <li><a href="http://docs.nativescript.org/setup/ns-cli-setup/ns-setup-os-x.html">OS X</a></li>
 <li><a href="http://docs.nativescript.org/setup/ns-cli-setup/ns-setup-linux.html">Linux</a></li>
 </ul>
-<p>Step 2: </p>
-<p>Install the CLI: <a href="http://docs.nativescript.org/setup/ab-setup/ab-cli-setup.html">CLI Installation</a></p>
-<h3 id="start-your-app">Start your app</h3>
+<p>Once you have the setup complete, use the <code>npm install</code> command to install the NativeScript CLI itself:</p>
+<pre><code>$ npm install -g nativescript
+</code></pre><p>You should now have two command available from your terminal: <code>tns</code>—which is short for Telerik NativeScript—and <code>nativescript</code>. The <code>tns</code> command appeals to lazy developers like us so we&#39;ll stick with the shorter alias throughout this guide. You can verify the installation was successful by running <code>tns</code> in your terminal. You should see something like this:</p>
+<pre><code>$ tns
+# NativeScript
+┌─────────┬─────────────────────────────────────────────────────────────────────┐
+│ Usage   │ Synopsis                                                            │
+│ General │ $ tns &lt;Command&gt; [Command Parameters] [--command &lt;Options&gt;]          │
+│ Alias   │ $ nativescript &lt;Command&gt; [Command Parameters] [--command &lt;Options&gt;] │
+└─────────┴─────────────────────────────────────────────────────────────────────┘
+</code></pre><h3 id="start-your-app">Start your app</h3>
 <p>With NativeScript properly installed, you start working on a basic app. Navigate to a folder where you want to keep your app&#39;s code and clone the Groceries repo:</p>
 <pre><code>$ git clone https://github.com/tjvantoll/groceries.git
 $ cd groceries

@@ -39,4 +39,4 @@ And here's what the app will look like on Android:
 ![placeholder](images/screenshot-placeholder.png)
 ![placeholder](images/screenshot-placeholder.png)
 
-Let's get started!
+By building Groceries you'll see just how easy NativeScript makes building iOS and Android apps—and fun too! Let's get started.

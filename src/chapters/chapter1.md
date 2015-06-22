@@ -1,18 +1,34 @@
 ## Getting up and running
 
-For this guide, we're assuming that you are going to develop your app on your local computer using the NativeScript Command Line Interface, or CLI. To start building your NativeScript app, you need to configure your local computer. To start, please visit the appropriate page according to your preferred development environment and follow the directions to install the proper software:
+There are two ways to use NativeScript: through the NativeScript Command-Line Interface (CLI) and through [Telerik AppBuilder](http://www.telerik.com/appbuilder). Although the NativeScript framework itself is the same regardless of whether you use the CLI or AppBuilder, the way you interface with NativeScript—how you run your app, how you change configuration files, and so forth—differs based on the interface you choose.
+
+For this guide, we're assuming that you are going to develop your app on your local computer using the NativeScript CLI. Although most of the steps and advice given in this guide apply equally to using NativeScript through the CLI or AppBuilder, some—mostly related to development workflow—are specific to using NativeScript through the NativeScript CLI.
 
 ### Install NativeScript and Configure your Environment
 
-Step 1:
+The NativeScript CLI has a few system requirements you must complete before building NativeScript apps. As a first step start by going through the appropriate instructions below depending on your development machine's operating system:
 
 - [Windows](http://docs.nativescript.org/setup/ns-cli-setup/ns-setup-win.html)
 - [OS X](http://docs.nativescript.org/setup/ns-cli-setup/ns-setup-os-x.html)
 - [Linux](http://docs.nativescript.org/setup/ns-cli-setup/ns-setup-linux.html)
 
-Step 2: 
+Once you have the setup complete, use the `npm install` command to install the NativeScript CLI itself:
 
-Install the CLI: [CLI Installation](http://docs.nativescript.org/setup/ab-setup/ab-cli-setup.html)
+```
+$ npm install -g nativescript
+```
+
+You should now have two command available from your terminal: `tns`—which is short for Telerik NativeScript—and `nativescript`. The `tns` command appeals to lazy developers like us so we'll stick with the shorter alias throughout this guide. You can verify the installation was successful by running `tns` in your terminal. You should see something like this:
+
+```
+$ tns
+# NativeScript
+┌─────────┬─────────────────────────────────────────────────────────────────────┐
+│ Usage   │ Synopsis                                                            │
+│ General │ $ tns <Command> [Command Parameters] [--command <Options>]          │
+│ Alias   │ $ nativescript <Command> [Command Parameters] [--command <Options>] │
+└─────────┴─────────────────────────────────────────────────────────────────────┘
+```
 
 ### Start your app
 
