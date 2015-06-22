@@ -502,6 +502,9 @@ a:hover {
   color: #333;
   background: #f8f8f8; }
 
+strong {
+  font-size: 1.2em; }
+
 hr {
   background: #5854F8;
   padding: 0.1em;

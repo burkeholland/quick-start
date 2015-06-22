@@ -67,9 +67,24 @@ In login.xml, you'll find the XML markup that creates your presentation tier. No
 While our Groceries app doesn't use complex navigation strategies, you have several available to you to leverage. Out of the box, you can use:
 
 [TabView](http://docs.nativescript.org/ui-views#tabview)  
-[SegmentedBar](http://docs.nativescript.org/ui-views#segmentedbar)  
+[SegmentedBar](http://docs.nativescript.org/ui-views#segmentedbar)
 
-Learn more about how to link up your navigation UI [here](http://docs.nativescript.org/navigation#navigation).
+**Exercise: Enable the "Sign Up" button on the login screen with a navigational change**
+
+Right now, if you were to click the Sign Up For Groceries button on the login screen, nothing would happen. Let's get this button to change the screen to show a registration form. 
+
+In app/views/login/login-view-model.js, add the following function under the signIn function:
+
+```
+LoginViewModel.prototype.register = function() {
+	var topmost = frameModule.topmost();
+	topmost.navigate("./views/register/register");
+};
+
+```
+This function makes use of the module 'frameModule' which looks for the topmost frame and navigates to it. Here, we tell the topmost frame to navigate to the register view. 
+
+Learn more about how to link up your navigational strategies [here](http://docs.nativescript.org/navigation#navigation).
 
 ### Layouts 
 
@@ -79,9 +94,9 @@ You have many options in NativeScript when creating layouts. One of the simplest
 <StackLayout orientation="vertical">
 ```
 
-Each of those components will be stacked on top of each other, vertically. Learn more about creating NativeScript layouts here and here.
+Each of those components will be stacked on top of each other, vertically. Learn more about creating NativeScript layouts [here](http://docs.nativescript.org/layouts) and [here](http://developer.telerik.com/featured/demystifying-nativescript-layouts/).
 
-**Exercise: Based on the login code, let's create a frontend for our registration screen.**
+**Exercise: Create a stacked layout for our registration screen.**
 
 In /views/register/register.xml, add the following markup:
 
@@ -105,9 +120,15 @@ In /views/register/register.xml, add the following markup:
 </Page>
 ```
 
-Notice the function that is invoked when the Page is loaded: we'll take a look at the 'load' function in the code-behind file that we'll construct next. Notice also the way we load an image, with its source as "res://logo" and its stretch attribute set to 'none'. We'll talk more about handling images below as well. Finally, note the TextField's two-way binding, set up to bind its text to "user.email_address" or "user.password". We'll also discuss data-binding below.
+If you run your code in an emulator, you'll find that you can now navigate to your registration view and back again by clicking the appropriate buttons.
+
+- Notice the function that is invoked when the Page is loaded: we'll take a look at the 'load' function in the code-behind file that we'll construct next. 
+- Notice also the way we load an image, with its source as "res://logo" and its stretch attribute set to 'none'. We'll talk more about handling images below as well. 
+- Finally, note the TextField's two-way binding, set up to bind its text to "user.email_address" or "user.password". We'll also discuss data-binding below.
 
 ### Code-behind files
+
+Although you can now see your registration screen, it's not yet wired up to send data to the backend. Let's fix that.
 
 In app/views/login, you'll find login.js. This is called a 'code-behind' file because it supports the xml markup that constructs the presentation tier. You'll find that in login.xml, a tap event is registered on the button at the bottom to login a user:
 
@@ -127,7 +148,6 @@ exports.signIn = function() {
 
 In app/views/register/register.js, add the following code:
 
-
 ```
 var view = require("ui/core/view");
 var viewModel = require("./register-view-model");
@@ -135,28 +155,15 @@ var viewModel = require("./register-view-model");
 exports.load = function(args) {
 	var page = args.object;
 	var email = view.getViewById(page, "email");
-
-	page.bindingContext = viewModel;
-
-	// Turn off autocorrect and autocapitalization for iOS
-	if (email.ios) {
-		email.ios.autocapitalizationType =
-			UITextAutocapitalizationType.UITextAutocapitalizationTypeNone;
-		email.ios.autocorrectionType =
-			UITextAutocorrectionType.UITextAutocorrectionTypeNo;
-		email.ios.keyboardType =
-			UIKeyboardType.UIKeyboardTypeEmailAddress;
-	}
+	page.bindingContext = viewModel;	
 };
+
 exports.register = function() {
 	viewModel.register();
 };
 ```
 
-
-Here we find the function 'load' to which we alluded earlier. In the code-behind file, we set up the screen to have certain behaviors on ios devices, in particular to turn off autocorrect and auto capitalization which is annoying when trying to register, as well as making the keyboard type be friendly for entering email addresses. 
-
-This file also includes the register function which sets up the registration routine to pass through the View Model. Let's take a look at that View Model.
+Here we find the function 'load' to which we alluded earlier. This file also includes the register function which sets up the registration routine to pass through the View Model. Let's take a look at that View Model.
 
 ### View Model 
 
@@ -172,7 +179,7 @@ As we saw above, that View Model is where the actual function to log a user in r
 LoginViewModel.prototype.signIn = function() {
 	this.get("user").login()
 		.then(function() {
-			frameModule.topmost().navigate("./views/list/list");
+			//frameModule.topmost().navigate("./views/list/list");
 		}).catch(function() {
 			dialogs.alert({
 				message: "Unfortunately we could not find your account.",
@@ -184,55 +191,45 @@ LoginViewModel.prototype.signIn = function() {
 
 Some interesting things are happening here. First, in one line of code, we tell the user to login using the Model file that resides in app/shared/models. This file is called User.js. Then the View Model handles the behavior of the UI if the user passes or fails this test of his/her credentials.
 
-To make use of the View Model and Model, we need to include the observable module by adding it at the top of app/shared/models/User.js:
+To make use of the View Model and Model, note that we include the observable module by adding it at the top of app/shared/models/User.js:
 
 ```
 var observableModule = require("data/observable");
 ```
 
-The app uses the Prototype pattern to create a login routine and handle the result of the login action by making use of promises:
+The app uses the Prototype pattern to create a login routine and handle the result of the login action by making use of promises.
 
-```
-User.prototype = new observableModule.Observable();
-User.prototype.login = function() {
-	var that = this;
-	return new Promise(function(resolve, reject) {
-		http.request({
-			url: config.apiUrl + "oauth/token",
-			method: "POST",
-			content: JSON.stringify({
-				username: that.get("email_address"),
-				password: that.get("password"),
-				grant_type: "password"
-			}),
-			headers: {
-				"Content-Type": "application/json"
-			}
-		}).then(function(data) {
-			config.token = data.content.toJSON().Result.access_token;
-			resolve();
-		}).catch(function() {
-			reject();
-		});
-	});
-};
-```
 
 **Exercise: Construct the Registration View Model**
 
-In app/views/register/register-view-model.js, add the following code:
+Let's get the View Model into place so that data from the frontend XML can filter through the code-behind file, through the View Model, and over to the Model. In app/views/register/register-view-model.js, add the following code:
 
 ```
 var dialogs = require("ui/dialogs");
 var frameModule = require("ui/frame");
 var observable = require("data/observable");
 var User = require("../../shared/models/User");
+```
 
+Here, we're including several NativeScript modules, including dialog, frameModule, and observable. We also include the User Model so that it is available for data pass-through.
+
+Under that code, create a function that creates a new user based on the User Model:
+
+```
 function RegisterViewModel() {
 	this.set("user", new User());
 }
-RegisterViewModel.prototype = new observable.Observable();
+```
 
+Then, we can use the prototype pattern to create a new bindable object, the RegisterViewModel:
+
+```
+RegisterViewModel.prototype = new observable.Observable();
+```
+
+Next, add in the register function to handle the way the UI will be have based on the response of the model to data passed to it:
+
+```
 RegisterViewModel.prototype.register = function() {
 	this.get("user").register()
 		.then(function() {
@@ -248,11 +245,47 @@ RegisterViewModel.prototype.register = function() {
 			});
 		});
 };
+```
 
+And finally, export this new View Model which we have called RegisterViewModel:
+
+```
 module.exports = new RegisterViewModel();
 ```
 
 Note that, similarly to the way data is handled in login, we have set up a new prototype for registration, and invoked the function that is handled in app/shared/models/Users.js. The user is either registered or there is a problem, in which case a dialog pops up. We use the dialog ui by including it at the top of the View Model file, as you saw above.
+
+**Exercise: Wire up the registration function in the Model**
+
+Let's get something to happen when we click the register button in the register screen. Add the following code to /app/shared/models/User.js:
+
+```
+User.prototype.register = function() {
+	var that = this;
+	return new Promise(function(resolve, reject) {
+		http.request({
+			url: config.apiUrl + "Users",
+			method: "POST",
+			content: JSON.stringify({
+				Username: that.get("email_address"),
+				Email: that.get("email_address"),
+				Password: that.get("password")
+			}),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		}).then(function() {
+			resolve();
+		}).catch(function() {
+			reject();
+		});
+	});
+};
+```
+
+Now, if you rebuild and run your app in an emulator, you can register a new user! 
+
+<img src="images/registration-success.png"/>
  
 We'll discuss the way the Model and View Model fit together in this framework in chapter 4. For now, observe the way the data flows: from the xml file to the code-behind .js file, to the View Model and then the Model, and back again to the frontend where we handle acceptance or rejection of these credentials.
 
