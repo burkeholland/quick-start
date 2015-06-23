@@ -55,7 +55,7 @@
 			<h2 id="getting-up-and-running">Getting up and running</h2>
 <p>There are two ways to use NativeScript: through the NativeScript Command-Line Interface (CLI) and through <a href="http://www.telerik.com/appbuilder">Telerik AppBuilder</a>. Although the NativeScript framework itself is the same regardless of whether you use the CLI or AppBuilder, the way you interface with NativeScript—how you run your app, how you change configuration files, and so forth—differs based on the interface you choose.</p>
 <p>For this guide, we&#39;re assuming that you are going to develop your app on your local computer using the NativeScript CLI. Although most of the steps and advice given in this guide apply equally to using NativeScript through the CLI or AppBuilder, some—mostly related to development workflow—are specific to using NativeScript through the NativeScript CLI.</p>
-<h3 id="install-nativescript-and-configure-your-environment">Install NativeScript and Configure your Environment</h3>
+<h3 id="install-nativescript-and-configure-your-environment">Install NativeScript and configure your environment</h3>
 <p>The NativeScript CLI has a few system requirements you must complete before building NativeScript apps. As a first step start by going through the appropriate instructions below depending on your development machine&#39;s operating system:</p>
 <ul>
 <li><a href="http://docs.nativescript.org/setup/ns-cli-setup/ns-setup-win.html">Windows</a></li>
@@ -64,7 +64,7 @@
 </ul>
 <p>Once you have the setup complete, use the <code>npm install</code> command to install the NativeScript CLI itself:</p>
 <pre><code>$ npm install -g nativescript
-</code></pre><p>You should now have two command available from your terminal: <code>tns</code>—which is short for <strong>T</strong>elerik <strong>N</strong>ative<strong>S</strong>cript—and <code>nativescript</code>. The two commands are equivalent, so we&#39;ll stick with the shorter <code>tns</code> command throughout this guide.</p>
+</code></pre><p>You should now have two commands available from your terminal: <code>tns</code>—which is short for <strong>T</strong>elerik <strong>N</strong>ative<strong>S</strong>cript—and <code>nativescript</code>. The two commands are equivalent, so we&#39;ll stick with the shorter <code>tns</code> command throughout this guide.</p>
 <p>You can verify the installation was successful by running <code>tns</code> in your terminal. You should see something like this:</p>
 <pre><code>$ tns
 # NativeScript
@@ -74,28 +74,39 @@
 │ Alias   │ $ nativescript &lt;Command&gt; [Command Parameters] [--command &lt;Options&gt;] │
 └─────────┴─────────────────────────────────────────────────────────────────────┘
 </code></pre><h3 id="start-your-app">Start your app</h3>
-<p>With NativeScript CLI installed, it&#39;s time to start your app. Normally you would use the <code>tns create</code> command to start a new app—e.g. <code>tns create hello-world</code> but we&#39;re pre-scaffolded out some boilerplate to act as a starting point for Groceries. To get it, navigate to a folder where you want to keep your app&#39;s code and clone the Groceries repo:</p>
+<p>With NativeScript CLI installed, it&#39;s time to start your app. You normally use the <code>tns create</code> command to create new apps—e.g. <code>tns create hello-world</code>—but for this guide we&#39;re scaffolded out a boilerplate project to act as a starting point for Groceries. To get it, navigate to a folder where you want to keep your app&#39;s code and clone the Groceries repo:</p>
 <pre><code>$ cd folder-you-want-groceries-to-be-in
 $ git clone https://github.com/tjvantoll/groceries.git
 $ cd groceries
-</code></pre><blockquote>
-<p>Note, the full codebase is available on the master branch. Use the start branch for your base project, and feel free to refer to master if you get stuck.</p>
-</blockquote>
-<p>You now have the starter code available for this app. Add both the iOS and Android platforms to this folder:</p>
-<pre><code>tns platform add ios
-tns platform add android
-</code></pre><p>If you&#39;d like to see the app run in an emulator, you can run it now:</p>
+</code></pre><p>The master branch has the final state of the Groceries app. Feel free to refer back to it at any time, but for now switch over to the “start” branch for the guide&#39;s starting point:</p>
+<pre><code>$ git checkout start
+</code></pre><h3 id="add-target-development-platforms">Add target development platforms</h3>
+<p>Your project is now setup, but before you run it you have to do a little iOS- and Android-specific configuration using the <code>tns platform add</code> command. Start by adding the Android platform:</p>
+<pre><code>$ tns platform add android
+</code></pre><p>And if you&#39;re on a Mac add the iOS platform next:</p>
+<pre><code>$ tns platform add ios
+</code></pre><p>The <code>platform add</code> command uses the native SDKs to initialize platform-specific projects and places the generated contents in your app&#39;s <code>platforms</code> folder. Later on, the NativeScript CLI will use the tools of the native SDKs to build these platform-specific projects into truly native application packages. During the process, the NativeScript CLI will automatically transfer your cross-platform code and resources from your project&#39;s <code>app</code> folder into its <code>platforms</code> folder.</p>
+<p>Don&#39;t worry too much about the details, as the NativeScript CLI does a good job of abstracting you from the messy details. Let&#39;s look at how to run your app.</p>
+<h3 id="running-your-app">Running your app</h3>
+<p>With the platform initialization complete you can now run your app in an emulator or on devices. If you&#39;re on an app start by running the app in an iOS simulator with the following command:</p>
 <pre><code>tns run ios --emulator
-</code></pre><p>or </p>
+</code></pre><p>If all went well you should see something like this:</p>
+<blockquote>
+<p>Jen: We need an image here.</p>
+</blockquote>
+<p>Next run your app on Android with the following command:</p>
 <pre><code>tns run android --emulator
-</code></pre><p>You&#39;ll find that running the app in an iOS emulator vs. an Android emulator offers a different user experience to the user. This is because NativeScript is levering native code to present the UI.</p>
-<p>We recommend using <a href="http://jshint.com/">JSHint</a> and <a href="http://jscs.info/">JSCS</a> for code linting, a process to check for mistakes and to help you neaten your code. To use these helpers, install the app&#39;s dependencies via npm:</p>
-<pre><code>$ npm install
-</code></pre><p>then use the app&#39;s gulp lint command:</p>
-<pre><code>$ gulp lint
-</code></pre><p>Now that you have your repository ready, your environment configured, and your app ready to emulate for iOS and Android, you&#39;re ready to start taking a look at the code structure.</p>
-<h3 id="a-good-nativescript-workflow">A Good NativeScript Workflow</h3>
-<p>At this point, you have the NativeScript CLI downloaded and installed, as well as the iOS and Android dependencies that you need to run your app on both the iOS and Android emulators. Now you need a good development workflow to ease development. <a href="http://developer.telerik.com/featured/a-nativescript-development-workflow-for-sublime-text/">This article</a> elaborates on a good workflow process that uses node, Sublime Text 3, and a Sublime Package to make building your NativeScript app for an emulator really fast and easy. We recommend that you configure your environment this way to save time.</p>
+</code></pre><p>If all went well you should see your app running in an Android emulator:</p>
+<blockquote>
+<p>Jen: We need an image here.</p>
+</blockquote>
+<p>You&#39;ll find that running the app in an iOS emulator vs. an Android emulator offers a different user experience to the user. This is because NativeScript is actually leveraging native iOS and Android code to present the UI—cool, huh?</p>
+<h3 id="making-changes-with-livesync">Making changes with LiveSync</h3>
+<blockquote>
+<p>Jen: I think we need to show people how to change a file and see that change happen live. LiveSync should provide a good workflow for this and it&#39;s coming in 1.2. So let&#39;s just hold off for now and reevaluate this post 1.2.</p>
+<p>TODO: Reevaluate this after 1.2. At this point, you have the NativeScript CLI downloaded and installed, as well as the iOS and Android dependencies that you need to run your app on both the iOS and Android emulators. Now you need a good development workflow to ease development. <a href="http://developer.telerik.com/featured/a-nativescript-development-workflow-for-sublime-text/">This article</a> elaborates on a good workflow process that uses node, Sublime Text 3, and a Sublime Package to make building your NativeScript app for an emulator really fast and easy. We recommend that you configure your environment this way to save time.</p>
+</blockquote>
+<p>Now that you have your app created, your environment configured, and your app ready to emulate for iOS and Android, you&#39;re ready to start taking a look at the code structure.</p>
 
 		</div>
 		<hr>
@@ -537,7 +548,7 @@ Border {
 		</div>
 		<hr>
 		<div class="chapter">
-			<h2 id="extras">Extras</h2>
+			<h2 id="deploying">Deploying</h2>
 <h3 id="setting-your-app-s-display-name">Setting your app&#39;s display name</h3>
 <p>...</p>
 <h3 id="creating-app-icons">Creating app icons</h3>

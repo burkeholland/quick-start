@@ -1,4 +1,4 @@
-## Extras
+## Deploying
 
 ### Setting your app's display name
 
