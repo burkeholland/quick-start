@@ -453,7 +453,57 @@ Border {
 		<div class="chapter">
 			<h2 id="mvvm">MVVM</h2>
 <h3 id="what-is-mvvm-">What is MVVM?</h3>
-<p>...</p>
+<p>In this chapter, we&#39;ll learn about the base pattern on which the NativeScript framework is built, MVVM, or &quot;Model, View, View Model&quot;. We&#39;ve already seen several examples of the elements that are used in this design pattern:</p>
+<ul>
+<li>Model (like Users.js which handles the API call to the backend to login and register students). The model represents the data. Separating the model from the various views that may use it allows for code reuse.</li>
+<li>View (like the register.xml file we built). The view is often data-bound to the View Model so that changes are instantly represented on the presentation tier.</li>
+<li>View Model (like the register-view-model.js file that takes data from the frontend and passes it to the Model for processing). The View Model exposes the models and logic needed by the view, and handles presentation logic.</li>
+</ul>
+<p>We can leverage this pattern to provide two-way data-binding in our app. </p>
+<p><strong>Exercise: Add the ability to create a Grocery item</strong></p>
+<p>Notice at the top of the list is a text area and an &#39;Add&#39; button. Right now, it doesn&#39;t do anything. Let&#39;s fix that.</p>
+<p>In app/views/list/list.js, add a function to respond to the &#39;add&#39; tap event that is already in list.xml. We&#39;ll put this underneath the navigatedTo function.</p>
+<pre><code>exports.add = function() {
+    view.getViewById(page, &quot;grocery&quot;).dismissSoftInput();
+    viewModel.add();
+};
+</code></pre><p>Notice that this function performs two tasks: first, it dismisses the keyboard, and then it calls the add function in the ViewModel. </p>
+<p>In app/views/list/list-view-model.js, let&#39;s add that &#39;add&#39; function to pass data to the model:</p>
+<pre><code>ListViewModel.prototype.add = function() {
+    this.get(&quot;groceryList&quot;).add(this.get(&quot;grocery&quot;))
+        .catch(function() {
+            dialogs.alert({
+                message: &quot;An error occurred adding to your list.&quot;,
+                okButtonText: &quot;OK&quot;
+            });
+        });
+    this.set(&quot;grocery&quot;, &quot;&quot;);
+};
+</code></pre><p>In this function, we get the &#39;grocery&#39; item from the input field and add it to the groceryList object. </p>
+<p>Finally, let the manipulation of this new data be handled in the Model by adding the following function under the &#39;empty&#39; function in /app/shared/models/GroceryList.js:</p>
+<pre><code>GroceryList.prototype.add = function(grocery) {
+    var that = this;
+    return new Promise(function(resolve, reject) {
+        http.request({
+            url: config.apiUrl + &quot;Groceries&quot;,
+            method: &quot;POST&quot;,
+            content: JSON.stringify({
+                Name: grocery
+            }),
+            headers: {
+                &quot;Authorization&quot;: &quot;Bearer &quot; + config.token,
+                &quot;Content-Type&quot;: &quot;application/json&quot;
+            }
+        }).then(function() {
+            that.push({ name: grocery });
+            resolve();
+        }).catch(function() {
+            reject();
+        });
+    });
+};
+</code></pre><p>If you build and rerun your app now, you&#39;ll find that you can add a grocery item and it will appear immediately in your list.</p>
+<p>todo: explain promises and how the VM is interacting with the M and bubbling back to the view.</p>
 <h3 id="models-views-and-viewmodels">Models, Views, and ViewModels</h3>
 <p>...</p>
 <h3 id="data-binding">Data Binding</h3>
