@@ -15,7 +15,12 @@ gulp.task( "build", [ "include", "sass", "scripts" ]);
 gulp.task( "server", function() {
 	return gulp.src( "./" )
 		.pipe(webServer({
-			livereload: true,
+			livereload: {
+				enable: true,
+				filter: function(fileName) {
+					return fileName.match(/index.html$/);
+				}
+			},
 			port: "3027",
 			open: "http://localhost:3027"
 		}));
