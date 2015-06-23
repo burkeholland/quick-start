@@ -432,7 +432,8 @@ h1 {
   margin: 0 auto;
   white-space: nowrap;
   overflow: hidden;
-  font-size: 40px; }
+  font-size: 1.4em;
+  line-height: 60px; }
 
 h2 strong, h3 strong, h6 strong {
   color: #5854F8; }
@@ -530,7 +531,7 @@ h5 a:hover, h6 a:hover {
 .author {
   font-size: 0.8em;
   text-align: center;
-  padding: 5em 0 1em 0;
+  padding: 75px 0 1em 0;
   border-bottom: 1px solid #EDEDED; }
 
 body.no-toc #toc {
@@ -551,10 +552,10 @@ body.no-toc #book {
   background-color: #fafafa; }
 
 .header-btn {
-  width: 50px;
-  height: 50px;
+  width: 60px;
+  height: 60px;
   color: #7E888B;
-  line-height: 50px;
+  line-height: 60px;
   text-align: center;
   text-decoration: none;
   background-repeat: no-repeat;
@@ -583,7 +584,7 @@ body.no-toc #book {
   line-height: 1.5em;
   max-width: 850px;
   margin: 0 auto 0 300px;
-  padding: 2em 2em 50px 2em; }
+  padding: 2em 2em 60px 2em; }
 
 .note {
   padding: 0px 0 0 0;
