@@ -30,15 +30,14 @@
 <p>Welcome to the <a href="https://nativescript.org">NativeScript</a> Getting Started Guide. Using this guide, you&#39;ll use NativeScript, a cross-platform JavaScript framework for building native mobile apps, to build an iOS and Android app from scratch.</p>
 <p><img src="images/nativescript-logo.jpg" alt="NativeScript.org logo"></p>
 <h3 id="what-you-re-building">What you&#39;re building</h3>
-<p>Bored with creating yet another to-do app to learn about a new programming language or framework? So are we. That&#39;s why we added a small twist to revolutionize the to-do-list-app-as-a-means-to-learn-a-technology space—grocery management! With the rather unoriginally titled <a href="https://github.com/tjvantoll/groceries">“Groceries” app</a>, you&#39;ll no longer have to worry about forgetting the baking soda right when you have a craving for snickerdoodles.</p>
-<p>Here&#39;s the full premise: your boss has tasked you with creating the next great grocery management app. It&#39;s totally going to make your company millions. You&#39;re given some designs from your design team, a few HTTP endpoints from your backend team, and you&#39;re told that the app must do the following things:</p>
+<p>Here&#39;s the premise: your boss has tasked you with creating the next great grocery management app. You&#39;re given some designs from your design team, a few HTTP endpoints from your backend team, and you&#39;re told to build an app that does the following things:</p>
 <ul>
-<li>Allow users to register and login.</li>
-<li>Allow authenticated users to add and delete groceries from a list.</li>
-<li>Connect to your companies&#39; existing RESTful services.</li>
-<li>Meet your design team&#39;s “native” mockups.</li>
-<li>Run cross-platform—i.e. iOS and Android.</li>
-<li>Run cross-device—i.e. phones and tablets.</li>
+<li>Allows users to register and login.</li>
+<li>Allows authenticated users to add and delete groceries from a list.</li>
+<li>Connects to your companies&#39; existing RESTful services.</li>
+<li>Meets your design team&#39;s “native” mockups.</li>
+<li>Runs cross-platform—i.e. iOS and Android.</li>
+<li>Runs cross-device—i.e. phones and tablets.</li>
 </ul>
 <p>This guide will walk you through building an app that meets these requirements and more. If you follow along to the end here&#39;s what the finished app looks like on iOS:</p>
 <p><img src="images/login-screenshot.png" alt="login">
@@ -75,8 +74,9 @@
 │ Alias   │ $ nativescript &lt;Command&gt; [Command Parameters] [--command &lt;Options&gt;] │
 └─────────┴─────────────────────────────────────────────────────────────────────┘
 </code></pre><h3 id="start-your-app">Start your app</h3>
-<p>With NativeScript properly installed, you start working on a basic app. Navigate to a folder where you want to keep your app&#39;s code and clone the Groceries repo:</p>
-<pre><code>$ git clone https://github.com/tjvantoll/groceries.git
+<p>With NativeScript CLI installed, it&#39;s time to start your app. Normally you would use the <code>tns create</code> command to start a new app—e.g. <code>tns create hello-world</code> but we&#39;re pre-scaffolded out some boilerplate to act as a starting point for Groceries. To get it, navigate to a folder where you want to keep your app&#39;s code and clone the Groceries repo:</p>
+<pre><code>$ cd folder-you-want-groceries-to-be-in
+$ git clone https://github.com/tjvantoll/groceries.git
 $ cd groceries
 </code></pre><blockquote>
 <p>Note, the full codebase is available on the master branch. Use the start branch for your base project, and feel free to refer to master if you get stuck.</p>
