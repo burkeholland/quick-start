@@ -33,14 +33,6 @@
 		});
 	});
 
-	$( "code.lang-markup, code.lang-javascript" )
-		.each(function() {
-			var text = $( this ).text();
-			$( this ).text( text.trim() );
-		})
-		.parent( "pre" )
-		.addClass( "line-numbers" );
-
 	$( "#toggle-toc" ).on( "click", function() {
 		$( "body" ).toggleClass( "no-toc" );
 		return false;
@@ -50,4 +42,6 @@
 			$( "body" ).addClass( "no-toc" );
 		}
 	});
+
+	hljs.initHighlightingOnLoad();
 }());
