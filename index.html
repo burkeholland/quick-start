@@ -41,31 +41,12 @@
 <li>Allow authenticated users to add and delete groceries from a list.</li>
 <li>Connect to your companies&#39; existing RESTful services.</li>
 </ul>
-<p>Your boss also says the app has to look “native” on the iPhone 4s, 5, and 6, the iPad 2, and a variety of Android devices—including the CEO&#39;s old Nexus 7. The app also must be cross-platform, so that she can add groceries from her iPhone, and her significant other can add to the same list from their Nexus.</p>
-<p>You&#39;re given some very native looking designs from your design team, a few endpoints from your backend team (below), and told to build an app out of it.</p>
-<ul>
-<li>GET <a href="http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/Groceries">http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/Groceries</a><ul>
-<li>Load all groceries</li>
-</ul>
-</li>
-<li>POST <a href="http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/Groceries">http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/Groceries</a><ul>
-<li>Add a grocery to the list</li>
-</ul>
-</li>
-<li>POST <a href="http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/Users">http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/Users</a><ul>
-<li>Register a new user</li>
-</ul>
-</li>
-<li>POST <a href="http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/oauth/token">http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/oauth/token</a><ul>
-<li>Generate a login token</li>
-</ul>
-</li>
-</ul>
-<p>Below are screenshots of what this app will look like after you complete this guide. Here&#39;s what it&#39;ll look like on iOS:</p>
+<p>Your boss says the app has to look “native” on the iPhone 4s, 5, and 6, the iPad 2, and a variety of Android devices—including the CEO&#39;s old Nexus 7. The app also must be cross-platform, so that she can add groceries from her iPhone, and her significant other can add to the same list from their Nexus.</p>
+<p>You&#39;re given some very native looking designs from your design team, a few HTTP endpoints from your backend team, and told to build an app out of it. Here&#39;s what the finished app looks like on iOS:</p>
 <p><img src="images/login-screenshot.png" alt="login">
 <img src="images/register-screenshot.png" alt="register">
 <img src="images/list-screenshot.png" alt="list"></p>
-<p>And here&#39;s what the app will look like on Android:</p>
+<p>And here&#39;s what the app looks like on Android:</p>
 <p><img src="images/screenshot-placeholder.png" alt="placeholder">
 <img src="images/screenshot-placeholder.png" alt="placeholder">
 <img src="images/screenshot-placeholder.png" alt="placeholder"></p>
@@ -86,7 +67,8 @@
 </ul>
 <p>Once you have the setup complete, use the <code>npm install</code> command to install the NativeScript CLI itself:</p>
 <pre><code>$ npm install -g nativescript
-</code></pre><p>You should now have two command available from your terminal: <code>tns</code>—which is short for Telerik NativeScript—and <code>nativescript</code>. The <code>tns</code> command appeals to lazy developers like us so we&#39;ll stick with the shorter alias throughout this guide. You can verify the installation was successful by running <code>tns</code> in your terminal. You should see something like this:</p>
+</code></pre><p>You should now have two command available from your terminal: <code>tns</code>—which is short for <strong>T</strong>elerik <strong>N</strong>ative<strong>S</strong>cript—and <code>nativescript</code>. The two commands are equivalent, so we&#39;ll stick with the shorter <code>tns</code> command throughout this guide.</p>
+<p>You can verify the installation was successful by running <code>tns</code> in your terminal. You should see something like this:</p>
 <pre><code>$ tns
 # NativeScript
 ┌─────────┬─────────────────────────────────────────────────────────────────────┐

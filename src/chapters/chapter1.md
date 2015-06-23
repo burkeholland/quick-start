@@ -18,7 +18,9 @@ Once you have the setup complete, use the `npm install` command to install the N
 $ npm install -g nativescript
 ```
 
-You should now have two command available from your terminal: `tns`—which is short for Telerik NativeScript—and `nativescript`. The `tns` command appeals to lazy developers like us so we'll stick with the shorter alias throughout this guide. You can verify the installation was successful by running `tns` in your terminal. You should see something like this:
+You should now have two command available from your terminal: `tns`—which is short for **T**elerik **N**ative**S**cript—and `nativescript`. The two commands are equivalent, so we'll stick with the shorter `tns` command throughout this guide.
+
+You can verify the installation was successful by running `tns` in your terminal. You should see something like this:
 
 ```
 $ tns

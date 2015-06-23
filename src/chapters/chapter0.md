@@ -14,26 +14,15 @@ Here's the full premise: your boss has tasked you with creating the next great g
 - Allow authenticated users to add and delete groceries from a list.
 - Connect to your companies' existing RESTful services.
 
-Your boss also says the app has to look “native” on the iPhone 4s, 5, and 6, the iPad 2, and a variety of Android devices—including the CEO's old Nexus 7. The app also must be cross-platform, so that she can add groceries from her iPhone, and her significant other can add to the same list from their Nexus.
+Your boss says the app has to look “native” on the iPhone 4s, 5, and 6, the iPad 2, and a variety of Android devices—including the CEO's old Nexus 7. The app also must be cross-platform, so that she can add groceries from her iPhone, and her significant other can add to the same list from their Nexus.
 
-You're given some very native looking designs from your design team, a few endpoints from your backend team (below), and told to build an app out of it.
-
-- GET http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/Groceries
-    - Load all groceries
-- POST http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/Groceries
-    - Add a grocery to the list
-- POST http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/Users
-    - Register a new user
-- POST http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/oauth/token
-    - Generate a login token
-
-Below are screenshots of what this app will look like after you complete this guide. Here's what it'll look like on iOS:
+You're given some very native looking designs from your design team, a few HTTP endpoints from your backend team, and told to build an app out of it. Here's what the finished app looks like on iOS:
 
 ![login](images/login-screenshot.png)
 ![register](images/register-screenshot.png)
 ![list](images/list-screenshot.png)
 
-And here's what the app will look like on Android:
+And here's what the app looks like on Android:
 
 ![placeholder](images/screenshot-placeholder.png)
 ![placeholder](images/screenshot-placeholder.png)
