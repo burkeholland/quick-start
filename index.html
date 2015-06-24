@@ -542,11 +542,27 @@ Border {
 		<hr>
 		<div class="chapter">
 			<h2 id="using-npm">Using npm</h2>
-<p>...</p>
-<h3 id="task-runners">Task runners</h3>
-<p>...</p>
+<p>Often, we need to include modules that are not by default available in tns_modules to allow for special functionality. We can leverage npm, node package manager, to import plugins and modules into our project. Let&#39;s add the <a href="https://www.npmjs.com/package/nativescript-social-share">NativeScript Social Share widget</a> so that we can email our grocery lists.</p>
 <h3 id="using-npm-modules-in-your-app">Using npm modules in your app</h3>
-<p>...</p>
+<p><strong>Exercise: Install and use the Social Sharing widget</strong></p>
+<p>Cd to the app directory in your Groceries project folder:</p>
+<p><code>cd Documents/NativeScript/Groceries/app/</code></p>
+<p>and install the module:</p>
+<p><code>npm install nativescript-social-share</code></p>
+<p>We&#39;re going to add this functionality to our list of groceries, so in /app/views/list/list.js, require the module:</p>
+<p><code>var socialShare = require(&quot;../../node_modules/nativescript-social-share/social-share&quot;);</code></p>
+<p>and add a function to share our list at the bottom of list.js:</p>
+<pre><code>exports.share = function() {
+    socialShare.shareText(&quot;I love NativeScript!&quot;);
+}
+</code></pre><p>Add a button to click to share the list:</p>
+<pre><code>&lt;Border borderWidth=&quot;1&quot; borderColor=&quot;#034793&quot; row=&quot;2&quot; colSpan=&quot;3&quot;&gt;
+    &lt;Button text=&quot;share&quot; tap=&quot;share&quot;/&gt;
+&lt;/Border&gt;
+</code></pre><p>Change the GridLayout to account for this button by editing the GridLayout tag at the top:</p>
+<pre><code>&lt;GridLayout rows=&quot;auto, *, 40&quot; columns=&quot;*, *, *&quot;&gt;
+</code></pre><p>Now when you run the app, you&#39;ll see a share button that, when clicked, allows you to email a list:</p>
+<p><img src="images/share-button.png" alt="share"></p>
 <h3 id="building-your-own-nativescript-modules">Building your own NativeScript modules</h3>
 
 		</div>
