@@ -39,18 +39,25 @@ Here's the directory structure of this starter app:
 - **app.css**: This file contains global styles for your app
 - **app.js**: This file sets up your application's starting module and initializes the app
 
+> Jen: Have people open up `app.js` at this point so you can show people how control transfers from `app.js` to `login.xml`. It'll act as a segue into the next section.
 
 ### UI Components
 
 First let's take a look at the UI components. You'll find several folders in app/views. Each folder contains one page of your app: list, login, and register are there already. If you look at app/views/login, you'll see three files: 
 
+> Jen: I think we should start with the view model file not there, and just put everything in the code-behind file. As is someone will wonder why there is a file called “view-model”, and we don't want to give the explanation yet.
+
 login-view-model.js  
 login.js  
 login.xml  
 
+> Jen: There needs to be an exercise here. Personally I'd have the `login.xml` file start with some very simple content in the start branch (like, just the logo), and you could have people paste in the form here.
+
 In login.xml, you'll find the XML markup that creates your presentation tier. Notice the creation of Images, Borders, TextFields, and Buttons. These are all UI elements that can be used in a NativeScript app, constructed with XML. Learn more about the UI components available in your app [here](http://docs.nativescript.org/ui-with-xml).
 
 ### Navigation models
+
+> Jen: I think a discussion of code-behind files needs to come before navigation. As is, someone is going to open up `login.js` and have no idea what's going on. Personally I would start `login.js` completely empty and use it as an opportunity to explain CommonJS (`require()` and `export`). Have an exercise that adds a `loaded` function, then one that ties the `<Button>`'s `tap` event to a function, THEN discuss navigation.
 
 While our Groceries app doesn't use complex navigation strategies, you have several available to you to leverage. Out of the box, you can use:
 

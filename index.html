@@ -147,11 +147,23 @@ $ cd groceries
 <li><strong>app.css</strong>: This file contains global styles for your app</li>
 <li><strong>app.js</strong>: This file sets up your application&#39;s starting module and initializes the app</li>
 </ul>
+<blockquote>
+<p>Jen: Have people open up <code>app.js</code> at this point so you can show people how control transfers from <code>app.js</code> to <code>login.xml</code>. It&#39;ll act as a segue into the next section.</p>
+</blockquote>
 <h3 id="ui-components">UI Components</h3>
 <p>First let&#39;s take a look at the UI components. You&#39;ll find several folders in app/views. Each folder contains one page of your app: list, login, and register are there already. If you look at app/views/login, you&#39;ll see three files: </p>
+<blockquote>
+<p>Jen: I think we should start with the view model file not there, and just put everything in the code-behind file. As is someone will wonder why there is a file called “view-model”, and we don&#39;t want to give the explanation yet.</p>
+</blockquote>
 <p>login-view-model.js<br>login.js<br>login.xml  </p>
+<blockquote>
+<p>Jen: There needs to be an exercise here. Personally I&#39;d have the <code>login.xml</code> file start with some very simple content in the start branch (like, just the logo), and you could have people paste in the form here.</p>
+</blockquote>
 <p>In login.xml, you&#39;ll find the XML markup that creates your presentation tier. Notice the creation of Images, Borders, TextFields, and Buttons. These are all UI elements that can be used in a NativeScript app, constructed with XML. Learn more about the UI components available in your app <a href="http://docs.nativescript.org/ui-with-xml">here</a>.</p>
 <h3 id="navigation-models">Navigation models</h3>
+<blockquote>
+<p>Jen: I think a discussion of code-behind files needs to come before navigation. As is, someone is going to open up <code>login.js</code> and have no idea what&#39;s going on. Personally I would start <code>login.js</code> completely empty and use it as an opportunity to explain CommonJS (<code>require()</code> and <code>export</code>). Have an exercise that adds a <code>loaded</code> function, then one that ties the <code>&lt;Button&gt;</code>&#39;s <code>tap</code> event to a function, THEN discuss navigation.</p>
+</blockquote>
 <p>While our Groceries app doesn&#39;t use complex navigation strategies, you have several available to you to leverage. Out of the box, you can use:</p>
 <p><a href="http://docs.nativescript.org/ui-views#tabview">TabView</a><br><a href="http://docs.nativescript.org/ui-views#segmentedbar">SegmentedBar</a></p>
 <p><strong>Exercise: Enable the &quot;Sign Up&quot; button on the login screen with a navigational change</strong></p>
