@@ -1,55 +1,43 @@
 ## App building blocks
 
-Now that you have your environment set up and the initial version of the app downloaded to your local computer, you can open it in the Sublime Text editor and start exploring the codebase. Let's take a look at the directory structure of a NativeScript app.
+Now that you have your environment set up and the initial version of the app downloaded to your local computer, you can open it in your text editor and start exploring the codebase. Let's take a look at the directory structure of a NativeScript app.
 
 ### Directory structure
 
 Here's the directory structure of this starter app:
 
+```
+.
+└── Groceries
+    ├── app
+    │   ├── App_Resources
+    │   │   ├── Android
+    │   │   └── iOS
+    │   ├── shared
+    │   │   └── ...
+    │   ├── tns_modules
+    │   │   └── ...
+    │   ├── views
+    │   │   └── login
+    │   │       ├── login-view-model.js
+    │   │       ├── login.js
+    │   │       └── login.xml
+    │   ├── app.css
+    │   ├── app.js
+    │   └── ...
+    └── platforms
+        ├── android
+        └── ios
+```
 
-    └── app
-        ├── App_Resources
-        │   ├── Android
-        │   └── iOS
-        ├── shared
-        │   ├── models
-        │   │   ├── GroceryList.js
-        │   │   └── Users.js
-        │   └── config.js
-        ├── tns_modules
-        │   ├── LICENSE
-        │   ├── application
-        │   │   ├── application-common.js
-        │   │   ├── application.android.js
-        │   │   ├── application.ios.js
-        │   │   └── package.json
-        │   └── ...
-        ├── assets
-        ├── views
-        │   ├── list
-        │   │   ├── list-view-model.js
-        │   │   ├── list.css
-        │   │   ├── list.js
-        │   │   └── list.xml
-        │   ├── login
-        │   │   ├── login-view-model.js
-        │   │   ├── login.js
-        │   │   └── login.xml
-        │   ├── register
-        │   │   ├── register-view-model.js
-        │   │   ├── register.js
-        │   │   └── register.xml
-        ├── app.css
-        ├── app.js
-        ├── ...
-        
+> Jen: I simplified the structure above considerably because I feel like what you had was too overwhelming. I also added a platforms folder, because it was missing from yours. I think you'll want to start by discussing the difference between the `app` and `platforms` folders, and then go on to discuss what's in `app`. You can refer to [the current quick start guide](http://docs.nativescript.org/hello-world/hello-world-ns-cli.html#4-explore-the-newly-created-project) for an example.
 
-- App_Resources: In this folder we separate iOS and Android images, such as the app icon
-- shared: Models are in a shared folder so they can be accessed by all the app's modules. In the shared folder is also a config.js file where important items such as API keys are stored.
-- tns_modules: Telerik NativeScript Modules are contained in this folder. They allow you to abstract platform-specific code into a platform-agnostic API, and the modules in this folder are ready-made for you to use. Read more about how tns modules work [here](http://developer.telerik.com/featured/nativescript-works/). 
-- views: Each element of the app is contained in its own folder under 'view'.
-- app.css: This file contains global styles for your app
-- app.js: This file sets up your application's starting module and initializes the app
+- **App_Resources**: In this folder we separate iOS and Android images, such as the app icon
+- **shared**: Models are in a shared folder so they can be accessed by all the app's modules. In the shared folder is also a config.js file where important items such as API keys are stored.
+- **tns_modules**: Telerik NativeScript Modules are contained in this folder. They allow you to abstract platform-specific code into a platform-agnostic API, and the modules in this folder are ready-made for you to use. Read more about how tns modules work [here](http://developer.telerik.com/featured/nativescript-works/). 
+- **views**: Each element of the app is contained in its own folder under 'view'.
+- **app.css**: This file contains global styles for your app
+- **app.js**: This file sets up your application's starting module and initializes the app
 
 
 ### UI Components
