@@ -76,7 +76,7 @@ tns run ios --emulator
 
 If all went well you should see something like this:
 
-> TODO: We need an image here, but we might want to wait until the end because we're not sure how the “start” branch will finish.
+![login](images/login-logo-ios.png)
 
 Next run your app on Android with the following command:
 
@@ -86,7 +86,7 @@ tns run android --emulator
 
 If all went well you should see your app running in an Android emulator:
 
-> TODO: We need an image here too. Same note as above about waiting.
+![login](images/login-logo-android.png)
 
 You'll find that running the app in an iOS emulator vs. an Android emulator offers a different user experience to the user. This is because NativeScript is actually leveraging native iOS and Android code to present the UI—cool, huh?
 

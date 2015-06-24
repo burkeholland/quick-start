@@ -91,15 +91,11 @@ $ cd groceries
 <p>With the platform initialization complete you can now run your app in an emulator or on devices. If you&#39;re on an app start by running the app in an iOS simulator with the following command:</p>
 <pre><code>tns run ios --emulator
 </code></pre><p>If all went well you should see something like this:</p>
-<blockquote>
-<p>Jen: We need an image here.</p>
-</blockquote>
+<p><img src="images/login-logo-ios.png" alt="login"></p>
 <p>Next run your app on Android with the following command:</p>
 <pre><code>tns run android --emulator
 </code></pre><p>If all went well you should see your app running in an Android emulator:</p>
-<blockquote>
-<p>Jen: We need an image here.</p>
-</blockquote>
+<p><img src="images/login-logo-android.png" alt="login"></p>
 <p>You&#39;ll find that running the app in an iOS emulator vs. an Android emulator offers a different user experience to the user. This is because NativeScript is actually leveraging native iOS and Android code to present the UI—cool, huh?</p>
 <h3 id="making-changes-with-livesync">Making changes with LiveSync</h3>
 <blockquote>
@@ -136,9 +132,12 @@ $ cd groceries
     └── platforms
         ├── android
         └── ios
-</code></pre><blockquote>
-<p>Jen: I simplified the structure above considerably because I feel like what you had was too overwhelming. I also added a platforms folder, because it was missing from yours. I think you&#39;ll want to start by discussing the difference between the <code>app</code> and <code>platforms</code> folders, and then go on to discuss what&#39;s in <code>app</code>. You can refer to <a href="http://docs.nativescript.org/hello-world/hello-world-ns-cli.html#4-explore-the-newly-created-project">the current quick start guide</a> for an example.</p>
-</blockquote>
+</code></pre><p>Take a look at the two base parts of the app. </p>
+<ul>
+<li>app: We have an app folder and a platforms folder. In the app folder we have all the resources we need for deploying our app. Normally, we only touch code in the app folder in terms of our development flow. </li>
+<li>platforms: In the platforms folder, we have a lot of platform-specific code. When you ran &#39;tns platform add ios&#39; and &#39;tns platform add android&#39;, these folders were created. If you dig into these folders, you&#39;ll find code that an android app needs to build such as AndroidManifest.xml, as well as the .apk files that are built when running the app. Similarly, in the ios folder, you&#39;ll find the Groceries xCode project and the .ipa file that is built when deploying to an emulator or device.</li>
+</ul>
+<p>Consider the app directory as the development space for your app. In this folder are several subfolders:</p>
 <ul>
 <li><strong>App_Resources</strong>: In this folder we separate iOS and Android images, such as the app icon</li>
 <li><strong>shared</strong>: Models are in a shared folder so they can be accessed by all the app&#39;s modules. In the shared folder is also a config.js file where important items such as API keys are stored.</li>
@@ -147,37 +146,35 @@ $ cd groceries
 <li><strong>app.css</strong>: This file contains global styles for your app</li>
 <li><strong>app.js</strong>: This file sets up your application&#39;s starting module and initializes the app</li>
 </ul>
-<blockquote>
-<p>Jen: Have people open up <code>app.js</code> at this point so you can show people how control transfers from <code>app.js</code> to <code>login.xml</code>. It&#39;ll act as a segue into the next section.</p>
-</blockquote>
+<p>Take a look at app/app.js. This is the starting point for your app development, but it only contains three lines: </p>
+<pre><code>var application = require(&quot;application&quot;);
+application.mainModule = &quot;./views/login/login&quot;;
+application.start();
+</code></pre><p>Here, we&#39;re requiring, or importing, the tns module &#39;application&#39; which includes various other modules that are useful globally. Then, we set the main screen of our app to be the &#39;login&#39; screen which we&#39;ll look at below. And then we start up the app which loads the css as you can discover by looking in for the loadCss() function in app/tns_modules/application/application-common.js.</p>
+<p>Now that our app is ready for development, let&#39;s turn our attention to its UI.</p>
 <h3 id="ui-components">UI Components</h3>
-<p>First let&#39;s take a look at the UI components. You&#39;ll find several folders in app/views. Each folder contains one page of your app: list, login, and register are there already. If you look at app/views/login, you&#39;ll see three files: </p>
-<blockquote>
-<p>Jen: I think we should start with the view model file not there, and just put everything in the code-behind file. As is someone will wonder why there is a file called “view-model”, and we don&#39;t want to give the explanation yet.</p>
-</blockquote>
-<p>login-view-model.js<br>login.js<br>login.xml  </p>
-<blockquote>
-<p>Jen: There needs to be an exercise here. Personally I&#39;d have the <code>login.xml</code> file start with some very simple content in the start branch (like, just the logo), and you could have people paste in the form here.</p>
-</blockquote>
-<p>In login.xml, you&#39;ll find the XML markup that creates your presentation tier. Notice the creation of Images, Borders, TextFields, and Buttons. These are all UI elements that can be used in a NativeScript app, constructed with XML. Learn more about the UI components available in your app <a href="http://docs.nativescript.org/ui-with-xml">here</a>.</p>
-<h3 id="navigation-models">Navigation models</h3>
-<blockquote>
-<p>Jen: I think a discussion of code-behind files needs to come before navigation. As is, someone is going to open up <code>login.js</code> and have no idea what&#39;s going on. Personally I would start <code>login.js</code> completely empty and use it as an opportunity to explain CommonJS (<code>require()</code> and <code>export</code>). Have an exercise that adds a <code>loaded</code> function, then one that ties the <code>&lt;Button&gt;</code>&#39;s <code>tap</code> event to a function, THEN discuss navigation.</p>
-</blockquote>
-<p>While our Groceries app doesn&#39;t use complex navigation strategies, you have several available to you to leverage. Out of the box, you can use:</p>
-<p><a href="http://docs.nativescript.org/ui-views#tabview">TabView</a><br><a href="http://docs.nativescript.org/ui-views#segmentedbar">SegmentedBar</a></p>
-<p><strong>Exercise: Enable the &quot;Sign Up&quot; button on the login screen with a navigational change</strong></p>
-<p>Right now, if you were to click the Sign Up For Groceries button on the login screen, nothing would happen. Let&#39;s get this button to change the screen to show a registration form. </p>
-<p>In app/views/login/login-view-model.js, add the following function under the signIn function:</p>
-<pre><code>LoginViewModel.prototype.register = function() {
-    var topmost = frameModule.topmost();
-    topmost.navigate(&quot;./views/register/register&quot;);
-};
-</code></pre><p>This function makes use of the module &#39;frameModule&#39; which looks for the topmost frame and navigates to it. Here, we tell the topmost frame to navigate to the register view. </p>
-<p>Learn more about how to link up your navigational strategies <a href="http://docs.nativescript.org/navigation#navigation">here</a>.</p>
+<p>First let&#39;s take a look at the UI components. You&#39;ll find several folders in app/views. Each folder contains one page of your app: list, login, and register are there already. If you look at app/views/login, you&#39;ll see three files. We&#39;re going to turn our attention to app/views/login/login.xml. </p>
+<p>In NativeScript&#39;s framework, you can construct a UI either using xml or JavaScript. Often, it&#39;s a bit easier to write your presentation layer in xml. Build out the login screen by adding some UI components, namely three boxes or &quot;Borders&quot;, two textfields, and a button.</p>
+<p><strong>Exercise: Add UI components to login.xml</strong></p>
+<p>Under the Image where the logo currently resides, add the following code:</p>
+<pre><code>        &lt;Border borderWidth=&quot;1&quot; borderColor=&quot;#CECED2&quot;&gt;
+            &lt;TextField text=&quot;{{ user.email_address }}&quot; id=&quot;email_address&quot; hint=&quot;Email Address&quot; /&gt;
+        &lt;/Border&gt;
+        &lt;Border borderWidth=&quot;1&quot; borderColor=&quot;#CECED2&quot;&gt;
+            &lt;TextField secure=&quot;true&quot; text=&quot;{{ user.password }}&quot; hint=&quot;Password&quot; /&gt;
+        &lt;/Border&gt;
+
+        &lt;Border borderWidth=&quot;1&quot; borderColor=&quot;#0079FF&quot;&gt;
+            &lt;Button text=&quot;Sign in&quot; tap=&quot;signIn&quot; /&gt;
+        &lt;/Border&gt;
+
+        &lt;Button text=&quot;Sign up for Groceries&quot; tap=&quot;register&quot; /&gt;
+</code></pre><p>Notice the way the TextFields are bound to the user object. We&#39;ll discuss two-way data binding below. In addition, the Button is bound to a tap function called &quot;signIn&quot;. A second button, this one without a border, allows new users to register with a tap function called &quot;register&quot;. If you run your app at this point, you&#39;ll see the form:</p>
+<p><img src="images/final-login.png" alt="login final"></p>
+<p>Learn more about the UI components available in your app <a href="http://docs.nativescript.org/ui-with-xml">here</a>.</p>
 <h3 id="layouts">Layouts</h3>
 <p>You have many options in NativeScript when creating layouts. One of the simplest is demonstrated in login.xml, the StackLayout. Here, we see several UI components nested in StackLayout tags:</p>
-<pre><code>&lt;StackLayout orientation=&quot;vertical&quot;&gt;
+<pre><code>&lt;StackLayout orientation=&quot;vertical&quot; horizontalAlignment=&quot;center&quot;&gt;
 </code></pre><p>Each of those components will be stacked on top of each other, vertically. Learn more about creating NativeScript layouts <a href="http://docs.nativescript.org/layouts">here</a> and <a href="http://developer.telerik.com/featured/demystifying-nativescript-layouts/">here</a>.</p>
 <p><strong>Exercise: Create a stacked layout for our registration screen.</strong></p>
 <p>In /views/register/register.xml, add the following markup:</p>
@@ -226,7 +223,9 @@ exports.load = function(args) {
 exports.register = function() {
     viewModel.register();
 };
-</code></pre><p>Here we find the function &#39;load&#39; to which we alluded earlier. This file also includes the register function which sets up the registration routine to pass through the View Model. Let&#39;s take a look at that View Model.</p>
+</code></pre><p>NativeScript supports JavaScript modules and their implementation follows the <a href="http://wiki.commonjs.org/wiki/CommonJS">CommonJS specification</a>. Using the &#39;<a href="http://wiki.commonjs.org/wiki/Modules/1.1#Module_Context">require</a>&#39; function at the top of this file allows us to identify a module to be imported, and it returns the exported API of this module.</p>
+<p>Similarly, we see the variable &#39;exports&#39;, which is an object that the module may add its API to as it executes.</p>
+<p>In this file, we export the functions &#39;load&#39; and &#39;register&#39;. These functions set up the registration routine to pass through the View Model. We&#39;ll visit the View Model below.</p>
 <h3 id="view-model">View Model</h3>
 <p>At the top of login.js, you see a variable created that references the View Model associated to this page:</p>
 <pre><code>var viewModel = require(&quot;./login-view-model&quot;);
@@ -304,6 +303,22 @@ var User = require(&quot;../../shared/models/User&quot;);
 </code></pre><p>Now, if you rebuild and run your app in an emulator, you can register a new user! </p>
 <p><img src="images/registration-success.png"/></p>
 <p>We&#39;ll discuss the way the Model and View Model fit together in this framework in chapter 4. For now, observe the way the data flows: from the xml file to the code-behind .js file, to the View Model and then the Model, and back again to the frontend where we handle acceptance or rejection of these credentials.</p>
+<h3 id="navigation-models">Navigation models</h3>
+<blockquote>
+<p>Jen: I think a discussion of code-behind files needs to come before navigation. As is, someone is going to open up <code>login.js</code> and have no idea what&#39;s going on. Personally I would start <code>login.js</code> completely empty and use it as an opportunity to explain CommonJS (<code>require()</code> and <code>export</code>). Have an exercise that adds a <code>loaded</code> function, then one that ties the <code>&lt;Button&gt;</code>&#39;s <code>tap</code> event to a function, THEN discuss navigation.
+TJ: I moved this piece to the end right before CSS as it makes use of code in the VM and I need to discuss that before bringing it up here.</p>
+</blockquote>
+<p>While our Groceries app doesn&#39;t use complex navigation strategies, you have several available to you to leverage. Out of the box, you can use:</p>
+<p><a href="http://docs.nativescript.org/ui-views#tabview">TabView</a><br><a href="http://docs.nativescript.org/ui-views#segmentedbar">SegmentedBar</a></p>
+<p><strong>Exercise: Enable the &quot;Sign Up&quot; button on the login screen with a navigational change</strong></p>
+<p>Right now, if you were to click the Sign Up For Groceries button on the login screen, nothing would happen. Let&#39;s get this button to change the screen to show a registration form. </p>
+<p>In app/views/login/login-view-model.js, add the following function under the signIn function:</p>
+<pre><code>LoginViewModel.prototype.register = function() {
+    var topmost = frameModule.topmost();
+    topmost.navigate(&quot;./views/register/register&quot;);
+};
+</code></pre><p>This function makes use of the module &#39;frameModule&#39; which looks for the topmost frame and navigates to it. Here, we tell the topmost frame to navigate to the register view. </p>
+<p>Learn more about how to link up your navigational strategies <a href="http://docs.nativescript.org/navigation#navigation">here</a>.</p>
 <h3 id="css">CSS</h3>
 <p>NativeScript supports a subset of CSS so that you can add styles to your app. We include global styles in app/app.css, where you&#39;ll find some styles for all the textfields, buttons and borders. You can also include individual css files in each view folder, which would be appropriate for styles that are isolated to a certain page. </p>
 <p>We don&#39;t have to worry about any particular CSS in the login or register screens, but let&#39;s turn our attention to the grocery list itself which appears after logging in. It needs a little massaging, so let&#39;s add a few CSS styles to app/views/list/list.css:</p>
