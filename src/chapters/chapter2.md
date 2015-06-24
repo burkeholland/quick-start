@@ -30,7 +30,7 @@ Here's the directory structure of this starter app:
         └── ios
 ```
 
-> Jen: I simplified the structure above considerably because I feel like what you had was too overwhelming. I also added a platforms folder, because it was missing from yours. I think you'll want to start by discussing the difference between the `app` and `platforms` folders, and then go on to discuss what's in `app`. You can refer to [the current quick start guide](http://docs.nativescript.org/hello-world/hello-world-ns-cli.html#4-explore-the-newly-created-project) for an example.
+> Jen: I simplified the structure above considerably because I feel like what you had was too overwhelming. I also added a `platforms` folder, because it was missing from yours. I think you'll want to start by discussing the difference between the `app` and `platforms` folders, and then go on to discuss what's in `app`. You can refer to [the current quick start guide](http://docs.nativescript.org/hello-world/hello-world-ns-cli.html#4-explore-the-newly-created-project) for an example.
 
 - **App_Resources**: In this folder we separate iOS and Android images, such as the app icon
 - **shared**: Models are in a shared folder so they can be accessed by all the app's modules. In the shared folder is also a config.js file where important items such as API keys are stored.
