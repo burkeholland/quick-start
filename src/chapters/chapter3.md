@@ -2,7 +2,32 @@
 
 In the previous chapter, we already saw how NativeScript leverages the concept of 'modules' to include bits of code that are kept in the tns_modules folder. Using 'require', you can include these snippets ad hoc in your code when you need to use them, something like npm modules. Let's take a closer look at these modules and what they can do for us.
 
-### Connecting to backends with the http module
+### Navigation and the frame module
+
+While our Groceries app doesn't use complex navigation strategies, you have several available to you to leverage. Out of the box, you can use:
+
+[TabView](http://docs.nativescript.org/ui-views#tabview)  
+[SegmentedBar](http://docs.nativescript.org/ui-views#segmentedbar)
+
+**Exercise: Enable the "Sign Up" button on the login screen with a navigational change**
+
+Right now, if you were to click the Sign Up For Groceries button on the login screen, nothing would happen. Let's get this button to change the screen to show a registration form. 
+
+In app/views/login/login.js, add the following function under the signIn function:
+
+```
+exports.register = function() {
+	var topmost = frameModule.topmost();
+	topmost.navigate("./views/register/register");
+};
+
+```
+This function makes use of the module 'frameModule' which looks for the topmost frame and navigates to it. Here, we tell the topmost frame to navigate to the register view. 
+
+Learn more about how to link up your navigational strategies [here](http://docs.nativescript.org/navigation#navigation).
+
+
+### Connecting to a backend with the http module
 
 You probably noticed that while we were busy constructing the frontend xml, the code-behind JavaScript file, the View Model, and the Model, that data was passing magically...somewhere. There's actually no magic involved, actually we have a config file that contains our API Key to Telerik Backend Services, a place where we are storing our users' information.
 
@@ -119,69 +144,11 @@ There are a couple of things happening in this file. First, we have the function
 <Page navigatedTo="navigatedTo">
 ```
 
-This function also includes some ios-specific code. This area of the app, as we'll find, includes a bit of platform-specific code so that we can provide a good adaptive experience for our users.
+### CSS
 
-Now let's build out the View Model. In app/views/list/list-view-model.js, add:
+NativeScript supports a subset of CSS so that you can add styles to your app. We include global styles in app/app.css, where you'll find some styles for all the textfields, buttons and borders. You can also include individual css files in each view folder, which would be appropriate for styles that are isolated to a certain page. 
 
-```
-var dialogs = require("ui/dialogs");
-var observable = require("data/observable");
-var GroceryList = require("../../shared/models/GroceryList");
-
-function ListViewModel() {
-	this.set("grocery", "");
-	this.set("groceryList", new GroceryList([]));
-}
-ListViewModel.prototype = new observable.Observable();
-
-ListViewModel.prototype.reset = function() {
-	this.get("groceryList").empty();
-	this.get("groceryList").load();
-};
-
-module.exports = new ListViewModel();
-```
-
-Here, we're creating a new empty grocery array and a groceryList variable to instantiate our GroceryList object that we create in the Model. We're also emptying and refilling our groceryList in the reset function. Let's create the GroceryList object in the Model:
-
-In app/shared/models/GroceryList.js, let's grab any Grocery data that might exist in the backend and push it into the grocery array:
-
-```
-var config = require("../../shared/config");
-var http = require("http");
-var observableArray = require("data/observable-array");
-
-function GroceryList() {}
-GroceryList.prototype = new observableArray.ObservableArray([]);
-
-GroceryList.prototype.load = function() {
-	var that = this;
-	http.getJSON({
-		url: config.apiUrl + "Groceries",
-		method: "GET",
-		headers: {
-			"Authorization": "Bearer " + config.token
-		}
-	}).then(function(data) {
-		data.Result.forEach(function(grocery) {
-			that.push({ name: grocery.Name });
-		});
-	});
-};
-
-GroceryList.prototype.empty = function() {
-	while (this.length) {
-		this.pop();
-	}
-};
-
-module.exports = GroceryList;
-```
-In the load function above, we are pulling down the list associated to the user's credentials. If you rebuild, run the app, and login as tj.vantoll@gmail.com, you'll find a list of groceries pulled from Backend services in the Groceries data type. It will look something like this:
-
-<img src="images/list-view-1.png"/>
-
-You'll note that the display looks a little funny - the items in the list are pushed too far to the left, for example. Let's clean up the css for this page by populating app/views/list/list.css:
+We don't have to worry about any particular CSS in the login or register screens, but let's turn our attention to the grocery list itself which appears after logging in. It needs a little massaging, so let's add a few CSS styles to app/views/list/list.css:
 
 ```
 ListView {
@@ -195,7 +162,7 @@ Border {
 }
 ```
 
-That's better!
+This will give us a lttle more room for our groceries to display nicely.
 
 <img src="images/list-view-2.png"/>
 

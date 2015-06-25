@@ -158,10 +158,10 @@ application.start();
 <p><strong>Exercise: Add UI components to login.xml</strong></p>
 <p>Under the Image where the logo currently resides, add the following code:</p>
 <pre><code>        &lt;Border borderWidth=&quot;1&quot; borderColor=&quot;#CECED2&quot;&gt;
-            &lt;TextField text=&quot;{{ user.email_address }}&quot; id=&quot;email_address&quot; hint=&quot;Email Address&quot; /&gt;
+            &lt;TextField id=&quot;email_address&quot; hint=&quot;Email Address&quot; /&gt;
         &lt;/Border&gt;
         &lt;Border borderWidth=&quot;1&quot; borderColor=&quot;#CECED2&quot;&gt;
-            &lt;TextField secure=&quot;true&quot; text=&quot;{{ user.password }}&quot; hint=&quot;Password&quot; /&gt;
+            &lt;TextField secure=&quot;true&quot; hint=&quot;Password&quot; /&gt;
         &lt;/Border&gt;
 
         &lt;Border borderWidth=&quot;1&quot; borderColor=&quot;#0079FF&quot;&gt;
@@ -169,8 +169,14 @@ application.start();
         &lt;/Border&gt;
 
         &lt;Button text=&quot;Sign up for Groceries&quot; tap=&quot;register&quot; /&gt;
-</code></pre><p>Notice the way the TextFields are bound to the user object. We&#39;ll discuss two-way data binding below. In addition, the Button is bound to a tap function called &quot;signIn&quot;. A second button, this one without a border, allows new users to register with a tap function called &quot;register&quot;. If you run your app at this point, you&#39;ll see the form:</p>
-<p><img src="images/final-login.png" alt="login final"></p>
+</code></pre><p>We&#39;ve added four items to our screen, three of which are surrounded with a Border component to make it look like a box. </p>
+<ul>
+<li>The TextField has the attributes you&#39;d expect such as ids, hints, and the parameter &#39;secure&#39; to ensure that a password isn&#39;t exposed. </li>
+<li>The Button component has a tap function bound to it called &#39;signIn&#39; which will enable the user to login. </li>
+<li>Another button looks more like a link but also has a function bound to it to enable registration. </li>
+</ul>
+<p>If you run your app at this point, you&#39;ll see the form:</p>
+<p><img src="images/login-noregister.png" alt="login final"></p>
 <p>Learn more about the UI components available in your app <a href="http://docs.nativescript.org/ui-with-xml">here</a>.</p>
 <h3 id="layouts">Layouts</h3>
 <p>You have many options in NativeScript when creating layouts. One of the simplest is demonstrated in login.xml, the StackLayout. Here, we see several UI components nested in StackLayout tags:</p>
@@ -203,37 +209,33 @@ application.start();
 </ul>
 <h3 id="code-behind-files">Code-behind files</h3>
 <p>Although you can now see your registration screen, it&#39;s not yet wired up to send data to the backend. Let&#39;s fix that.</p>
-<p>In app/views/login, you&#39;ll find login.js. This is called a &#39;code-behind&#39; file because it supports the xml markup that constructs the presentation tier. You&#39;ll find that in login.xml, a tap event is registered on the button at the bottom to login a user:</p>
-<pre><code>&lt;Button text=&quot;Sign in&quot; tap=&quot;signIn&quot; /&gt;
-</code></pre><p>You can find the signIn function in the code-behind file, where it simply invokes a View Model to perform a task:</p>
-<pre><code>exports.signIn = function() {
-    viewModel.signIn();
-};
-</code></pre><p><strong>Exercise: Construct the registration code-behind file.</strong></p>
-<p>In app/views/register/register.js, add the following code:</p>
+<p>In app/views/login, you&#39;ll find login.js. This is called a &#39;code-behind&#39; file because it supports the xml markup that constructs the presentation tier. </p>
+<p><strong>Exercise: Construct the login code-behind file.</strong></p>
+<p>Add some required elements at the top of this file:</p>
 <pre><code>var view = require(&quot;ui/core/view&quot;);
-var viewModel = require(&quot;./register-view-model&quot;);
+var dialogs = require(&quot;ui/dialogs&quot;);
+var frameModule = require(&quot;ui/frame&quot;);
 
-exports.load = function(args) {
+var page;
+
+var User = require(&quot;../../shared/models/User&quot;);
+var user;
+</code></pre><p>In login.xml, notice a &#39;load&#39; function that, when the page is loaded, initializes several variables. Let&#39;s build up that load function in app/views/login/login.js:</p>
+<pre><code>exports.load = function(args) {
+
+    user = new User();
+
     var page = args.object;
-    var email = view.getViewById(page, &quot;email&quot;);
-    page.bindingContext = viewModel;    
-};
+    page.bindingContext = user;
 
-exports.register = function() {
-    viewModel.register();
 };
-</code></pre><p>NativeScript supports JavaScript modules and their implementation follows the <a href="http://wiki.commonjs.org/wiki/CommonJS">CommonJS specification</a>. Using the &#39;<a href="http://wiki.commonjs.org/wiki/Modules/1.1#Module_Context">require</a>&#39; function at the top of this file allows us to identify a module to be imported, and it returns the exported API of this module.</p>
-<p>Similarly, we see the variable &#39;exports&#39;, which is an object that the module may add its API to as it executes.</p>
-<p>In this file, we export the functions &#39;load&#39; and &#39;register&#39;. These functions set up the registration routine to pass through the View Model. We&#39;ll visit the View Model below.</p>
-<h3 id="view-model">View Model</h3>
-<p>At the top of login.js, you see a variable created that references the View Model associated to this page:</p>
-<pre><code>var viewModel = require(&quot;./login-view-model&quot;);
-</code></pre><p>As we saw above, that View Model is where the actual function to log a user in resides:</p>
-<pre><code>LoginViewModel.prototype.signIn = function() {
-    this.get(&quot;user&quot;).login()
+</code></pre><p>As we saw earlier, in login.xml, a button is bound to the signIn function:</p>
+<pre><code>&lt;Button text=&quot;Sign in&quot; tap=&quot;signIn&quot; /&gt;
+</code></pre><p>Construct the signIn function in app/views/login/login.js. :</p>
+<pre><code>exports.signIn = function() {
+    user.login()
         .then(function() {
-            //frameModule.topmost().navigate(&quot;./views/list/list&quot;);
+            frameModule.topmost().navigate(&quot;./views/list/list&quot;);
         }).catch(function() {
             dialogs.alert({
                 message: &quot;Unfortunately we could not find your account.&quot;,
@@ -241,104 +243,28 @@ exports.register = function() {
             });
         });
 };
-</code></pre><p>Some interesting things are happening here. First, in one line of code, we tell the user to login using the Model file that resides in app/shared/models. This file is called User.js. Then the View Model handles the behavior of the UI if the user passes or fails this test of his/her credentials.</p>
-<p>To make use of the View Model and Model, note that we include the observable module by adding it at the top of app/shared/models/User.js:</p>
-<pre><code>var observableModule = require(&quot;data/observable&quot;);
-</code></pre><p>The app uses the Prototype pattern to create a login routine and handle the result of the login action by making use of promises.</p>
-<p><strong>Exercise: Construct the Registration View Model</strong></p>
-<p>Let&#39;s get the View Model into place so that data from the frontend XML can filter through the code-behind file, through the View Model, and over to the Model. In app/views/register/register-view-model.js, add the following code:</p>
-<pre><code>var dialogs = require(&quot;ui/dialogs&quot;);
-var frameModule = require(&quot;ui/frame&quot;);
-var observable = require(&quot;data/observable&quot;);
-var User = require(&quot;../../shared/models/User&quot;);
-</code></pre><p>Here, we&#39;re including several NativeScript modules, including dialog, frameModule, and observable. We also include the User Model so that it is available for data pass-through.</p>
-<p>Under that code, create a function that creates a new user based on the User Model:</p>
-<pre><code>function RegisterViewModel() {
-    this.set(&quot;user&quot;, new User());
-}
-</code></pre><p>Then, we can use the prototype pattern to create a new bindable object, the RegisterViewModel:</p>
-<pre><code>RegisterViewModel.prototype = new observable.Observable();
-</code></pre><p>Next, add in the register function to handle the way the UI will be have based on the response of the model to data passed to it:</p>
-<pre><code>RegisterViewModel.prototype.register = function() {
-    this.get(&quot;user&quot;).register()
-        .then(function() {
-            dialogs
-                .alert(&quot;Your account was successfully created.&quot;)
-                .then(function() {
-                    frameModule.topmost().navigate(&quot;./views/login/login&quot;);
-                });
-        }).catch(function() {
-            dialogs.alert({
-                message: &quot;Unfortunately we were unable to create your account.&quot;,
-                okButtonText: &quot;OK&quot;
-            });
-        });
-};
-</code></pre><p>And finally, export this new View Model which we have called RegisterViewModel:</p>
-<pre><code>module.exports = new RegisterViewModel();
-</code></pre><p>Note that, similarly to the way data is handled in login, we have set up a new prototype for registration, and invoked the function that is handled in app/shared/models/Users.js. The user is either registered or there is a problem, in which case a dialog pops up. We use the dialog ui by including it at the top of the View Model file, as you saw above.</p>
-<p><strong>Exercise: Wire up the registration function in the Model</strong></p>
-<p>Let&#39;s get something to happen when we click the register button in the register screen. Add the following code to /app/shared/models/User.js:</p>
-<pre><code>User.prototype.register = function() {
-    var that = this;
-    return new Promise(function(resolve, reject) {
-        http.request({
-            url: config.apiUrl + &quot;Users&quot;,
-            method: &quot;POST&quot;,
-            content: JSON.stringify({
-                Username: that.get(&quot;email_address&quot;),
-                Email: that.get(&quot;email_address&quot;),
-                Password: that.get(&quot;password&quot;)
-            }),
-            headers: {
-                &quot;Content-Type&quot;: &quot;application/json&quot;
-            }
-        }).then(function() {
-            resolve();
-        }).catch(function() {
-            reject();
-        });
-    });
-};
-</code></pre><p>Now, if you rebuild and run your app in an emulator, you can register a new user! </p>
-<p><img src="images/registration-success.png"/></p>
-<p>We&#39;ll discuss the way the Model and View Model fit together in this framework in chapter 4. For now, observe the way the data flows: from the xml file to the code-behind .js file, to the View Model and then the Model, and back again to the frontend where we handle acceptance or rejection of these credentials.</p>
-<h3 id="navigation-models">Navigation models</h3>
-<blockquote>
-<p>Jen: I think a discussion of code-behind files needs to come before navigation. As is, someone is going to open up <code>login.js</code> and have no idea what&#39;s going on. Personally I would start <code>login.js</code> completely empty and use it as an opportunity to explain CommonJS (<code>require()</code> and <code>export</code>). Have an exercise that adds a <code>loaded</code> function, then one that ties the <code>&lt;Button&gt;</code>&#39;s <code>tap</code> event to a function, THEN discuss navigation.
-TJ: I moved this piece to the end right before CSS as it makes use of code in the VM and I need to discuss that before bringing it up here.</p>
-</blockquote>
-<p>While our Groceries app doesn&#39;t use complex navigation strategies, you have several available to you to leverage. Out of the box, you can use:</p>
-<p><a href="http://docs.nativescript.org/ui-views#tabview">TabView</a><br><a href="http://docs.nativescript.org/ui-views#segmentedbar">SegmentedBar</a></p>
-<p><strong>Exercise: Enable the &quot;Sign Up&quot; button on the login screen with a navigational change</strong></p>
-<p>Right now, if you were to click the Sign Up For Groceries button on the login screen, nothing would happen. Let&#39;s get this button to change the screen to show a registration form. </p>
-<p>In app/views/login/login-view-model.js, add the following function under the signIn function:</p>
-<pre><code>LoginViewModel.prototype.register = function() {
-    var topmost = frameModule.topmost();
-    topmost.navigate(&quot;./views/register/register&quot;);
-};
-</code></pre><p>This function makes use of the module &#39;frameModule&#39; which looks for the topmost frame and navigates to it. Here, we tell the topmost frame to navigate to the register view. </p>
-<p>Learn more about how to link up your navigational strategies <a href="http://docs.nativescript.org/navigation#navigation">here</a>.</p>
-<h3 id="css">CSS</h3>
-<p>NativeScript supports a subset of CSS so that you can add styles to your app. We include global styles in app/app.css, where you&#39;ll find some styles for all the textfields, buttons and borders. You can also include individual css files in each view folder, which would be appropriate for styles that are isolated to a certain page. </p>
-<p>We don&#39;t have to worry about any particular CSS in the login or register screens, but let&#39;s turn our attention to the grocery list itself which appears after logging in. It needs a little massaging, so let&#39;s add a few CSS styles to app/views/list/list.css:</p>
-<pre><code>ListView {
-    margin: 10;
-}
-Label {
-    margin: 10;
-}
-Border {
-    margin: 0;
-}
-</code></pre><p>This will give us a lttle more room for our groceries to display nicely.</p>
+</code></pre><p>NativeScript supports JavaScript modules and their implementation follows the <a href="http://wiki.commonjs.org/wiki/CommonJS">CommonJS specification</a>. Using the &#39;<a href="http://wiki.commonjs.org/wiki/Modules/1.1#Module_Context">require</a>&#39; function at the top of this file allows us to identify a module to be imported, and it returns the exported API of this module.</p>
+<p>Similarly, we see the variable &#39;exports&#39;, which is an object that the module may add its API to as it executes.</p>
+<p>In this file, we export the functions &#39;load&#39; and &#39;signIn&#39;. These functions set up the login routine to pass data through to the Model. We&#39;ll visit the Model below.</p>
 
 		</div>
 		<hr>
 		<div class="chapter">
 			<h2 id="nativescript-modules">NativeScript modules</h2>
 <p>In the previous chapter, we already saw how NativeScript leverages the concept of &#39;modules&#39; to include bits of code that are kept in the tns_modules folder. Using &#39;require&#39;, you can include these snippets ad hoc in your code when you need to use them, something like npm modules. Let&#39;s take a closer look at these modules and what they can do for us.</p>
-<h3 id="connecting-to-backends-with-the-http-module">Connecting to backends with the http module</h3>
+<h3 id="navigation-and-the-frame-module">Navigation and the frame module</h3>
+<p>While our Groceries app doesn&#39;t use complex navigation strategies, you have several available to you to leverage. Out of the box, you can use:</p>
+<p><a href="http://docs.nativescript.org/ui-views#tabview">TabView</a><br><a href="http://docs.nativescript.org/ui-views#segmentedbar">SegmentedBar</a></p>
+<p><strong>Exercise: Enable the &quot;Sign Up&quot; button on the login screen with a navigational change</strong></p>
+<p>Right now, if you were to click the Sign Up For Groceries button on the login screen, nothing would happen. Let&#39;s get this button to change the screen to show a registration form. </p>
+<p>In app/views/login/login.js, add the following function under the signIn function:</p>
+<pre><code>exports.register = function() {
+    var topmost = frameModule.topmost();
+    topmost.navigate(&quot;./views/register/register&quot;);
+};
+</code></pre><p>This function makes use of the module &#39;frameModule&#39; which looks for the topmost frame and navigates to it. Here, we tell the topmost frame to navigate to the register view. </p>
+<p>Learn more about how to link up your navigational strategies <a href="http://docs.nativescript.org/navigation#navigation">here</a>.</p>
+<h3 id="connecting-to-a-backend-with-the-http-module">Connecting to a backend with the http module</h3>
 <p>You probably noticed that while we were busy constructing the frontend xml, the code-behind JavaScript file, the View Model, and the Model, that data was passing magically...somewhere. There&#39;s actually no magic involved, actually we have a config file that contains our API Key to Telerik Backend Services, a place where we are storing our users&#39; information.</p>
 <p>Take a look at app/shared/config.js. There&#39;s only a small code snippet there, but it includes a hard-coded API Key that we use throughout the app to access the backend (in real life, you would of course use your own API Key):</p>
 <pre><code>module.exports = {
@@ -411,8 +337,108 @@ exports.navigatedTo = function(args) {
 };
 </code></pre><p>There are a couple of things happening in this file. First, we have the function navigatedTo, which will set up our page for data binding when we navigate to it in the xml:</p>
 <pre><code>&lt;Page navigatedTo=&quot;navigatedTo&quot;&gt;
-</code></pre><p>This function also includes some ios-specific code. This area of the app, as we&#39;ll find, includes a bit of platform-specific code so that we can provide a good adaptive experience for our users.</p>
-<p>Now let&#39;s build out the View Model. In app/views/list/list-view-model.js, add:</p>
+</code></pre><h3 id="css">CSS</h3>
+<p>NativeScript supports a subset of CSS so that you can add styles to your app. We include global styles in app/app.css, where you&#39;ll find some styles for all the textfields, buttons and borders. You can also include individual css files in each view folder, which would be appropriate for styles that are isolated to a certain page. </p>
+<p>We don&#39;t have to worry about any particular CSS in the login or register screens, but let&#39;s turn our attention to the grocery list itself which appears after logging in. It needs a little massaging, so let&#39;s add a few CSS styles to app/views/list/list.css:</p>
+<pre><code>ListView {
+    margin: 10;
+}
+Label {
+    margin: 10;
+}
+Border {
+    margin: 0;
+}
+</code></pre><p>This will give us a lttle more room for our groceries to display nicely.</p>
+<p><img src="images/list-view-2.png"/></p>
+<h3 id="other-modules">Other modules</h3>
+<p>There are several modules that come out of the box with your NativeScript install, including a location service, a file-system helper, timer, camera, and even a color module that helps navigate the ways various colors are handled cross-platform. If you are interested in helping build and distribute more modules for the community, there&#39;s a <a href="http://developer.telerik.com/featured/building-your-own-nativescript-modules-for-npm/">good guide</a> available on how to do this.</p>
+
+		</div>
+		<hr>
+		<div class="chapter">
+			<h2 id="mvvm">MVVM</h2>
+<h3 id="what-is-mvvm-">What is MVVM?</h3>
+<p>In this chapter, we&#39;ll learn about the base pattern on which the NativeScript framework is built, MVVM, or &quot;Model, View, View Model&quot;. We&#39;ve already seen several examples of the elements that are used in this design pattern:</p>
+<ul>
+<li>Model (like Users.js which handles the API call to the backend to login and register students). The model represents the data. Separating the model from the various views that may use it allows for code reuse.</li>
+<li>View (like the register.xml file we built). The view is often data-bound to the View Model so that changes are instantly represented on the presentation tier.</li>
+<li>View Model (like the register-view-model.js file that takes data from the frontend and passes it to the Model for processing). The View Model exposes the models and logic needed by the view, and handles presentation logic.</li>
+</ul>
+<p>You can create your MVVM code structure like we did for login, with only login.xml and login.js communicating with User.js as its model.</p>
+<h3 id="data-binding">Data Binding</h3>
+<p><strong>Exercise: Bind data to the frontend of login.xml</strong></p>
+<p>Instead of just showing a blank text field, we can help the user login more quickly by binding data to the login text fields. In app/views/login/login.xml, edit the username text field to show a default username:</p>
+<pre><code>&lt;TextField text=&quot;{{ email_address }}&quot; id=&quot;email_address&quot; hint=&quot;Email Address&quot; /&gt;
+</code></pre><p>Similarly, edit the password field in this file:</p>
+<pre><code>&lt;TextField secure=&quot;true&quot; text=&quot;{{ password }}&quot; hint=&quot;Password&quot; /&gt;
+</code></pre><p>This way, you can pull in values from the code-behind file into your app; add the following two lines at the bottom of the load function in app/views/login/login.js:</p>
+<pre><code>user.set(&quot;email_address&quot;, &quot;tj.vantoll@gmail.com&quot;);
+user.set(&quot;password&quot;, &quot;password&quot;);
+</code></pre><h3 id="constructing-a-user-view-model">Constructing a User View Model</h3>
+<p>While you can certainly keep your View Model functionality in the code-behind file as we did for the login routines, an alternate pattern involves separating the code-behind file from a view-model.js file. This separation helps you isolate concerns for more effective unit testing. Let&#39;s build out the registration form using this pattern.</p>
+<p><strong>Exercise: Construct the Registration View Model</strong></p>
+<p>Let&#39;s get the View Model into place so that data from the frontend XML can filter through the code-behind file, through the View Model, and over to the Model. In app/views/register/register-view-model.js, add the following code:</p>
+<pre><code>var dialogs = require(&quot;ui/dialogs&quot;);
+var frameModule = require(&quot;ui/frame&quot;);
+var observable = require(&quot;data/observable&quot;);
+var User = require(&quot;../../shared/models/User&quot;);
+</code></pre><p>Here, we&#39;re including several NativeScript modules, including dialog, frameModule, and observable. We also include the User Model so that it is available for data pass-through.</p>
+<p>Under that code, create a function that creates a new user based on the User Model:</p>
+<pre><code>function RegisterViewModel() {
+    this.set(&quot;user&quot;, new User());
+}
+</code></pre><p>Then, we can use the prototype pattern to create a new bindable object, the RegisterViewModel:</p>
+<pre><code>RegisterViewModel.prototype = new observable.Observable();
+</code></pre><p>Next, add in the register function to handle the way the UI will be have based on the response of the model to data passed to it:</p>
+<pre><code>RegisterViewModel.prototype.register = function() {
+    this.get(&quot;user&quot;).register()
+        .then(function() {
+            dialogs
+                .alert(&quot;Your account was successfully created.&quot;)
+                .then(function() {
+                    frameModule.topmost().navigate(&quot;./views/login/login&quot;);
+                });
+        }).catch(function() {
+            dialogs.alert({
+                message: &quot;Unfortunately we were unable to create your account.&quot;,
+                okButtonText: &quot;OK&quot;
+            });
+        });
+};
+</code></pre><p>And finally, export this new View Model which we have called RegisterViewModel:</p>
+<pre><code>module.exports = new RegisterViewModel();
+</code></pre><p>Note that, similarly to the way data is handled in login, we have set up a new prototype for registration, and invoked the function that is handled in app/shared/models/Users.js. The user is either registered or there is a problem, in which case a dialog pops up. We use the dialog ui by including it at the top of the View Model file, as you saw above.</p>
+<p><strong>Exercise: Wire up the registration function in the Model</strong></p>
+<p>Let&#39;s get something to happen when we click the register button in the register screen. Add the following code to /app/shared/models/User.js:</p>
+<pre><code>User.prototype.register = function() {
+    var that = this;
+    return new Promise(function(resolve, reject) {
+        http.request({
+            url: config.apiUrl + &quot;Users&quot;,
+            method: &quot;POST&quot;,
+            content: JSON.stringify({
+                Username: that.get(&quot;email_address&quot;),
+                Email: that.get(&quot;email_address&quot;),
+                Password: that.get(&quot;password&quot;)
+            }),
+            headers: {
+                &quot;Content-Type&quot;: &quot;application/json&quot;
+            }
+        }).then(function() {
+            resolve();
+        }).catch(function() {
+            reject();
+        });
+    });
+};
+</code></pre><p>Now, if you rebuild and run your app in an emulator, you can register a new user! </p>
+<p><img src="images/registration-success.png"/></p>
+<h3 id="connecting-a-model-and-a-view-model">Connecting a Model and a View Model</h3>
+<p>Now that we have both login and registration routines complete, we need to work on the app&#39;s actual functionality as a grocery list management tool.</p>
+<p>To be able to manage data in the grocery list, we need to build a connection between the presentation tier and the database as we did for registration. Let&#39;s build out these pieces in our grocery list.</p>
+<p><strong>Exercise: Construct the list Model and View Model</strong></p>
+<p>In app/views/list/list-view-model.js, add:</p>
 <pre><code>var dialogs = require(&quot;ui/dialogs&quot;);
 var observable = require(&quot;data/observable&quot;);
 var GroceryList = require(&quot;../../shared/models/GroceryList&quot;);
@@ -462,33 +488,7 @@ GroceryList.prototype.empty = function() {
 module.exports = GroceryList;
 </code></pre><p>In the load function above, we are pulling down the list associated to the user&#39;s credentials. If you rebuild, run the app, and login as tj.vantoll@gmail.com, you&#39;ll find a list of groceries pulled from Backend services in the Groceries data type. It will look something like this:</p>
 <p><img src="images/list-view-1.png"/></p>
-<p>You&#39;ll note that the display looks a little funny - the items in the list are pushed too far to the left, for example. Let&#39;s clean up the css for this page by populating app/views/list/list.css:</p>
-<pre><code>ListView {
-    margin: 10;
-}
-Label {
-    margin: 10;
-}
-Border {
-    margin: 0;
-}
-</code></pre><p>That&#39;s better!</p>
-<p><img src="images/list-view-2.png"/></p>
-<h3 id="other-modules">Other modules</h3>
-<p>There are several modules that come out of the box with your NativeScript install, including a location service, a file-system helper, timer, camera, and even a color module that helps navigate the ways various colors are handled cross-platform. If you are interested in helping build and distribute more modules for the community, there&#39;s a <a href="http://developer.telerik.com/featured/building-your-own-nativescript-modules-for-npm/">good guide</a> available on how to do this.</p>
-
-		</div>
-		<hr>
-		<div class="chapter">
-			<h2 id="mvvm">MVVM</h2>
-<h3 id="what-is-mvvm-">What is MVVM?</h3>
-<p>In this chapter, we&#39;ll learn about the base pattern on which the NativeScript framework is built, MVVM, or &quot;Model, View, View Model&quot;. We&#39;ve already seen several examples of the elements that are used in this design pattern:</p>
-<ul>
-<li>Model (like Users.js which handles the API call to the backend to login and register students). The model represents the data. Separating the model from the various views that may use it allows for code reuse.</li>
-<li>View (like the register.xml file we built). The view is often data-bound to the View Model so that changes are instantly represented on the presentation tier.</li>
-<li>View Model (like the register-view-model.js file that takes data from the frontend and passes it to the Model for processing). The View Model exposes the models and logic needed by the view, and handles presentation logic.</li>
-</ul>
-<p>We can leverage this pattern to provide two-way data-binding in our app. </p>
+<p>It&#39;s great that we can see data already in the database, but we also need to add some items. Let&#39;s build that functionality.</p>
 <p><strong>Exercise: Add the ability to create a Grocery item</strong></p>
 <p>Notice at the top of the list is a text area and an &#39;Add&#39; button. Right now, it doesn&#39;t do anything. Let&#39;s fix that.</p>
 <p>In app/views/list/list.js, add a function to respond to the &#39;add&#39; tap event that is already in list.xml. We&#39;ll put this underneath the navigatedTo function.</p>
@@ -533,10 +533,6 @@ Border {
 };
 </code></pre><p>If you build and rerun your app now, you&#39;ll find that you can add a grocery item and it will appear immediately in your list.</p>
 <p>todo: explain promises and how the VM is interacting with the M and bubbling back to the view.</p>
-<h3 id="models-views-and-viewmodels">Models, Views, and ViewModels</h3>
-<p>...</p>
-<h3 id="data-binding">Data Binding</h3>
-<p>...</p>
 
 		</div>
 		<hr>
