@@ -336,9 +336,8 @@ exports.navigatedTo = function(args) {
 };
 </code></pre><p>There are a couple of things happening in this file. First, we have the function navigatedTo, which will set up our page for data binding when we navigate to it in the xml:</p>
 <pre><code>&lt;Page navigatedTo=&quot;navigatedTo&quot;&gt;
-
-Notice the use of a slightly different pattern in the code-behind file. In this case, we&#39;re going to use a View Model file separately from the code-behind file. We&#39;ll get into more detail in the next chapter.
-</code></pre><h3 id="css">CSS</h3>
+</code></pre><p>Notice the use of a slightly different pattern in the code-behind file. In this case, we&#39;re going to use a View Model file separately from the code-behind file. We&#39;ll get into more detail in the next chapter.</p>
+<h3 id="css">CSS</h3>
 <p>NativeScript considers CSS a type of tns_module, and you can dig into the code in app/tns_modules/ui/styling. The framework supports a subset of CSS so that you can add styles to your app. We include global styles in app/app.css, where you&#39;ll find some styles that format all the textfields, buttons and borders. You can also include individual css files in each view folder, which would be appropriate for styles that are isolated to a certain page.  </p>
 <p>We don&#39;t have to worry about any particular CSS styling in the login or register screens, but let&#39;s turn our attention to the grocery list itself which appears after logging in. It needs a little massaging, so let&#39;s add a few CSS styles to app/views/list/list.css:</p>
 <pre><code>ListView {
@@ -360,13 +359,13 @@ Border {
 		<div class="chapter">
 			<h2 id="mvvm">MVVM</h2>
 <h3 id="what-is-mvvm-">What is MVVM?</h3>
-<p>In this chapter, we&#39;ll learn about the base pattern on which the NativeScript framework is built, MVVM, or &quot;Model, View, View Model&quot;. We&#39;ve already seen several examples of the elements that are used in this design pattern:</p>
+<p>In this chapter, we&#39;ll learn about the base pattern on which the NativeScript framework is built, MVVM, or &quot;Model, View, View Model&quot;. MVVM is an architectural pattern that helps you separate the UI from the application logic and data model. We&#39;ve already seen several examples of the elements that are used in this design pattern:</p>
 <ul>
-<li>Model (like Users.js which handles the API call to the backend to login and register students). The model represents the data. Separating the model from the various views that may use it allows for code reuse.</li>
-<li>View (like the register.xml file we built). The view is often data-bound to the View Model so that changes are instantly represented on the presentation tier.</li>
-<li>View Model (like the register-view-model.js file that takes data from the frontend and passes it to the Model for processing). The View Model exposes the models and logic needed by the view, and handles presentation logic.</li>
+<li>Model: The model defines and represents the data. Separating the model from the various views that may use it allows for code reuse.</li>
+<li>View: The view represents the UI. The view is often data-bound to the View Model so that changes are instantly represented on the presentation tier.</li>
+<li>View Model: The View Model contains the application logic, expositing it for the View.</li>
 </ul>
-<p>You can create your MVVM code structure like we did for login, with only login.xml and login.js communicating with User.js as its model.</p>
+<p>The most basic benefit of using this sort of separation between the Model, View, and View Model, is that we are able to craft two-way data binding such that the View Model can act as a switchboard between the Model and the View. Let&#39;s wire up our login xml to support binding.</p>
 <h3 id="data-binding">Data Binding</h3>
 <p><strong>Exercise: Bind data to the frontend of login.xml</strong></p>
 <p>Instead of just showing a blank text field, we can help the user login more quickly by binding data to the login text fields. In app/views/login/login.xml, edit the username text field to show a default username:</p>
@@ -376,10 +375,19 @@ Border {
 </code></pre><p>This way, you can pull in values from the code-behind file into your app; add the following two lines at the bottom of the load function in app/views/login/login.js:</p>
 <pre><code>user.set(&quot;email_address&quot;, &quot;tj.vantoll@gmail.com&quot;);
 user.set(&quot;password&quot;, &quot;password&quot;);
-</code></pre><h3 id="constructing-a-user-view-model">Constructing a User View Model</h3>
+</code></pre><p>If you run the app, you&#39;ll find that the email address and password fields are pre-populated with data coming via the View Model.</p>
+<p>You can create your MVVM code structure like we did for login, with only login.xml and login.js communicating with User.js as its model. Alternately, you can include a second file specific to the View Model for each page. We&#39;re going to do this latter pattern for our Registration field.</p>
+<h3 id="constructing-a-view-model">Constructing a View Model</h3>
 <p>While you can certainly keep your View Model functionality in the code-behind file as we did for the login routines, an alternate pattern involves separating the code-behind file from a view-model.js file. This separation helps you isolate concerns for more effective unit testing. Let&#39;s build out the registration form using this pattern.</p>
+<blockquote>
+<p>A best practice for working within the MVVM pattern is to build the View Model first, before even touching the UI. The View Model shouldn&#39;t be aware of UI elements at all, it simply channels data back and forth.</p>
+</blockquote>
 <p><strong>Exercise: Construct the Registration View Model</strong></p>
-<p>Let&#39;s get the View Model into place so that data from the frontend XML can filter through the code-behind file, through the View Model, and over to the Model. In app/views/register/register-view-model.js, add the following code:</p>
+<p>Let&#39;s get the View Model into place so that data from the frontend XML can filter through the code-behind file, through the View Model, and over to the Model. We need to start with requiring and creating an Observable object.</p>
+<blockquote>
+<p><strong>Observable</strong> is a core building block for a View Model. It provides it with a mechanism required for two-way data binding so as to provide communication between the View and the View Model. This means that if the user updates the data in the UI the change will be reflected in the ViewModel and vice versa.</p>
+</blockquote>
+<p>In app/views/register/register-view-model.js, add the following code:</p>
 <pre><code>var dialogs = require(&quot;ui/dialogs&quot;);
 var frameModule = require(&quot;ui/frame&quot;);
 var observable = require(&quot;data/observable&quot;);
@@ -410,6 +418,34 @@ var User = require(&quot;../../shared/models/User&quot;);
 </code></pre><p>And finally, export this new View Model which we have called RegisterViewModel:</p>
 <pre><code>module.exports = new RegisterViewModel();
 </code></pre><p>Note that, similarly to the way data is handled in login, we have set up a new prototype for registration, and invoked the function that is handled in app/shared/models/Users.js. The user is either registered or there is a problem, in which case a dialog pops up. We use the dialog ui by including it at the top of the View Model file, as you saw above.</p>
+<p>Now that we have the View Model finished, we can build the view and bind it to the View Model. We created the xml for the view earlier so as to learn about layouts, so let&#39;s create the registration code-behind file.</p>
+<p><strong>Exercise: Build the registration code-behind file</strong></p>
+<p>Since we have moved much of the application logic to the registration-view-model.js file, we can use the code-behind file to contain logic closer to the UI. In this case, we&#39;re going to add some OS-specific code to handle autocorrecting behavior. In app/register/register.js, include the core module &#39;view&#39; so that we can control the view from this file, and include the View Model:</p>
+<pre><code>var view = require(&quot;ui/core/view&quot;);
+var viewModel = require(&quot;./register-view-model&quot;);
+</code></pre><p>Next, add the load function that is invoked from the xml:</p>
+<pre><code>exports.load = function(args) {
+    var page = args.object;
+    var email = view.getViewById(page, &quot;email&quot;);
+
+    page.bindingContext = viewModel;
+
+    // Turn off autocorrect and autocapitalization for iOS
+    if (email.ios) {
+        email.ios.autocapitalizationType =
+            UITextAutocapitalizationType.UITextAutocapitalizationTypeNone;
+        email.ios.autocorrectionType =
+            UITextAutocorrectionType.UITextAutocorrectionTypeNo;
+        email.ios.keyboardType =
+            UIKeyboardType.UIKeyboardTypeEmailAddress;
+    }
+};
+</code></pre><p>In this snippet, we use a bit of native code to manage the keyboard and stop capitalization in the email field, based on its id.</p>
+<p>Then, route the logic for the registration routine through this file to the View Model:</p>
+<pre><code>exports.register = function() {
+    viewModel.register();
+};
+</code></pre><p>Now we are ready for our presentation layer to pass information through the View Model and over to the Model.</p>
 <p><strong>Exercise: Wire up the registration function in the Model</strong></p>
 <p>Let&#39;s get something to happen when we click the register button in the register screen. Add the following code to /app/shared/models/User.js:</p>
 <pre><code>User.prototype.register = function() {
@@ -435,8 +471,8 @@ var User = require(&quot;../../shared/models/User&quot;);
 };
 </code></pre><p>Now, if you rebuild and run your app in an emulator, you can register a new user! </p>
 <p><img src="images/registration-success.png"/></p>
-<h3 id="connecting-a-model-and-a-view-model">Connecting a Model and a View Model</h3>
 <p>Now that we have both login and registration routines complete, we need to work on the app&#39;s actual functionality as a grocery list management tool.</p>
+<h3 id="connecting-a-model-and-a-view-model">Connecting a Model and a View Model</h3>
 <p>To be able to manage data in the grocery list, we need to build a connection between the presentation tier and the database as we did for registration. Let&#39;s build out these pieces in our grocery list.</p>
 <p><strong>Exercise: Construct the list Model and View Model</strong></p>
 <p>In app/views/list/list-view-model.js, add:</p>
@@ -533,7 +569,6 @@ module.exports = GroceryList;
     });
 };
 </code></pre><p>If you build and rerun your app now, you&#39;ll find that you can add a grocery item and it will appear immediately in your list.</p>
-<p>todo: explain promises and how the VM is interacting with the M and bubbling back to the view.</p>
 
 		</div>
 		<hr>
@@ -543,23 +578,34 @@ module.exports = GroceryList;
 <h3 id="using-npm-modules-in-your-app">Using npm modules in your app</h3>
 <p><strong>Exercise: Install and use the Social Sharing widget</strong></p>
 <p>Cd to the app directory in your Groceries project folder:</p>
-<p><code>cd Documents/NativeScript/Groceries/app/</code></p>
-<p>and install the module:</p>
-<p><code>npm install nativescript-social-share</code></p>
-<p>We&#39;re going to add this functionality to our list of groceries, so in /app/views/list/list.js, require the module:</p>
-<p><code>var socialShare = require(&quot;../../node_modules/nativescript-social-share/social-share&quot;);</code></p>
-<p>and add a function to share our list at the bottom of list.js:</p>
-<pre><code>exports.share = function() {
-    socialShare.shareText(&quot;I love NativeScript!&quot;);
+<pre><code>cd Documents/NativeScript/Groceries/app/
+</code></pre><p>and install the module:</p>
+<pre><code>npm install nativescript-social-share
+</code></pre><p>We&#39;re going to add this functionality to our list of groceries, so in /app/views/list/list.js, require the module:</p>
+<pre><code>var socialShare = require(&quot;../../node_modules/nativescript-social-share/social-share&quot;);
+</code></pre><p>Let&#39;s make an area at the top of our list file to show a link to share a grocery list. Under the <Page> tag, add the following code. Tapping this link will open a native email sharing widget:</p>
+<pre><code>&lt;Page.optionsMenu&gt;
+    &lt;MenuItem text=&quot;Share&quot; tap=&quot;share&quot; android.position=&quot;actionBar&quot;/&gt;
+&lt;/Page.optionsMenu&gt;
+</code></pre><p>Now we need to get our grocery list into a comma-delimited format that will be fed to the socialSharing widget. To do this, add a function to return our list at the bottom of list-view-model.js:</p>
+<pre><code>ListViewModel.prototype.getList = function(){
+    var groceryList = this.get(&quot;groceryList&quot;);
+    var list = {};
+    for(var i = 0, size = groceryList.length; i &lt; size ; i++){
+       list[i] = groceryList.getItem(i).name;
+       console.log(list[i])
+    }
+    return list
 }
-</code></pre><p>Add a button to click to share the list:</p>
-<pre><code>&lt;Border borderWidth=&quot;1&quot; borderColor=&quot;#034793&quot; row=&quot;2&quot; colSpan=&quot;3&quot;&gt;
-    &lt;Button text=&quot;share&quot; tap=&quot;share&quot;/&gt;
-&lt;/Border&gt;
-</code></pre><p>Change the GridLayout to account for this button by editing the GridLayout tag at the top:</p>
-<pre><code>&lt;GridLayout rows=&quot;auto, *, 40&quot; columns=&quot;*, *, *&quot;&gt;
-</code></pre><p>Now when you run the app, you&#39;ll see a share button that, when clicked, allows you to email a list:</p>
-<p><img src="images/share-button.png" alt="share"></p>
+</code></pre><p>And then finally add a function in app/views/list/list.js to call the socialSharing widget:</p>
+<pre><code>exports.share = function() {
+    var list = viewModel.getList();
+    socialShare.shareText(list);
+}
+</code></pre><p>Now when you run the app, you&#39;ll see a Share button at the top that, when clicked, allows you to email a list using a native interface:</p>
+<p><img src="images/share-view.png" alt="share">
+<img src="images/share-email.png" alt="share"></p>
+<p>It&#39;s very cool to add ready-built modules to your app. But maybe you want to build your own! </p>
 <h3 id="building-your-own-nativescript-modules">Building your own NativeScript modules</h3>
 
 		</div>

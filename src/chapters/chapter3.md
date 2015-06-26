@@ -142,9 +142,9 @@ There are a couple of things happening in this file. First, we have the function
 
 ```
 <Page navigatedTo="navigatedTo">
-
-Notice the use of a slightly different pattern in the code-behind file. In this case, we're going to use a View Model file separately from the code-behind file. We'll get into more detail in the next chapter.
 ```
+Notice the use of a slightly different pattern in the code-behind file. In this case, we're going to use a View Model file separately from the code-behind file. We'll get into more detail in the next chapter.
+
 
 ### CSS
 

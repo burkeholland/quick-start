@@ -2,13 +2,13 @@
 
 ### What is MVVM?
 
-In this chapter, we'll learn about the base pattern on which the NativeScript framework is built, MVVM, or "Model, View, View Model". We've already seen several examples of the elements that are used in this design pattern:
+In this chapter, we'll learn about the base pattern on which the NativeScript framework is built, MVVM, or "Model, View, View Model". MVVM is an architectural pattern that helps you separate the UI from the application logic and data model. We've already seen several examples of the elements that are used in this design pattern:
 
-- Model (like Users.js which handles the API call to the backend to login and register students). The model represents the data. Separating the model from the various views that may use it allows for code reuse.
-- View (like the register.xml file we built). The view is often data-bound to the View Model so that changes are instantly represented on the presentation tier.
-- View Model (like the register-view-model.js file that takes data from the frontend and passes it to the Model for processing). The View Model exposes the models and logic needed by the view, and handles presentation logic.
+- Model: The model defines and represents the data. Separating the model from the various views that may use it allows for code reuse.
+- View: The view represents the UI. The view is often data-bound to the View Model so that changes are instantly represented on the presentation tier.
+- View Model: The View Model contains the application logic, expositing it for the View.
 
-You can create your MVVM code structure like we did for login, with only login.xml and login.js communicating with User.js as its model.
+The most basic benefit of using this sort of separation between the Model, View, and View Model, is that we are able to craft two-way data binding such that the View Model can act as a switchboard between the Model and the View. Let's wire up our login xml to support binding.
 
 ###Data Binding
 
@@ -32,15 +32,23 @@ This way, you can pull in values from the code-behind file into your app; add th
 user.set("email_address", "tj.vantoll@gmail.com");
 user.set("password", "password");
 ``` 
+If you run the app, you'll find that the email address and password fields are pre-populated with data coming via the View Model.
 
-###Constructing a User View Model
+You can create your MVVM code structure like we did for login, with only login.xml and login.js communicating with User.js as its model. Alternately, you can include a second file specific to the View Model for each page. We're going to do this latter pattern for our Registration field.
+
+###Constructing a View Model
 
 While you can certainly keep your View Model functionality in the code-behind file as we did for the login routines, an alternate pattern involves separating the code-behind file from a view-model.js file. This separation helps you isolate concerns for more effective unit testing. Let's build out the registration form using this pattern.
 
+>A best practice for working within the MVVM pattern is to build the View Model first, before even touching the UI. The View Model shouldn't be aware of UI elements at all, it simply channels data back and forth.
 
 **Exercise: Construct the Registration View Model**
 
-Let's get the View Model into place so that data from the frontend XML can filter through the code-behind file, through the View Model, and over to the Model. In app/views/register/register-view-model.js, add the following code:
+Let's get the View Model into place so that data from the frontend XML can filter through the code-behind file, through the View Model, and over to the Model. We need to start with requiring and creating an Observable object.
+
+ >**Observable** is a core building block for a View Model. It provides it with a mechanism required for two-way data binding so as to provide communication between the View and the View Model. This means that if the user updates the data in the UI the change will be reflected in the ViewModel and vice versa.
+
+In app/views/register/register-view-model.js, add the following code:
 
 ```
 var dialogs = require("ui/dialogs");
@@ -93,6 +101,50 @@ module.exports = new RegisterViewModel();
 
 Note that, similarly to the way data is handled in login, we have set up a new prototype for registration, and invoked the function that is handled in app/shared/models/Users.js. The user is either registered or there is a problem, in which case a dialog pops up. We use the dialog ui by including it at the top of the View Model file, as you saw above.
 
+Now that we have the View Model finished, we can build the view and bind it to the View Model. We created the xml for the view earlier so as to learn about layouts, so let's create the registration code-behind file.
+
+**Exercise: Build the registration code-behind file**
+
+Since we have moved much of the application logic to the registration-view-model.js file, we can use the code-behind file to contain logic closer to the UI. In this case, we're going to add some OS-specific code to handle autocorrecting behavior. In app/register/register.js, include the core module 'view' so that we can control the view from this file, and include the View Model:
+
+```
+var view = require("ui/core/view");
+var viewModel = require("./register-view-model");
+```
+
+Next, add the load function that is invoked from the xml:
+
+```
+exports.load = function(args) {
+	var page = args.object;
+	var email = view.getViewById(page, "email");
+
+	page.bindingContext = viewModel;
+
+	// Turn off autocorrect and autocapitalization for iOS
+	if (email.ios) {
+		email.ios.autocapitalizationType =
+			UITextAutocapitalizationType.UITextAutocapitalizationTypeNone;
+		email.ios.autocorrectionType =
+			UITextAutocorrectionType.UITextAutocorrectionTypeNo;
+		email.ios.keyboardType =
+			UIKeyboardType.UIKeyboardTypeEmailAddress;
+	}
+};
+```
+
+In this snippet, we use a bit of native code to manage the keyboard and stop capitalization in the email field, based on its id.
+
+Then, route the logic for the registration routine through this file to the View Model:
+
+```
+exports.register = function() {
+	viewModel.register();
+};
+```
+
+Now we are ready for our presentation layer to pass information through the View Model and over to the Model.
+
 **Exercise: Wire up the registration function in the Model**
 
 Let's get something to happen when we click the register button in the register screen. Add the following code to /app/shared/models/User.js:
@@ -125,9 +177,10 @@ Now, if you rebuild and run your app in an emulator, you can register a new user
 
 <img src="images/registration-success.png"/>
 
+Now that we have both login and registration routines complete, we need to work on the app's actual functionality as a grocery list management tool.
+
 ### Connecting a Model and a View Model
 
-Now that we have both login and registration routines complete, we need to work on the app's actual functionality as a grocery list management tool.
 
 To be able to manage data in the grocery list, we need to build a connection between the presentation tier and the database as we did for registration. Let's build out these pieces in our grocery list.
 
@@ -253,10 +306,3 @@ GroceryList.prototype.add = function(grocery) {
 ```
 
 If you build and rerun your app now, you'll find that you can add a grocery item and it will appear immediately in your list.
-
-todo: explain promises and how the VM is interacting with the M and bubbling back to the view.
-
-
- 
-
-

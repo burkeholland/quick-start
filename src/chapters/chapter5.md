@@ -8,40 +8,56 @@ Often, we need to include modules that are not by default available in tns_modul
 
 Cd to the app directory in your Groceries project folder:
 
-`cd Documents/NativeScript/Groceries/app/`
+```
+cd Documents/NativeScript/Groceries/app/
+```
 
 and install the module:
 
-`npm install nativescript-social-share`
+```
+npm install nativescript-social-share
+```
 
 We're going to add this functionality to our list of groceries, so in /app/views/list/list.js, require the module:
 
-`var socialShare = require("../../node_modules/nativescript-social-share/social-share");`
+```
+var socialShare = require("../../node_modules/nativescript-social-share/social-share");
+```
+Let's make an area at the top of our list file to show a link to share a grocery list. Under the <Page> tag, add the following code. Tapping this link will open a native email sharing widget:
 
-and add a function to share our list at the bottom of list.js:
+```
+<Page.optionsMenu>
+	<MenuItem text="Share" tap="share" android.position="actionBar"/>
+</Page.optionsMenu>
+```
+
+Now we need to get our grocery list into a comma-delimited format that will be fed to the socialSharing widget. To do this, add a function to return our list at the bottom of list-view-model.js:
+
+```
+ListViewModel.prototype.getList = function(){
+	var groceryList = this.get("groceryList");
+	var list = {};
+	for(var i = 0, size = groceryList.length; i < size ; i++){
+	   list[i] = groceryList.getItem(i).name;
+	   console.log(list[i])
+	}
+	return list
+}
+```
+And then finally add a function in app/views/list/list.js to call the socialSharing widget:
 
 ```
 exports.share = function() {
-	socialShare.shareText("I love NativeScript!");
+	var list = viewModel.getList();
+	socialShare.shareText(list);
 }
 ```
 
-Add a button to click to share the list:
+Now when you run the app, you'll see a Share button at the top that, when clicked, allows you to email a list using a native interface:
 
-```
-<Border borderWidth="1" borderColor="#034793" row="2" colSpan="3">
-	<Button text="share" tap="share"/>
-</Border>
-```
+![share](images/share-view.png)
+![share](images/share-email.png)
 
-Change the GridLayout to account for this button by editing the GridLayout tag at the top:
-
-```
-<GridLayout rows="auto, *, 40" columns="*, *, *">
-```
-
-Now when you run the app, you'll see a share button that, when clicked, allows you to email a list:
-
-![share](images/share-button.png)
+It's very cool to add ready-built modules to your app. But maybe you want to build your own! 
 
 ### Building your own NativeScript modules
