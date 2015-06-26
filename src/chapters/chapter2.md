@@ -1,6 +1,6 @@
 ## App building blocks
 
-Now that you have your environment set up and the initial version of the app downloaded to your local computer, you can open it in your text editor and start exploring the codebase. Let's take a look at the directory structure of a NativeScript app.
+Go ahead and can open the codebase in your text editor of choice. Let's take a look at the directory structure of a NativeScript app.
 
 ### Directory structure
 
@@ -126,8 +126,6 @@ In /views/register/register.xml, add the following markup:
 </Page>
 ```
 
-If you run your code in an emulator, you'll find that you can now navigate to your registration view and back again by clicking the appropriate buttons.
-
 - Notice the function that is invoked when the Page is loaded: we'll take a look at the 'load' function in the code-behind file that we'll construct next. 
 - Notice also the way we load an image, with its source as "res://logo" and its stretch attribute set to 'none'. We'll talk more about handling images below as well. 
 - Finally, note the TextField's two-way binding, set up to bind its text to "user.email_address" or "user.password". We'll also discuss data-binding below.
@@ -135,7 +133,7 @@ If you run your code in an emulator, you'll find that you can now navigate to yo
 
 ### Code-behind files
 
-Although you can now see your registration screen, it's not yet wired up to send data to the backend. Let's fix that.
+Although you can now see your login and registration screens, they are not yet wired up to send data to the backend. Let's fix that.
 
 In app/views/login, you'll find login.js. This is called a 'code-behind' file because it supports the xml markup that constructs the presentation tier. 
 

@@ -1,10 +1,10 @@
 ## NativeScript modules
 
-In the previous chapter, we already saw how NativeScript leverages the concept of 'modules' to include bits of code that are kept in the tns_modules folder. Using 'require', you can include these snippets ad hoc in your code when you need to use them, something like npm modules. Let's take a closer look at these modules and what they can do for us.
+In the previous chapter, we already saw how NativeScript leverages the concept of 'modules' to include bits of code that are kept in the tns_modules folder. Using 'require', you can include these snippets ad hoc in your code when you need to use them, similar to the way we use npm to import node libraries. Let's take a closer look at these modules and what they can do for us.
 
 ### Navigation and the frame module
 
-While our Groceries app doesn't use complex navigation strategies, you have several available to you to leverage. Out of the box, you can use:
+While our Groceries app doesn't use complex navigation strategies, you have several available to you out of the box:
 
 [TabView](http://docs.nativescript.org/ui-views#tabview)  
 [SegmentedBar](http://docs.nativescript.org/ui-views#segmentedbar)
@@ -22,14 +22,14 @@ exports.register = function() {
 };
 
 ```
-This function makes use of the module 'frameModule' which looks for the topmost frame and navigates to it. Here, we tell the topmost frame to navigate to the register view. 
+This function makes use of the module 'frameModule' which looks for the topmost frame and navigates to it. Here, we tell the topmost frame to navigate to the register view. If you run your code in an emulator, you'll find that you can now navigate to your registration view by clicking the "Sign Up" button.
 
 Learn more about how to link up your navigational strategies [here](http://docs.nativescript.org/navigation#navigation).
 
 
 ### Connecting to a backend with the http module
 
-You probably noticed that while we were busy constructing the frontend xml, the code-behind JavaScript file, the View Model, and the Model, that data was passing magically...somewhere. There's actually no magic involved, actually we have a config file that contains our API Key to Telerik Backend Services, a place where we are storing our users' information.
+You probably noticed that while we were busy constructing the frontend xml and the code-behind JavaScript file, data was passing magically...somewhere. There's actually no magic involved; we have a config file that contains our API Key to [Telerik Backend Services](http://www.telerik.com/backend-services), a place where we are storing our users' information.
 
 Take a look at app/shared/config.js. There's only a small code snippet there, but it includes a hard-coded API Key that we use throughout the app to access the backend (in real life, you would of course use your own API Key):
 
@@ -39,13 +39,13 @@ module.exports = {
 };
 ```
 
-The config file is used in app/shared/models/User.js:
+The config file is used in our Model files, in particular our User Model: app/shared/models/User.js:
 
 ```
 var config = require("../../shared/config");
 ```
 
-and is used to construct a url via which we can post stringified JSON data via POST:
+It is used to construct a url via which we can send stringified JSON data via POST:
 
 ```
 http.request({
@@ -73,7 +73,7 @@ If you dig a bit into the tns_modules folder and find the http folder, you can s
 - a file containing ios native code (http-request.ios.js)
 - a generic file (http.js) that abstract the platform-specific code above into a platform-agnostic format readable by the NativeScript runtime.
 
-More information on modules can be found [here](http://developer.telerik.com/featured/nativescript-works/). You might try to write your own module!
+More information on modules can be found [here](http://developer.telerik.com/featured/nativescript-works/).
 
 
 ### Dialog module
@@ -89,7 +89,7 @@ dialogs.alert({
 
 ### ListView
 
-Let's leverage another UI module to craft a page to actually hold our grocery data. This is the page we want users to navigate to once they login, so let's uncomment line 20 in app/views/login/login-view-model.js to allow this navigation to happen:
+Let's use another UI module to craft a page to actually hold our grocery data. This is the page we want users to navigate to once they login, so let's add a line in app/views/login/login.js to allow this navigation to happen. In the signIn function, add the following line after '.then(function(){':
 
 ```
 frameModule.topmost().navigate("./views/list/list");
@@ -117,7 +117,7 @@ In app/views/list/list.xml, let's get started using the ListView module by creat
 </Page>
 ```
 
-Note our use of the ListView module. In this case, we're not requiring a tns_module from the ui folder, but are rather using the ui widget within the xml code. This is a different way of leveraging these modules. If we wanted to, we could construct a ListView in pure JavaScript code behind the scenes as shown in [this example](http://docs.nativescript.org/ApiReference/ui/list-view/HOW-TO.html). However for our purposes, we can simply use xml to build the ListView and thereby follow the pattern we use in the login and register screens.
+Note our use of the ListView module. In this case, we're not requiring a tns_module from the ui folder, but are rather using the ui widget within the xml code. This is a different way of using these modules. If we wanted to, we could construct a ListView in pure JavaScript code behind the scenes as shown in [this example](http://docs.nativescript.org/ApiReference/ui/list-view/HOW-TO.html). However for our purposes, we can simply use xml to build the ListView and thereby follow the pattern we use in the login and register screens.
 
 
 Let's go ahead and build the code-behind file as usual. In app/views/list/list.js, add:
@@ -142,13 +142,15 @@ There are a couple of things happening in this file. First, we have the function
 
 ```
 <Page navigatedTo="navigatedTo">
+
+Notice the use of a slightly different pattern in the code-behind file. In this case, we're going to use a View Model file separately from the code-behind file. We'll get into more detail in the next chapter.
 ```
 
 ### CSS
 
-NativeScript supports a subset of CSS so that you can add styles to your app. We include global styles in app/app.css, where you'll find some styles for all the textfields, buttons and borders. You can also include individual css files in each view folder, which would be appropriate for styles that are isolated to a certain page. 
+NativeScript considers CSS a type of tns_module, and you can dig into the code in app/tns_modules/ui/styling. The framework supports a subset of CSS so that you can add styles to your app. We include global styles in app/app.css, where you'll find some styles that format all the textfields, buttons and borders. You can also include individual css files in each view folder, which would be appropriate for styles that are isolated to a certain page.  
 
-We don't have to worry about any particular CSS in the login or register screens, but let's turn our attention to the grocery list itself which appears after logging in. It needs a little massaging, so let's add a few CSS styles to app/views/list/list.css:
+We don't have to worry about any particular CSS styling in the login or register screens, but let's turn our attention to the grocery list itself which appears after logging in. It needs a little massaging, so let's add a few CSS styles to app/views/list/list.css:
 
 ```
 ListView {

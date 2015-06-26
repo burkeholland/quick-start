@@ -108,7 +108,7 @@ $ cd groceries
 		<hr>
 		<div class="chapter">
 			<h2 id="app-building-blocks">App building blocks</h2>
-<p>Now that you have your environment set up and the initial version of the app downloaded to your local computer, you can open it in your text editor and start exploring the codebase. Let&#39;s take a look at the directory structure of a NativeScript app.</p>
+<p>Go ahead and can open the codebase in your text editor of choice. Let&#39;s take a look at the directory structure of a NativeScript app.</p>
 <h3 id="directory-structure">Directory structure</h3>
 <p>Here&#39;s the directory structure of this starter app:</p>
 <pre><code>.
@@ -201,14 +201,13 @@ application.start();
         &lt;/Border&gt;
     &lt;/StackLayout&gt;
 &lt;/Page&gt;
-</code></pre><p>If you run your code in an emulator, you&#39;ll find that you can now navigate to your registration view and back again by clicking the appropriate buttons.</p>
-<ul>
+</code></pre><ul>
 <li>Notice the function that is invoked when the Page is loaded: we&#39;ll take a look at the &#39;load&#39; function in the code-behind file that we&#39;ll construct next. </li>
 <li>Notice also the way we load an image, with its source as &quot;res://logo&quot; and its stretch attribute set to &#39;none&#39;. We&#39;ll talk more about handling images below as well. </li>
 <li>Finally, note the TextField&#39;s two-way binding, set up to bind its text to &quot;user.email_address&quot; or &quot;user.password&quot;. We&#39;ll also discuss data-binding below.</li>
 </ul>
 <h3 id="code-behind-files">Code-behind files</h3>
-<p>Although you can now see your registration screen, it&#39;s not yet wired up to send data to the backend. Let&#39;s fix that.</p>
+<p>Although you can now see your login and registration screens, they are not yet wired up to send data to the backend. Let&#39;s fix that.</p>
 <p>In app/views/login, you&#39;ll find login.js. This is called a &#39;code-behind&#39; file because it supports the xml markup that constructs the presentation tier. </p>
 <p><strong>Exercise: Construct the login code-behind file.</strong></p>
 <p>Add some required elements at the top of this file:</p>
@@ -251,9 +250,9 @@ var user;
 		<hr>
 		<div class="chapter">
 			<h2 id="nativescript-modules">NativeScript modules</h2>
-<p>In the previous chapter, we already saw how NativeScript leverages the concept of &#39;modules&#39; to include bits of code that are kept in the tns_modules folder. Using &#39;require&#39;, you can include these snippets ad hoc in your code when you need to use them, something like npm modules. Let&#39;s take a closer look at these modules and what they can do for us.</p>
+<p>In the previous chapter, we already saw how NativeScript leverages the concept of &#39;modules&#39; to include bits of code that are kept in the tns_modules folder. Using &#39;require&#39;, you can include these snippets ad hoc in your code when you need to use them, similar to the way we use npm to import node libraries. Let&#39;s take a closer look at these modules and what they can do for us.</p>
 <h3 id="navigation-and-the-frame-module">Navigation and the frame module</h3>
-<p>While our Groceries app doesn&#39;t use complex navigation strategies, you have several available to you to leverage. Out of the box, you can use:</p>
+<p>While our Groceries app doesn&#39;t use complex navigation strategies, you have several available to you out of the box:</p>
 <p><a href="http://docs.nativescript.org/ui-views#tabview">TabView</a><br><a href="http://docs.nativescript.org/ui-views#segmentedbar">SegmentedBar</a></p>
 <p><strong>Exercise: Enable the &quot;Sign Up&quot; button on the login screen with a navigational change</strong></p>
 <p>Right now, if you were to click the Sign Up For Groceries button on the login screen, nothing would happen. Let&#39;s get this button to change the screen to show a registration form. </p>
@@ -262,17 +261,17 @@ var user;
     var topmost = frameModule.topmost();
     topmost.navigate(&quot;./views/register/register&quot;);
 };
-</code></pre><p>This function makes use of the module &#39;frameModule&#39; which looks for the topmost frame and navigates to it. Here, we tell the topmost frame to navigate to the register view. </p>
+</code></pre><p>This function makes use of the module &#39;frameModule&#39; which looks for the topmost frame and navigates to it. Here, we tell the topmost frame to navigate to the register view. If you run your code in an emulator, you&#39;ll find that you can now navigate to your registration view by clicking the &quot;Sign Up&quot; button.</p>
 <p>Learn more about how to link up your navigational strategies <a href="http://docs.nativescript.org/navigation#navigation">here</a>.</p>
 <h3 id="connecting-to-a-backend-with-the-http-module">Connecting to a backend with the http module</h3>
-<p>You probably noticed that while we were busy constructing the frontend xml, the code-behind JavaScript file, the View Model, and the Model, that data was passing magically...somewhere. There&#39;s actually no magic involved, actually we have a config file that contains our API Key to Telerik Backend Services, a place where we are storing our users&#39; information.</p>
+<p>You probably noticed that while we were busy constructing the frontend xml and the code-behind JavaScript file, data was passing magically...somewhere. There&#39;s actually no magic involved; we have a config file that contains our API Key to <a href="http://www.telerik.com/backend-services">Telerik Backend Services</a>, a place where we are storing our users&#39; information.</p>
 <p>Take a look at app/shared/config.js. There&#39;s only a small code snippet there, but it includes a hard-coded API Key that we use throughout the app to access the backend (in real life, you would of course use your own API Key):</p>
 <pre><code>module.exports = {
     apiUrl: &quot;http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/&quot;
 };
-</code></pre><p>The config file is used in app/shared/models/User.js:</p>
+</code></pre><p>The config file is used in our Model files, in particular our User Model: app/shared/models/User.js:</p>
 <pre><code>var config = require(&quot;../../shared/config&quot;);
-</code></pre><p>and is used to construct a url via which we can post stringified JSON data via POST:</p>
+</code></pre><p>It is used to construct a url via which we can send stringified JSON data via POST:</p>
 <pre><code>http.request({
     url: config.apiUrl + &quot;oauth/token&quot;,
     method: &quot;POST&quot;,
@@ -293,7 +292,7 @@ var user;
 <li>a file containing ios native code (http-request.ios.js)</li>
 <li>a generic file (http.js) that abstract the platform-specific code above into a platform-agnostic format readable by the NativeScript runtime.</li>
 </ul>
-<p>More information on modules can be found <a href="http://developer.telerik.com/featured/nativescript-works/">here</a>. You might try to write your own module!</p>
+<p>More information on modules can be found <a href="http://developer.telerik.com/featured/nativescript-works/">here</a>.</p>
 <h3 id="dialog-module">Dialog module</h3>
 <p>The dialog module is also used several times in our Groceries app. Its code is found in the tns_modules/ui folder with other UI widgets. To use this module, you have several options, including control over the buttons you include in the alert and their text, along with custom messaging in the alert itself:</p>
 <pre><code>dialogs.alert({
@@ -301,7 +300,7 @@ var user;
     okButtonText: &quot;OK&quot;
 });
 </code></pre><h3 id="listview">ListView</h3>
-<p>Let&#39;s leverage another UI module to craft a page to actually hold our grocery data. This is the page we want users to navigate to once they login, so let&#39;s uncomment line 20 in app/views/login/login-view-model.js to allow this navigation to happen:</p>
+<p>Let&#39;s use another UI module to craft a page to actually hold our grocery data. This is the page we want users to navigate to once they login, so let&#39;s add a line in app/views/login/login.js to allow this navigation to happen. In the signIn function, add the following line after &#39;.then(function(){&#39;:</p>
 <pre><code>frameModule.topmost().navigate(&quot;./views/list/list&quot;);
 </code></pre><p><strong>Exercise: Construct the list view</strong></p>
 <p>In app/views/list/list.xml, let&#39;s get started using the ListView module by creating a list where our groceries will reside:</p>
@@ -320,7 +319,7 @@ var user;
         &lt;/ListView&gt;
     &lt;/GridLayout&gt;
 &lt;/Page&gt;
-</code></pre><p>Note our use of the ListView module. In this case, we&#39;re not requiring a tns_module from the ui folder, but are rather using the ui widget within the xml code. This is a different way of leveraging these modules. If we wanted to, we could construct a ListView in pure JavaScript code behind the scenes as shown in <a href="http://docs.nativescript.org/ApiReference/ui/list-view/HOW-TO.html">this example</a>. However for our purposes, we can simply use xml to build the ListView and thereby follow the pattern we use in the login and register screens.</p>
+</code></pre><p>Note our use of the ListView module. In this case, we&#39;re not requiring a tns_module from the ui folder, but are rather using the ui widget within the xml code. This is a different way of using these modules. If we wanted to, we could construct a ListView in pure JavaScript code behind the scenes as shown in <a href="http://docs.nativescript.org/ApiReference/ui/list-view/HOW-TO.html">this example</a>. However for our purposes, we can simply use xml to build the ListView and thereby follow the pattern we use in the login and register screens.</p>
 <p>Let&#39;s go ahead and build the code-behind file as usual. In app/views/list/list.js, add:</p>
 <pre><code>var view = require(&quot;ui/core/view&quot;);
 var viewModel = require(&quot;./list-view-model&quot;);
@@ -337,9 +336,11 @@ exports.navigatedTo = function(args) {
 };
 </code></pre><p>There are a couple of things happening in this file. First, we have the function navigatedTo, which will set up our page for data binding when we navigate to it in the xml:</p>
 <pre><code>&lt;Page navigatedTo=&quot;navigatedTo&quot;&gt;
+
+Notice the use of a slightly different pattern in the code-behind file. In this case, we&#39;re going to use a View Model file separately from the code-behind file. We&#39;ll get into more detail in the next chapter.
 </code></pre><h3 id="css">CSS</h3>
-<p>NativeScript supports a subset of CSS so that you can add styles to your app. We include global styles in app/app.css, where you&#39;ll find some styles for all the textfields, buttons and borders. You can also include individual css files in each view folder, which would be appropriate for styles that are isolated to a certain page. </p>
-<p>We don&#39;t have to worry about any particular CSS in the login or register screens, but let&#39;s turn our attention to the grocery list itself which appears after logging in. It needs a little massaging, so let&#39;s add a few CSS styles to app/views/list/list.css:</p>
+<p>NativeScript considers CSS a type of tns_module, and you can dig into the code in app/tns_modules/ui/styling. The framework supports a subset of CSS so that you can add styles to your app. We include global styles in app/app.css, where you&#39;ll find some styles that format all the textfields, buttons and borders. You can also include individual css files in each view folder, which would be appropriate for styles that are isolated to a certain page.  </p>
+<p>We don&#39;t have to worry about any particular CSS styling in the login or register screens, but let&#39;s turn our attention to the grocery list itself which appears after logging in. It needs a little massaging, so let&#39;s add a few CSS styles to app/views/list/list.css:</p>
 <pre><code>ListView {
     margin: 10;
 }
