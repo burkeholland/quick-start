@@ -1,14 +1,11 @@
-## Deploying
-
-### Setting your app's display name
+## Next steps
 
 ...
 
-### Creating app icons
+### Documentation
 
 ...
 
-### Building for the App Store and Google Play
+### Showcase
 
 ...
-
