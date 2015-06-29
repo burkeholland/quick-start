@@ -34,15 +34,14 @@ Let's make an area at the top of our list file to show a link to share a grocery
 Now we need to get our grocery list into a comma-delimited format that will be fed to the socialSharing widget. To do this, add a function to return our list at the bottom of list-view-model.js:
 
 ```
-ListViewModel.prototype.getList = function(){
+ListViewModel.prototype.getList = function() {
 	var groceryList = this.get("groceryList");
-	var list = {};
-	for(var i = 0, size = groceryList.length; i < size ; i++){
-	   list[i] = groceryList.getItem(i).name;
-	   console.log(list[i])
+	var list = [];
+	for (var i = 0, size = groceryList.length; i < size ; i++) {
+		list.push(groceryList.getItem(i).name);
 	}
-	return list
-}
+	return list.join(",");
+};
 ```
 And then finally add a function in app/views/list/list.js to call the socialSharing widget:
 

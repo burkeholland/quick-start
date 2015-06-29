@@ -177,6 +177,43 @@ Now, if you rebuild and run your app in an emulator, you can register a new user
 
 <img src="images/registration-success.png"/>
 
+You may have noticed that you can get away with submitting a blank registration form. Let's add a bit of form validation to stop a blank email address from being submitted.
+
+**Exercise: Form validation**
+
+Starting with the model, let's check that an email address was sent in the form. In /app/shred/models/User.js, add a validation function:
+
+```
+ListViewModel.prototype.getList = function() {
+	var groceryList = this.get("groceryList");
+	var list = [];
+	for (var i = 0, size = groceryList.length; i < size ; i++) {
+		list.push(groceryList.getItem(i).name);
+	}
+	return list.join(",");
+};
+```
+Then, in /app/views/register/register-view-model.js, add a function to get the user information:
+
+```
+RegisterViewModel.prototype.getUser = function() {
+	var user = this.get("user");
+	return user
+}
+```
+Finally, edi the register function in app/views/register/register.js to check for the validation and, if it passes, to continue the registration routine:
+
+```
+exports.register = function() {
+	if (viewModel.getUser().validateEmail()) {
+    	viewModel.register();
+	} else {
+    	alert("Please include your email address");
+	}
+};
+```
+Now, we can at least check for blank email fields. You can add more validation if you like, for example to check for other blank fields.
+
 Now that we have both login and registration routines complete, we need to work on the app's actual functionality as a grocery list management tool.
 
 ### Connecting a Model and a View Model
