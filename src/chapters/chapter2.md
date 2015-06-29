@@ -1,10 +1,31 @@
 ## App building blocks
 
-Go ahead and can open the codebase in your text editor of choice. Let's take a look at the directory structure of a NativeScript app.
+Before you start coding the Groceries app it's important to understand a NativeScript app's folder structure. It'll help you understand where to place new files, as well as a bit of what's going with NativeScript on under the hood.
+
+Go ahead and open the Groceries app's files up in your text editor of choice and let's dig in.
 
 ### Directory structure
 
-Here's the directory structure of this starter app:
+To keep things simple, let's start by looking at the outer structure of the Groceries app:
+
+```
+.
+└── Groceries
+    ├── app
+    │   └── ...
+    ├── package.json
+    └── platforms
+        ├── android
+        └── ios
+```
+
+- **app**: The `app` folder contains all the development resources you need to build your app. Normally, you only touch code in the `app` folder during your development flow.
+- **package.json**: This contains configuration about your app, such as you app id, the version of NativeScript you're using, and also which npm modules your app uses. We'll take a closer look at how to use this file in your app in chapter 5.
+- **platforms**: This folders contains the platform-specific code NativeScript needs to build native iOS and Android apps. For instance in the `android` folder you'll find things like your project's `AndroidManifest.xml` and its .apk executable files. Similarly, in the `ios` folder, you'll find the Groceries' Xcode project and the .ipa file NativeScript builds when deploying to an emulator or device.
+
+The NativeScript CLI manages the `platforms` for you as you develop and run your app; therefore it's a best practice to treat the `platforms` folder as generated code. The Groceries app includes `platforms/` in its `.gitignore` to exclude the files from source control.
+
+Next, let's dig into the `app` folder, as that's where you'll be spending the majority of your time.
 
 ```
 .
@@ -19,32 +40,24 @@ Here's the directory structure of this starter app:
     │   │   └── ...
     │   ├── views
     │   │   └── login
-    │   │       ├── login-view-model.js
     │   │       ├── login.js
     │   │       └── login.xml
     │   ├── app.css
     │   ├── app.js
     │   └── ...
-    └── platforms
-        ├── android
-        └── ios
+    └── ...
 ```
 
-Take a look at the two base parts of the app. 
+Let's look at what each of these files and folders do:
 
-- app: We have an app folder and a platforms folder. In the app folder we have all the resources we need for deploying our app. Normally, we only touch code in the app folder in terms of our development flow. 
-- platforms: In the platforms folder, we have a lot of platform-specific code. When you ran 'tns platform add ios' and 'tns platform add android', these folders were created. If you dig into these folders, you'll find code that an android app needs to build such as AndroidManifest.xml, as well as the .apk files that are built when running the app. Similarly, in the ios folder, you'll find the Groceries xCode project and the .ipa file that is built when deploying to an emulator or device.
+- **App_Resources**: Contains platform-specific resources such as icons, splash screens, and configuration files. The NativeScript CLI takes care of injecting these resources into the appropriate places in the `platforms` folder when you execute `tns run`.
+- **shared**: This folder contains any files you need to share across views in your app. In the Groceries app you find a few model objects and a `config.js` file used to share configuration variables like API keys.
+- **tns_modules**: This folder contains the NativeScript-provided modules you'll use to build your app. Each module contains platform-specific code (camera, http, file system, etc), exposed through a platform-agnostic API (e.g. `http.getJSON()`). We'll look at some examples momentarily.
+- **views**: Each of your app's views will have a subfolder in `views`. Each view is made up of an XML file, a JavaScript file, and an optional CSS file. For now on the login view is in this folder, but you'll be adding a few more later in this guide.
+- **app.css**: Contains global styles for your app. We'll dig into app styling in section 2.4.
+- **app.js**: Sets up your application's starting module and initializes the app.
 
-Consider the app directory as the development space for your app. In this folder are several subfolders:
-
-- **App_Resources**: In this folder we separate iOS and Android images, such as the app icon
-- **shared**: Models are in a shared folder so they can be accessed by all the app's modules. In the shared folder is also a config.js file where important items such as API keys are stored.
-- **tns_modules**: Telerik NativeScript Modules are contained in this folder. They allow you to abstract platform-specific code into a platform-agnostic API, and the modules in this folder are ready-made for you to use. Read more about how tns modules work [here](http://developer.telerik.com/featured/nativescript-works/). 
-- **views**: Each element of the app is contained in its own folder under 'view'.
-- **app.css**: This file contains global styles for your app
-- **app.js**: This file sets up your application's starting module and initializes the app
-
-Take a look at app/app.js. This is the starting point for your app development, but it only contains three lines: 
+Take a look at `app/app.js`. This is the starting point for your app development, but it only contains three lines: 
 
 ```
 var application = require("application");

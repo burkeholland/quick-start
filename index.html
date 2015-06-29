@@ -108,9 +108,25 @@ $ cd groceries
 		<hr>
 		<div class="chapter">
 			<h2 id="app-building-blocks">App building blocks</h2>
-<p>Go ahead and can open the codebase in your text editor of choice. Let&#39;s take a look at the directory structure of a NativeScript app.</p>
+<p>Before you start coding the Groceries app it&#39;s important to understand a NativeScript app&#39;s folder structure. It&#39;ll help you understand where to place new files, as well as a bit of what&#39;s going with NativeScript on under the hood.</p>
+<p>Go ahead and open the Groceries app&#39;s files up in your text editor of choice and let&#39;s dig in.</p>
 <h3 id="directory-structure">Directory structure</h3>
-<p>Here&#39;s the directory structure of this starter app:</p>
+<p>To keep things simple, let&#39;s start by looking at the outer structure of the Groceries app:</p>
+<pre><code>.
+└── Groceries
+    ├── app
+    │   └── ...
+    ├── package.json
+    └── platforms
+        ├── android
+        └── ios
+</code></pre><ul>
+<li><strong>app</strong>: The <code>app</code> folder contains all the development resources you need to build your app. Normally, you only touch code in the <code>app</code> folder during your development flow.</li>
+<li><strong>package.json</strong>: This contains configuration about your app, such as you app id, the version of NativeScript you&#39;re using, and also which npm modules your app uses. We&#39;ll take a closer look at how to use this file in your app in chapter 5.</li>
+<li><strong>platforms</strong>: This folders contains the platform-specific code NativeScript needs to build native iOS and Android apps. For instance in the <code>android</code> folder you&#39;ll find things like your project&#39;s <code>AndroidManifest.xml</code> and its .apk executable files. Similarly, in the <code>ios</code> folder, you&#39;ll find the Groceries&#39; Xcode project and the .ipa file NativeScript builds when deploying to an emulator or device.</li>
+</ul>
+<p>The NativeScript CLI manages the <code>platforms</code> for you as you develop and run your app; therefore it&#39;s a best practice to treat the <code>platforms</code> folder as generated code. The Groceries app includes <code>platforms/</code> in its <code>.gitignore</code> to exclude the files from source control.</p>
+<p>Next, let&#39;s dig into the <code>app</code> folder, as that&#39;s where you&#39;ll be spending the majority of your time.</p>
 <pre><code>.
 └── Groceries
     ├── app
@@ -123,30 +139,22 @@ $ cd groceries
     │   │   └── ...
     │   ├── views
     │   │   └── login
-    │   │       ├── login-view-model.js
     │   │       ├── login.js
     │   │       └── login.xml
     │   ├── app.css
     │   ├── app.js
     │   └── ...
-    └── platforms
-        ├── android
-        └── ios
-</code></pre><p>Take a look at the two base parts of the app. </p>
+    └── ...
+</code></pre><p>Let&#39;s look at what each of these files and folders do:</p>
 <ul>
-<li>app: We have an app folder and a platforms folder. In the app folder we have all the resources we need for deploying our app. Normally, we only touch code in the app folder in terms of our development flow. </li>
-<li>platforms: In the platforms folder, we have a lot of platform-specific code. When you ran &#39;tns platform add ios&#39; and &#39;tns platform add android&#39;, these folders were created. If you dig into these folders, you&#39;ll find code that an android app needs to build such as AndroidManifest.xml, as well as the .apk files that are built when running the app. Similarly, in the ios folder, you&#39;ll find the Groceries xCode project and the .ipa file that is built when deploying to an emulator or device.</li>
+<li><strong>App_Resources</strong>: Contains platform-specific resources such as icons, splash screens, and configuration files. The NativeScript CLI takes care of injecting these resources into the appropriate places in the <code>platforms</code> folder when you execute <code>tns run</code>.</li>
+<li><strong>shared</strong>: This folder contains any files you need to share across views in your app. In the Groceries app you find a few model objects and a <code>config.js</code> file used to share configuration variables like API keys.</li>
+<li><strong>tns_modules</strong>: This folder contains the NativeScript-provided modules you&#39;ll use to build your app. Each module contains platform-specific code (camera, http, file system, etc), exposed through a platform-agnostic API (e.g. <code>http.getJSON()</code>). We&#39;ll look at some examples momentarily.</li>
+<li><strong>views</strong>: Each of your app&#39;s views will have a subfolder in <code>views</code>. Each view is made up of an XML file, a JavaScript file, and an optional CSS file. For now on the login view is in this folder, but you&#39;ll be adding a few more later in this guide.</li>
+<li><strong>app.css</strong>: Contains global styles for your app. We&#39;ll dig into app styling in section 2.4.</li>
+<li><strong>app.js</strong>: Sets up your application&#39;s starting module and initializes the app.</li>
 </ul>
-<p>Consider the app directory as the development space for your app. In this folder are several subfolders:</p>
-<ul>
-<li><strong>App_Resources</strong>: In this folder we separate iOS and Android images, such as the app icon</li>
-<li><strong>shared</strong>: Models are in a shared folder so they can be accessed by all the app&#39;s modules. In the shared folder is also a config.js file where important items such as API keys are stored.</li>
-<li><strong>tns_modules</strong>: Telerik NativeScript Modules are contained in this folder. They allow you to abstract platform-specific code into a platform-agnostic API, and the modules in this folder are ready-made for you to use. Read more about how tns modules work <a href="http://developer.telerik.com/featured/nativescript-works/">here</a>. </li>
-<li><strong>views</strong>: Each element of the app is contained in its own folder under &#39;view&#39;.</li>
-<li><strong>app.css</strong>: This file contains global styles for your app</li>
-<li><strong>app.js</strong>: This file sets up your application&#39;s starting module and initializes the app</li>
-</ul>
-<p>Take a look at app/app.js. This is the starting point for your app development, but it only contains three lines: </p>
+<p>Take a look at <code>app/app.js</code>. This is the starting point for your app development, but it only contains three lines: </p>
 <pre><code>var application = require(&quot;application&quot;);
 application.mainModule = &quot;./views/login/login&quot;;
 application.start();
