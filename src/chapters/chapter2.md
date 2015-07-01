@@ -21,7 +21,7 @@ To keep things simple, let's start by looking at the outer structure of the Groc
 
 - **app**: The `app` folder contains all the development resources you need to build your app. Normally, you only touch code in the `app` folder during your development flow.
 - **package.json**: This contains configuration about your app, such as you app id, the version of NativeScript you're using, and also which npm modules your app uses. We'll take a closer look at how to use this file in your app in chapter 5.
-- **platforms**: This folders contains the platform-specific code NativeScript needs to build native iOS and Android apps. For instance in the `android` folder you'll find things like your project's `AndroidManifest.xml` and its .apk executable files. Similarly, in the `ios` folder, you'll find the Groceries' Xcode project and the .ipa file NativeScript builds when deploying to an emulator or device.
+- **platforms**: This folder contains the platform-specific code NativeScript needs to build native iOS and Android apps. For instance in the `android` folder you'll find things like your project's `AndroidManifest.xml` and its .apk executable files. Similarly, in the `ios` folder, you'll find the Groceries' Xcode project and the .ipa file NativeScript builds when deploying to an emulator or device.
 
 The NativeScript CLI manages the `platforms` for you as you develop and run your app; therefore it's a best practice to treat the `platforms` folder as generated code. The Groceries app includes `platforms/` in its `.gitignore` to exclude the files from source control.
 

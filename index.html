@@ -74,7 +74,7 @@
 │ Alias   │ $ nativescript &lt;Command&gt; [Command Parameters] [--command &lt;Options&gt;] │
 └─────────┴─────────────────────────────────────────────────────────────────────┘
 </code></pre><h3 id="start-your-app">Start your app</h3>
-<p>With NativeScript CLI installed, it&#39;s time to start your app. You normally use the <code>tns create</code> command to create new apps—e.g. <code>tns create hello-world</code>—but for this guide we&#39;re scaffolded out a boilerplate project to act as a starting point for Groceries. To get it, navigate to a folder where you want to keep your app&#39;s code and clone the Groceries repo:</p>
+<p>With NativeScript CLI installed, it&#39;s time to start your app. You normally use the <code>tns create</code> command to create new apps—e.g. <code>tns create hello-world</code>—but for this guide we&#39;ve scaffolded out a boilerplate project to act as a starting point for Groceries. To get it, navigate to a folder where you want to keep your app&#39;s code and clone the Groceries repo:</p>
 <pre><code>$ cd folder-you-want-groceries-to-be-in
 $ git clone https://github.com/tjvantoll/groceries.git
 $ cd groceries
@@ -123,7 +123,7 @@ $ cd groceries
 </code></pre><ul>
 <li><strong>app</strong>: The <code>app</code> folder contains all the development resources you need to build your app. Normally, you only touch code in the <code>app</code> folder during your development flow.</li>
 <li><strong>package.json</strong>: This contains configuration about your app, such as you app id, the version of NativeScript you&#39;re using, and also which npm modules your app uses. We&#39;ll take a closer look at how to use this file in your app in chapter 5.</li>
-<li><strong>platforms</strong>: This folders contains the platform-specific code NativeScript needs to build native iOS and Android apps. For instance in the <code>android</code> folder you&#39;ll find things like your project&#39;s <code>AndroidManifest.xml</code> and its .apk executable files. Similarly, in the <code>ios</code> folder, you&#39;ll find the Groceries&#39; Xcode project and the .ipa file NativeScript builds when deploying to an emulator or device.</li>
+<li><strong>platforms</strong>: This folder contains the platform-specific code NativeScript needs to build native iOS and Android apps. For instance in the <code>android</code> folder you&#39;ll find things like your project&#39;s <code>AndroidManifest.xml</code> and its .apk executable files. Similarly, in the <code>ios</code> folder, you&#39;ll find the Groceries&#39; Xcode project and the .ipa file NativeScript builds when deploying to an emulator or device.</li>
 </ul>
 <p>The NativeScript CLI manages the <code>platforms</code> for you as you develop and run your app; therefore it&#39;s a best practice to treat the <code>platforms</code> folder as generated code. The Groceries app includes <code>platforms/</code> in its <code>.gitignore</code> to exclude the files from source control.</p>
 <p>Next, let&#39;s dig into the <code>app</code> folder, as that&#39;s where you&#39;ll be spending the majority of your time.</p>
@@ -371,7 +371,7 @@ Border {
 <ul>
 <li>Model: The model defines and represents the data. Separating the model from the various views that may use it allows for code reuse.</li>
 <li>View: The view represents the UI. The view is often data-bound to the View Model so that changes are instantly represented on the presentation tier.</li>
-<li>View Model: The View Model contains the application logic, expositing it for the View.</li>
+<li>View Model: The View Model contains the application logic, exposing it for the View.</li>
 </ul>
 <p>The most basic benefit of using this sort of separation between the Model, View, and View Model, is that we are able to craft two-way data binding such that the View Model can act as a switchboard between the Model and the View. Let&#39;s wire up our login xml to support binding.</p>
 <h3 id="data-binding">Data Binding</h3>
@@ -495,7 +495,7 @@ var viewModel = require(&quot;./register-view-model&quot;);
     var user = this.get(&quot;user&quot;);
     return user
 }
-</code></pre><p>Finally, edi the register function in app/views/register/register.js to check for the validation and, if it passes, to continue the registration routine:</p>
+</code></pre><p>Finally, edit the register function in app/views/register/register.js to check for the validation and, if it passes, to continue the registration routine:</p>
 <pre><code>exports.register = function() {
     if (viewModel.getUser().validateEmail()) {
         viewModel.register();

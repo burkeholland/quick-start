@@ -6,7 +6,7 @@ In this chapter, we'll learn about the base pattern on which the NativeScript fr
 
 - Model: The model defines and represents the data. Separating the model from the various views that may use it allows for code reuse.
 - View: The view represents the UI. The view is often data-bound to the View Model so that changes are instantly represented on the presentation tier.
-- View Model: The View Model contains the application logic, expositing it for the View.
+- View Model: The View Model contains the application logic, exposing it for the View.
 
 The most basic benefit of using this sort of separation between the Model, View, and View Model, is that we are able to craft two-way data binding such that the View Model can act as a switchboard between the Model and the View. Let's wire up our login xml to support binding.
 
@@ -201,7 +201,7 @@ RegisterViewModel.prototype.getUser = function() {
 	return user
 }
 ```
-Finally, edi the register function in app/views/register/register.js to check for the validation and, if it passes, to continue the registration routine:
+Finally, edit the register function in app/views/register/register.js to check for the validation and, if it passes, to continue the registration routine:
 
 ```
 exports.register = function() {
