@@ -158,38 +158,54 @@ $ cd groceries
 <pre><code>var application = require(&quot;application&quot;);
 application.mainModule = &quot;./views/login/login&quot;;
 application.start();
-</code></pre><p>Here, we&#39;re requiring, or importing, the tns module &#39;application&#39; which includes various other modules that are useful globally. Then, we set the main screen of our app to be the &#39;login&#39; screen which we&#39;ll look at below. And then we start up the app which loads the css as you can discover by looking in for the loadCss() function in app/tns_modules/application/application-common.js.</p>
-<p>Now that our app is ready for development, let&#39;s turn our attention to its UI.</p>
+</code></pre><p>Here, we&#39;re requiring, or importing, the NativeScript module &#39;application&#39;. Then, we set the main screen of your app to be the &#39;login&#39; screen which we&#39;ll look at below.</p>
+<blockquote>
+<p>NativeScript supports JavaScript modules and their implementation follows the <a href="http://wiki.commonjs.org/wiki/CommonJS">CommonJS specification</a>. Using the &#39;<a href="http://wiki.commonjs.org/wiki/Modules/1.1#Module_Context">require</a>&#39; function at the top of this file allows us to identify a module to be imported, and it returns the exported API of this module. Similarly, we see the variable &#39;exports&#39;, which is an object that the module may add its API to as it executes.</p>
+</blockquote>
+<p>Now that your app is ready for development, you can turn your attention to its UI. Let&#39;s add some UI components to make your login screen show more than just an image.</p>
 <h3 id="ui-components">UI Components</h3>
-<p>First let&#39;s take a look at the UI components. You&#39;ll find several folders in app/views. Each folder contains one page of your app: list, login, and register are there already. If you look at app/views/login, you&#39;ll see three files. We&#39;re going to turn our attention to app/views/login/login.xml. </p>
-<p>In NativeScript&#39;s framework, you can construct a UI either using xml or JavaScript. Often, it&#39;s a bit easier to write your presentation layer in xml. Build out the login screen by adding some UI components, namely three boxes or &quot;Borders&quot;, two textfields, and a button.</p>
+<p>First let&#39;s take a look at the UI components. Let&#39;s dig into the files where you create the UI, which reside in the app/views folder. Each folder contains one page of your app: list, login, and register are there already. If you look at app/views/login, you&#39;ll see three files. Open up the login.xml file. </p>
+<p>NativeScript allows you to construct a UI either using xml or JavaScript. Often, it&#39;s a bit easier to write your presentation layer in xml. Build out the login screen by adding some UI components, namely three boxes or &quot;Borders&quot;, two textfields, and a button.</p>
 <p><strong>Exercise: Add UI components to login.xml</strong></p>
 <p>Under the Image where the logo currently resides, add the following code:</p>
 <pre><code>        &lt;Border borderWidth=&quot;1&quot; borderColor=&quot;#CECED2&quot;&gt;
-            &lt;TextField id=&quot;email_address&quot; hint=&quot;Email Address&quot; /&gt;
+            &lt;TextField hint=&quot;Email Address&quot; /&gt;
         &lt;/Border&gt;
         &lt;Border borderWidth=&quot;1&quot; borderColor=&quot;#CECED2&quot;&gt;
             &lt;TextField secure=&quot;true&quot; hint=&quot;Password&quot; /&gt;
         &lt;/Border&gt;
 
         &lt;Border borderWidth=&quot;1&quot; borderColor=&quot;#0079FF&quot;&gt;
-            &lt;Button text=&quot;Sign in&quot; tap=&quot;signIn&quot; /&gt;
+            &lt;Button text=&quot;Sign in&quot; /&gt;
         &lt;/Border&gt;
 
-        &lt;Button text=&quot;Sign up for Groceries&quot; tap=&quot;register&quot; /&gt;
-</code></pre><p>We&#39;ve added four items to our screen, three of which are surrounded with a Border component to make it look like a box. </p>
+        &lt;Button text=&quot;Sign up for Groceries&quot; /&gt;
+</code></pre><p>You&#39;ve just added four items to your screen, three of which are surrounded with a <a href="https://docs.nativescript.org/ApiReference/ui/border/HOW-TO.html">Border component</a> to make them look like boxes. </p>
 <ul>
-<li>The TextField has the attributes you&#39;d expect such as ids, hints, and the parameter &#39;secure&#39; to ensure that a password isn&#39;t exposed. </li>
-<li>The Button component has a tap function bound to it called &#39;signIn&#39; which will enable the user to login. </li>
-<li>Another button looks more like a link but also has a function bound to it to enable registration. </li>
+<li>The TextField has the attributes you&#39;d expect such as hints, which adds the specify hint text into the TextField to show the user what to type, and the parameter &#39;secure&#39; to ensure that a password isn&#39;t exposed. </li>
+<li>The Button component has its text, &quot;Sign in&quot;, specified. </li>
+<li>Another button looks more like a link since it is not surrounded by a border. </li>
 </ul>
 <p>If you run your app at this point, you&#39;ll see the form:</p>
 <p><img src="images/login-noregister.png" alt="login final"></p>
-<p>Learn more about the UI components available in your app <a href="http://docs.nativescript.org/ui-with-xml">here</a>.</p>
+<blockquote>
+<p><em>Tip</em>: Learn more about the UI components available in your app <a href="http://docs.nativescript.org/ui-with-xml">here</a>.</p>
+</blockquote>
 <h3 id="layouts">Layouts</h3>
-<p>You have many options in NativeScript when creating layouts. One of the simplest is demonstrated in login.xml, the StackLayout. Here, we see several UI components nested in StackLayout tags:</p>
+<p>NativeScript provides several different layout containers that allow you to place UI components precisely where you want them to appear. </p>
+<ul>
+<li><a href="https://docs.nativescript.org/ApiReference/ui/layouts/absolute-layout/HOW-TO.html">Absolute Layout</a>: Position elements by a child&#39;s x and y coordinates. You might use absolute layouts to show an activity indicator widget in the top left corner of your app.</li>
+<li><a href="https://docs.nativescript.org/ApiReference/ui/layouts/dock-layout/HOW-TO.html">Dock Layout</a>: Dock layouts are useful if you need to place elements in very specific areas of your app. For example, a container docked at the bottom of the screen would be a good container for an ad.</li>
+<li><a href="https://docs.nativescript.org/ApiReference/ui/layouts/grid-layout/HOW-TO.html">Grid Layout</a>: Look at grid layouts as the <tr> and <td> tags of NativeScript. Create a grid and add children to it with rowSpans and colSpans, similar to HTML markup for tables.</li>
+<li><a href="https://docs.nativescript.org/ApiReference/ui/layouts/stack-layout/HOW-TO.html">Stack Layout</a>: Stack children of this layout either vertically or horizontally.</li>
+<li><a href="https://docs.nativescript.org/ApiReference/ui/layouts/wrap-layout/HOW-TO.html">Wrap Layout</a>: Children of this layout will flow from one row or column to the next when space is filled.</li>
+</ul>
+<p>One of the simplest layouts is demonstrated in login.xml, the StackLayout. Here, you see several UI components nested in StackLayout tags:</p>
 <pre><code>&lt;StackLayout orientation=&quot;vertical&quot; horizontalAlignment=&quot;center&quot;&gt;
-</code></pre><p>Each of those components will be stacked on top of each other, vertically. Learn more about creating NativeScript layouts <a href="http://docs.nativescript.org/layouts">here</a> and <a href="http://developer.telerik.com/featured/demystifying-nativescript-layouts/">here</a>.</p>
+</code></pre><p>Each of those components will be stacked on top of each other, vertically. </p>
+<blockquote>
+<p><em>Tip</em>: Learn more about creating NativeScript layouts <a href="http://docs.nativescript.org/layouts">here</a> and <a href="http://developer.telerik.com/featured/demystifying-nativescript-layouts/">here</a>.</p>
+</blockquote>
 <p><strong>Exercise: Create a stacked layout for our registration screen.</strong></p>
 <p>In /views/register/register.xml, add the following markup:</p>
 <pre><code>&lt;Page loaded=&quot;load&quot;&gt;
@@ -250,9 +266,7 @@ var user;
             });
         });
 };
-</code></pre><p>NativeScript supports JavaScript modules and their implementation follows the <a href="http://wiki.commonjs.org/wiki/CommonJS">CommonJS specification</a>. Using the &#39;<a href="http://wiki.commonjs.org/wiki/Modules/1.1#Module_Context">require</a>&#39; function at the top of this file allows us to identify a module to be imported, and it returns the exported API of this module.</p>
-<p>Similarly, we see the variable &#39;exports&#39;, which is an object that the module may add its API to as it executes.</p>
-<p>In this file, we export the functions &#39;load&#39; and &#39;signIn&#39;. These functions set up the login routine to pass data through to the Model. We&#39;ll visit the Model below.</p>
+</code></pre><p>In this file, we export the functions &#39;load&#39; and &#39;signIn&#39;. These functions set up the login routine to pass data through to the Model. We&#39;ll visit the Model below.</p>
 
 		</div>
 		<hr>
