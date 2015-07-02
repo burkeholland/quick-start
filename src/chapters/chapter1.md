@@ -34,11 +34,11 @@ $ tns
 
 ### Start your app
 
-With NativeScript CLI installed, it's time to start your app. You normally use the `tns create` command to create new apps—e.g. `tns create hello-world`—but for this guide we've scaffolded out a boilerplate project to act as a starting point for Groceries. To get it, navigate to a folder where you want to keep your app's code and clone the Groceries repo:
+With NativeScript CLI installed, it's time to start your app. You normally use the `tns create` command to create new apps—e.g. `tns create hello-world`—but for this guide we've scaffolded out a boilerplate project to act as a starting point for [Groceries](https://github.com/NativeScript/sample-Groceries). To get it, navigate to a folder where you want to keep your app's code and clone the Groceries repo:
 
 ```
 $ cd folder-you-want-groceries-to-be-in
-$ git clone https://github.com/tjvantoll/groceries.git
+$ git clone https://github.com/NativeScript/sample-Groceries.git
 $ cd groceries
 ```
 
