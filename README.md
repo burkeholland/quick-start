@@ -1,8 +1,6 @@
 # NativeScript Quick-Start Guide
 
-This is a quick-start guide for building NativeScript CLI apps [NativeScript](http://nativescript.org).
-
-View the guide live at <http://tjvantoll.github.io/nativescript-quick-start>.
+This is a quick-start guide for building [NativeScript](https://nativescript.org) CLI apps. View the guide live at <http://nativescript.github.io/quick-start/>.
 
 ## Contributing
 
