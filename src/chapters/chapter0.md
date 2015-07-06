@@ -1,5 +1,9 @@
 ## Introduction
 
+<p style="color: red;">
+	<b>Warning:</b> The guide you see here is a work in progress. You are welcome to go through the guide, but please keep in mind the guide is not complete; it has not been proofread; and there are certainly errors. If you have any high-level feedback on the guide feel free to document it on <a href="https://github.com/NativeScript/quick-start/issues">our issue tracker</a>.
+</p>
+
 Welcome to the [NativeScript](https://nativescript.org) Getting Started Guide. Using this guide, you'll use NativeScript, a cross-platform JavaScript framework for building native mobile apps, to build an iOS and Android app from scratch.
 
 ![NativeScript.org logo](images/nativescript-logo.jpg)
