@@ -111,7 +111,7 @@ $ cd groceries
 		</div>
 		<hr>
 		<div class="chapter">
-			<h2 id="app-building-blocks">App building blocks</h2>
+			<h2 id="building-the-ui">Building the UI</h2>
 <p>Before you start coding the Groceries app it&#39;s important to understand a NativeScript app&#39;s folder structure. It&#39;ll help you understand where to place new files, as well as a bit of what&#39;s going with NativeScript on under the hood.</p>
 <p>Go ahead and open the Groceries app&#39;s files up in your text editor of choice and let&#39;s dig in.</p>
 <h3 id="directory-structure">Directory structure</h3>
@@ -162,36 +162,32 @@ $ cd groceries
 <pre><code>var application = require(&quot;application&quot;);
 application.mainModule = &quot;./views/login/login&quot;;
 application.start();
-</code></pre><p>Here, we&#39;re requiring, or importing, the NativeScript module &#39;application&#39;. Then, we set the main screen of your app to be the &#39;login&#39; screen which we&#39;ll look at below.</p>
+</code></pre><p>Here, we&#39;re requiring, or importing, the NativeScript module <code>application</code>. Then, we set the main screen of your app to be the <code>login</code> screen which we&#39;ll look at below.</p>
 <blockquote>
-<p>NativeScript supports JavaScript modules and their implementation follows the <a href="http://wiki.commonjs.org/wiki/CommonJS">CommonJS specification</a>. Using the &#39;<a href="http://wiki.commonjs.org/wiki/Modules/1.1#Module_Context">require</a>&#39; function at the top of this file allows us to identify a module to be imported, and it returns the exported API of this module. Similarly, we see the variable &#39;exports&#39;, which is an object that the module may add its API to as it executes.</p>
+<p>NativeScript supports JavaScript modules and their implementation follows the <a href="http://wiki.commonjs.org/wiki/CommonJS">CommonJS specification</a>. Using the &#39;<a href="http://wiki.commonjs.org/wiki/Modules/1.1#Module_Context">require</a>&#39; function at the top of this file allows us to identify a module to be imported, and it returns the exported API of this module. Similarly, we see the variable <code>exports</code>, which is an object that the module may add its API to as it executes.</p>
 </blockquote>
 <p>Now that your app is ready for development, you can turn your attention to its UI. Let&#39;s add some UI components to make your login screen show more than just an image.</p>
-<h3 id="ui-components">UI Components</h3>
-<p>First let&#39;s take a look at the UI components. Let&#39;s dig into the files where you create the UI, which reside in the app/views folder. Each folder contains one page of your app: list, login, and register are there already. If you look at app/views/login, you&#39;ll see three files. Open up the login.xml file. </p>
-<p>NativeScript allows you to construct a UI either using xml or JavaScript. Often, it&#39;s a bit easier to write your presentation layer in xml. Build out the login screen by adding some UI components, namely three boxes or &quot;Borders&quot;, two textfields, and a button.</p>
+<h3 id="adding-ui-components">Adding UI Components</h3>
+<p>First let&#39;s take a look at the UI components. Let&#39;s dig into the files where you create the UI, which reside in the <code>app/views</code> folder. Each folder contains one page of your app: list, login, and register are there already. If you look at <code>app/views/login</code>, you&#39;ll see three files. Open up the <code>login.xml</code> file. </p>
+<p>NativeScript allows you to construct a UI either using xml or JavaScript. Often, it&#39;s a bit easier to write your presentation layer in xml. Build out the login screen by adding some UI components, namely two textfields, and a button.</p>
 <p><strong>Exercise: Add UI components to login.xml</strong></p>
-<p>Under the Image where the logo currently resides, add the following code:</p>
-<pre><code>        &lt;Border borderWidth=&quot;1&quot; borderColor=&quot;#CECED2&quot;&gt;
-            &lt;TextField hint=&quot;Email Address&quot; /&gt;
-        &lt;/Border&gt;
-        &lt;Border borderWidth=&quot;1&quot; borderColor=&quot;#CECED2&quot;&gt;
-            &lt;TextField secure=&quot;true&quot; hint=&quot;Password&quot; /&gt;
-        &lt;/Border&gt;
+<p>Between the <Page> tags, add the following code:</p>
+<pre><code>    &lt;TextField hint=&quot;Email Address&quot; /&gt;
 
-        &lt;Border borderWidth=&quot;1&quot; borderColor=&quot;#0079FF&quot;&gt;
-            &lt;Button text=&quot;Sign in&quot; /&gt;
-        &lt;/Border&gt;
+    &lt;TextField secure=&quot;true&quot; hint=&quot;Password&quot; /&gt;
 
-        &lt;Button text=&quot;Sign up for Groceries&quot; /&gt;
-</code></pre><p>You&#39;ve just added four items to your screen, three of which are surrounded with a <a href="https://docs.nativescript.org/ApiReference/ui/border/HOW-TO.html">Border component</a> to make them look like boxes. </p>
+    &lt;Button text=&quot;Sign in&quot; /&gt;
+
+    &lt;Button text=&quot;Sign up for Groceries&quot; /&gt;
+</code></pre><p>You&#39;ve just added four items to your screen:</p>
 <ul>
 <li>The TextField has the attributes you&#39;d expect such as hints, which adds the specify hint text into the TextField to show the user what to type, and the parameter &#39;secure&#39; to ensure that a password isn&#39;t exposed. </li>
-<li>The Button component has its text, &quot;Sign in&quot;, specified. </li>
-<li>Another button looks more like a link since it is not surrounded by a border. </li>
+<li>The Button component has its text, &quot;Sign in&quot; or &quot;Sign Up for Groceries&quot;, specified. </li>
 </ul>
-<p>If you run your app at this point, you&#39;ll see the form:</p>
-<p><img src="images/login-noregister.png" alt="login final"></p>
+<p>If you run your app at this point, however, you won&#39;t see too much:</p>
+<p><img src="images/login-stage1-ios.png" alt="login 1">
+<img src="images/login-stage1-android.png" alt="login 1"></p>
+<p>You need to specify a layout for this page to ensure that the children of the layout are properly styled.</p>
 <blockquote>
 <p><em>Tip</em>: Learn more about the UI components available in your app <a href="http://docs.nativescript.org/ui-with-xml">here</a>.</p>
 </blockquote>
@@ -204,73 +200,86 @@ application.start();
 <li><a href="https://docs.nativescript.org/ApiReference/ui/layouts/stack-layout/HOW-TO.html">Stack Layout</a>: Stack children of this layout either vertically or horizontally.</li>
 <li><a href="https://docs.nativescript.org/ApiReference/ui/layouts/wrap-layout/HOW-TO.html">Wrap Layout</a>: Children of this layout will flow from one row or column to the next when space is filled.</li>
 </ul>
-<p>One of the simplest layouts is demonstrated in login.xml, the StackLayout. Here, you see several UI components nested in StackLayout tags:</p>
+<p><strong>Exercise: Add a stacked layout to the login screen</strong></p>
+<p>In login.xml, add StackLayout tags under the <code>&lt;Page&gt;</code> tags. This will allow you to arrange your content vertically and align it to the center.</p>
 <pre><code>&lt;StackLayout orientation=&quot;vertical&quot; horizontalAlignment=&quot;center&quot;&gt;
-</code></pre><p>Each of those components will be stacked on top of each other, vertically. </p>
-<blockquote>
+...
+&lt;/StackLayout&gt;
+</code></pre><blockquote>
 <p><em>Tip</em>: Learn more about creating NativeScript layouts <a href="http://docs.nativescript.org/layouts">here</a> and <a href="http://developer.telerik.com/featured/demystifying-nativescript-layouts/">here</a>.</p>
 </blockquote>
-<p><strong>Exercise: Create a stacked layout for our registration screen.</strong></p>
-<p>In /views/register/register.xml, add the following markup:</p>
-<pre><code>&lt;Page loaded=&quot;load&quot;&gt;
-    &lt;StackLayout&gt;
-        &lt;Image src=&quot;res://logo&quot; stretch=&quot;none&quot; horizontalAlignment=&quot;center&quot;/&gt;
-
-        &lt;Border borderWidth=&quot;1&quot; borderColor=&quot;#CECED2&quot;&gt;
-            &lt;TextField text=&quot;{{ user.email_address }}&quot; id=&quot;email&quot; hint=&quot;Email Address&quot; keyboardType=&quot;email&quot; /&gt;
-        &lt;/Border&gt;
-
-        &lt;Border borderWidth=&quot;1&quot; borderColor=&quot;#CECED2&quot;&gt;
-            &lt;TextField text=&quot;{{ user.password }}&quot; secure=&quot;true&quot; hint=&quot;Password&quot; /&gt;
-        &lt;/Border&gt;
-
-        &lt;Border borderWidth=&quot;1&quot; borderColor=&quot;#0079FF&quot;&gt;
-            &lt;Button text=&quot;Sign Up&quot; tap=&quot;register&quot; /&gt;
-        &lt;/Border&gt;
-    &lt;/StackLayout&gt;
-&lt;/Page&gt;
-</code></pre><ul>
-<li>Notice the function that is invoked when the Page is loaded: we&#39;ll take a look at the &#39;load&#39; function in the code-behind file that we&#39;ll construct next. </li>
-<li>Notice also the way we load an image, with its source as &quot;res://logo&quot; and its stretch attribute set to &#39;none&#39;. We&#39;ll talk more about handling images below as well. </li>
-<li>Finally, note the TextField&#39;s two-way binding, set up to bind its text to &quot;user.email_address&quot; or &quot;user.password&quot;. We&#39;ll also discuss data-binding below.</li>
-</ul>
+<p>Even if you specify a layout for your app, the page still doesn&#39;t look right. If run your app at this point, the fields are all jammed at the top:</p>
+<p><img src="images/login-stage2-ios.png" alt="login 2">
+<img src="images/login-stage2-android.png" alt="login 2"></p>
+<p>It needs some CSS styling to look better.</p>
+<h3 id="css">CSS</h3>
+<p>NativeScript supports a <a href="http://docs.nativescript.org/styling">subset of CSS</a> so that you can add styles to your app. You can include global styles in a css file in the root of your app. You can also include individual css files in each view folder, which would be appropriate for styles that are isolated to a certain page.  </p>
+<p><strong>Exercise: Create global styles</strong></p>
+<pre><code>Page {
+    background-color: white;
+    font-size: 17;
+}
+Image {
+    margin: 20 0;
+}
+Label {
+    /* left, top, right, bottom */
+    margin: 20, 0, 0, 0;
+    width: 300;
+}
+TextField {
+    margin: 10;
+    background-color: #FAFAFA;
+    padding: 10;
+}
+Button {
+    margin: 10;
+}
+</code></pre><p>Now if you run the app, you&#39;ll see some nice styles!</p>
+<p><img src="images/login-stage3-ios.png" alt="login 3">
+<img src="images/login-stage3-android.png" alt="login 3"></p>
+<h3 id="images">Images</h3>
+<p>It would be nice to have a logo available to match the imagery that is in the icon and on the splash screen. </p>
+<p><strong>Exercise: Add a logo</strong></p>
+<p>Add a logo at the top of the login.xml, under the first StackLayout tag:</p>
+<pre><code>&lt;Image src=&quot;res://logo&quot; stretch=&quot;none&quot;/&gt;
+</code></pre><p>Images are handled differently across platforms. They need to be saved in three different sizes so that they will look sharp on different screen sizes. For iOS, you would create an image.png, image@2x.png, and image@3x.png with consistently larger sizes. For Android, your images need to avoid any special symbols like &#39;@&#39;, so all you need to do is save the file <code>logo.png</code> in three different sizes. </p>
+<p>All of these scaled resources can go into <code>app/App_Resources</code>. </p>
+<p>For iOS, you would place the three scaled images into the <code>app/App_Resources/iOS</code> folder. When you build your app, you&#39;ll see the files saved in <code>platforms/ios/Groceries/Resources/icons/</code> where they are referenced by the native code and appear scaled on the appropriate screen.</p>
+<p>For Android, you would place a scaled image in the appropriate <code>app/App_Resources/Android</code> drawable subfolder. The largest goes into drawable-hdpi (for &quot;high&quot; dpi, or high dots-per-inch). The next largest goes into drawable-mdpi (medium-dpi), and the smallest goes into drawable-ldpi (low-dpi). When the app is compiled, you&#39;ll find the files in the appropriate <code>platforms/android/res/</code> subfolder. </p>
+<p>The native code will pick the right file to display; all you have to do is reference the image src to be <code>res://myImage</code>. </p>
+<p>Go ahead and build your app for iOS and Android. Check out how the images find their way into the right place.</p>
+<p><img src="images/login-stage4-ios.png" alt="login 4">
+<img src="images/login-stage4-android.png" alt="login 4"></p>
 <h3 id="code-behind-files">Code-behind files</h3>
-<p>Although you can now see your login and registration screens, they are not yet wired up to send data to the backend. Let&#39;s fix that.</p>
-<p>In app/views/login, you&#39;ll find login.js. This is called a &#39;code-behind&#39; file because it supports the xml markup that constructs the presentation tier. </p>
+<p>Although you can now see your login screen as a nicely-styled entity with UI widgets and an image, it&#39;s not yet wired up to send data to the backend. Let&#39;s fix that.</p>
+<p>In <code>app/views/login</code>, you&#39;ll find <code>login.js</code>. This is called a &#39;code-behind&#39; file because it supports the xml markup that constructs the presentation tier. </p>
 <p><strong>Exercise: Construct the login code-behind file.</strong></p>
-<p>Add some required elements at the top of this file:</p>
-<pre><code>var view = require(&quot;ui/core/view&quot;);
-var dialogs = require(&quot;ui/dialogs&quot;);
-var frameModule = require(&quot;ui/frame&quot;);
-
-var page;
-
-var User = require(&quot;../../shared/models/User&quot;);
-var user;
-</code></pre><p>In login.xml, notice a &#39;load&#39; function that, when the page is loaded, initializes several variables. Let&#39;s build up that load function in app/views/login/login.js:</p>
-<pre><code>exports.load = function(args) {
-
-    user = new User();
-
-    var page = args.object;
-    page.bindingContext = user;
-
+<p>First, add a &#39;loaded&#39; attribute to the Page element at the top of login.xml:</p>
+<pre><code>&lt;Page loaded=&quot;load&quot;&gt;
+</code></pre><p>Now you can build up a load function in <code>app/views/login/login.js</code>:</p>
+<pre><code>exports.load = function() {
+    console.log(&quot;hello&quot;)
 };
-</code></pre><p>As we saw earlier, in login.xml, a button is bound to the signIn function:</p>
+</code></pre><p>If you run the app, you can see how, when the login screen loads, you can view the word &#39;hello&#39; in the app console.</p>
+<p>With this simple example, we can see how the xml file can append attributes to the markup that point to various functions in the code-behind files. One such attribute is &#39;load&#39;, and another is &#39;tap&#39;.</p>
+<p><strong>Exercise: Add tap attributes to the login buttons and add their functions</strong></p>
+<p>You can add a &#39;tap&#39; attribute that will fire when a button is tapped or touched. </p>
+<p>In <code>app/views/login/login.xml</code>, edit the markup for both buttons at the bottom of the screen:</p>
 <pre><code>&lt;Button text=&quot;Sign in&quot; tap=&quot;signIn&quot; /&gt;
-</code></pre><p>Construct the signIn function in app/views/login/login.js. :</p>
-<pre><code>exports.signIn = function() {
-    user.login()
-        .then(function() {
-            frameModule.topmost().navigate(&quot;./views/list/list&quot;);
-        }).catch(function() {
-            dialogs.alert({
-                message: &quot;Unfortunately we could not find your account.&quot;,
-                okButtonText: &quot;OK&quot;
-            });
-        });
-};
-</code></pre><p>In this file, we export the functions &#39;load&#39; and &#39;signIn&#39;. These functions set up the login routine to pass data through to the Model. We&#39;ll visit the Model below.</p>
+
+&lt;Button text=&quot;Sign up for Groceries&quot; tap=&quot;register&quot; /&gt;
+</code></pre><p>Then, in <code>apps/views/login/login.js</code>, create the &#39;signIn&#39; and &#39;register&#39; functions:</p>
+<p>exports.signIn = function() {
+    alert(&quot;Signing in&quot;);
+};</p>
+<p>exports.register = function() {
+    alert(&quot;Registering&quot;);
+};</p>
+<p>At this point, if you run your app and tap either of the buttons in your simulator, you will see the appropriate alerts pop up. </p>
+<p><img src="images/login-stage5-ios.png" alt="login 5">
+<img src="images/login-stage5-android.png" alt="login 5"></p>
+<p>In the next chapter, we&#39;ll build out the code-behind files more so that they can do something more useful!</p>
 
 		</div>
 		<hr>
@@ -363,20 +372,6 @@ exports.navigatedTo = function(args) {
 </code></pre><p>There are a couple of things happening in this file. First, we have the function navigatedTo, which will set up our page for data binding when we navigate to it in the xml:</p>
 <pre><code>&lt;Page navigatedTo=&quot;navigatedTo&quot;&gt;
 </code></pre><p>Notice the use of a slightly different pattern in the code-behind file. In this case, we&#39;re going to use a View Model file separately from the code-behind file. We&#39;ll get into more detail in the next chapter.</p>
-<h3 id="css">CSS</h3>
-<p>NativeScript considers CSS a type of tns_module, and you can dig into the code in app/tns_modules/ui/styling. The framework supports a subset of CSS so that you can add styles to your app. We include global styles in app/app.css, where you&#39;ll find some styles that format all the textfields, buttons and borders. You can also include individual css files in each view folder, which would be appropriate for styles that are isolated to a certain page.  </p>
-<p>We don&#39;t have to worry about any particular CSS styling in the login or register screens, but let&#39;s turn our attention to the grocery list itself which appears after logging in. It needs a little massaging, so let&#39;s add a few CSS styles to app/views/list/list.css:</p>
-<pre><code>ListView {
-    margin: 10;
-}
-Label {
-    margin: 10;
-}
-Border {
-    margin: 0;
-}
-</code></pre><p>This will give us a lttle more room for our groceries to display nicely.</p>
-<p><img src="images/list-view-2.png"/></p>
 <h3 id="other-modules">Other modules</h3>
 <p>There are several modules that come out of the box with your NativeScript install, including a location service, a file-system helper, timer, camera, and even a color module that helps navigate the ways various colors are handled cross-platform. If you are interested in helping build and distribute more modules for the community, there&#39;s a <a href="http://developer.telerik.com/featured/building-your-own-nativescript-modules-for-npm/">good guide</a> available on how to do this.</p>
 

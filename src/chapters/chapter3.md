@@ -145,29 +145,6 @@ There are a couple of things happening in this file. First, we have the function
 ```
 Notice the use of a slightly different pattern in the code-behind file. In this case, we're going to use a View Model file separately from the code-behind file. We'll get into more detail in the next chapter.
 
-
-### CSS
-
-NativeScript considers CSS a type of tns_module, and you can dig into the code in app/tns_modules/ui/styling. The framework supports a subset of CSS so that you can add styles to your app. We include global styles in app/app.css, where you'll find some styles that format all the textfields, buttons and borders. You can also include individual css files in each view folder, which would be appropriate for styles that are isolated to a certain page.  
-
-We don't have to worry about any particular CSS styling in the login or register screens, but let's turn our attention to the grocery list itself which appears after logging in. It needs a little massaging, so let's add a few CSS styles to app/views/list/list.css:
-
-```
-ListView {
-	margin: 10;
-}
-Label {
-	margin: 10;
-}
-Border {
-	margin: 0;
-}
-```
-
-This will give us a lttle more room for our groceries to display nicely.
-
-<img src="images/list-view-2.png"/>
-
 ### Other modules
 
 There are several modules that come out of the box with your NativeScript install, including a location service, a file-system helper, timer, camera, and even a color module that helps navigate the ways various colors are handled cross-platform. If you are interested in helping build and distribute more modules for the community, there's a [good guide](http://developer.telerik.com/featured/building-your-own-nativescript-modules-for-npm/) available on how to do this.
