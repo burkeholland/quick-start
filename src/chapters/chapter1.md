@@ -76,7 +76,7 @@ tns run ios --emulator
 
 If all went well you should see something like this:
 
-![login](images/login-logo-ios.png)
+![login](images/login-intro1-ios.png)
 
 Next run your app on Android with the following command:
 
@@ -86,7 +86,7 @@ tns run android --emulator
 
 If all went well you should see your app running in an Android emulator:
 
-![login](images/login-logo-android.png)
+![login](images/login-intro1-android.png)
 
 You'll find that running the app in an iOS emulator vs. an Android emulator offers a different user experience to the user. This is because NativeScript is actually leveraging native iOS and Android code to present the UI—cool, huh?
 
@@ -96,6 +96,6 @@ At this point, you have the NativeScript CLI downloaded and installed, as well a
 
 > **TODO**: Discuss [LiveSync](https://github.com/NativeScript/nativescript-cli/issues/523), which is coming in version 1.2. Walk the reader through making a change and see it happen on iOS/Android. A gif would be good here.
 
-> **TODO**: Show how to see console logs and stack traces. Console logs are mentioned later on, so we need to introduce them here.
+>**A note about console.log**: As you run your app, you can watch the terminal window and see a lot of useful debugging code. Scroll up to find errors as they occur, and to view logging messages that you can include by adding `console.log("a test message")` anywhere where you want to check for bugs.
 
 Now that you have your app created, your environment configured, and your app ready to emulate for iOS and Android, you're ready to start taking a look at the code structure.
