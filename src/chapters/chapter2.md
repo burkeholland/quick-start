@@ -197,57 +197,5 @@ Go ahead and build your app for iOS and Android. Check out how the images find t
 ![login 4](images/login-stage4-ios.png)
 ![login 4](images/login-stage4-android.png)
 
-
-### Code-behind files
-
-Although you can now see your login screen as a nicely-styled entity with UI widgets and an image, it's not yet wired up to send data to the backend. Let's fix that.
-
-In ```app/views/login```, you'll find ```login.js```. This is called a 'code-behind' file because it supports the xml markup that constructs the presentation tier. 
-
-**Exercise: Construct the login code-behind file.**
-
-First, add a 'loaded' attribute to the Page element at the top of login.xml:
-
-```
-<Page loaded="load">
-```
-
-Now you can build up a load function in ```app/views/login/login.js```:
-
-```
-exports.load = function() {
-	console.log("hello")
-};
-```
-If you run the app, you can see how, when the login screen loads, you can view the word 'hello' in the app console.
-
-With this simple example, we can see how the xml file can append attributes to the markup that point to various functions in the code-behind files. One such attribute is 'load', and another is 'tap'.
-
-**Exercise: Add tap attributes to the login buttons and add their functions**
-
-You can add a 'tap' attribute that will fire when a button is tapped or touched. 
-
-In ```app/views/login/login.xml```, edit the markup for both buttons at the bottom of the screen:
-
-```
-<Button text="Sign in" tap="signIn" />
-
-<Button text="Sign up for Groceries" tap="register" />
-```
-Then, in ```apps/views/login/login.js```, create the 'signIn' and 'register' functions:
-
-exports.signIn = function() {
-	alert("Signing in");
-};
-
-exports.register = function() {
-	alert("Registering");
-};
-
-At this point, if you run your app and tap either of the buttons in your simulator, you will see the appropriate alerts pop up. 
-
-![login 5](images/login-stage5-ios.png)
-![login 5](images/login-stage5-android.png)
-
-In the next chapter, we'll build out the code-behind files more so that they can do something more useful!
+Now that your UI looks good, we can move on to making this app a little more functional. In the next chapter, we'll build out the view model files.
 

@@ -1,345 +1,85 @@
-## MVVM
+## NativeScript modules
 
-### What is MVVM?
+In the previous chapter, we already saw how NativeScript leverages the concept of 'modules' to include bits of code that are kept in the tns_modules folder. Using 'require', you can include these snippets ad hoc in your code when you need to use them, similar to the way we use npm to import node libraries. Let's take a closer look at these modules and what they can do for us.
 
-In this chapter, we'll learn about the base pattern on which the NativeScript framework is built, MVVM, or "Model, View, View Model". MVVM is an architectural pattern that helps you separate the UI from the application logic and data model. We've already seen several examples of the elements that are used in this design pattern:
+>If you dig a bit into the tns_modules folder and find the http folder, you can see how a tns module is constructed. It includes:
+- a package.json that sets the name of the module and includes the base http.js file
+- a file containing android native code (http-request.android.js) 
+- a file containing ios native code (http-request.ios.js)
+- a generic file (http.js) that abstract the platform-specific code above into a platform-agnostic format readable by the NativeScript runtime.
 
-- Model: The model defines and represents the data. Separating the model from the various views that may use it allows for code reuse.
-- View: The view represents the UI. The view is often data-bound to the View Model so that changes are instantly represented on the presentation tier.
-- View Model: The View Model contains the application logic, exposing it for the View.
+>More information on modules can be found [here](http://developer.telerik.com/featured/nativescript-works/).
 
-The most basic benefit of using this sort of separation between the Model, View, and View Model, is that we are able to craft two-way data binding such that the View Model can act as a switchboard between the Model and the View. Let's wire up our login xml to support binding.
+### Dialog module
 
-###Data Binding
-
-**Exercise: Bind data to the frontend of login.xml**
-
-Instead of just showing a blank text field, we can help the user login more quickly by binding data to the login text fields. In app/views/login/login.xml, edit the username text field to show a default username:
+The dialog module is also used several times in our Groceries app. Its code is found in the tns_modules/ui folder with other UI widgets. To use this module, you have several options, including control over the buttons you include in the alert and their text, along with custom messaging in the alert itself:
 
 ```
-<TextField text="{{ email_address }}" id="email_address" hint="Email Address" />
+dialogs.alert({
+	message: "Unfortunately we were unable to create your account.",
+	okButtonText: "OK"
+});
 ```
 
-Similarly, edit the password field in this file:
+### ListView
+
+Let's use another UI module to craft a page to actually hold our grocery data. This is the page we want users to navigate to once they login, so let's add a line in app/views/login/login.js to allow this navigation to happen. In the signIn function, add the following line after '.then(function(){':
 
 ```
-<TextField secure="true" text="{{ password }}" hint="Password" />
+frameModule.topmost().navigate("./views/list/list");
 ```
 
-This way, you can pull in values from the code-behind file into your app; add the following two lines at the bottom of the load function in app/views/login/login.js:
+**Exercise: Construct the list view**
+
+In app/views/list/list.xml, let's get started using the ListView module by creating a list where our groceries will reside:
 
 ```
-user.set("email_address", "tj.vantoll@gmail.com");
-user.set("password", "password");
-``` 
-If you run the app, you'll find that the email address and password fields are pre-populated with data coming via the View Model.
+<Page navigatedTo="navigatedTo">
+	<GridLayout rows="auto, *" columns="*, *, *">
+		<Border borderWidth="10" borderColor="#034793" row="0" colSpan="2">
+			<TextField id="grocery" text="{{ grocery }}" hint="Enter a grocery item"/>
+		</Border>
 
-You can create your MVVM code structure like we did for login, with only login.xml and login.js communicating with User.js as its model. Alternately, you can include a second file specific to the View Model for each page. We're going to do this latter pattern for our Registration field.
+		<Button text="Add" tap="add" row="0" col="2"></Button>
 
-###Constructing a View Model
-
-While you can certainly keep your View Model functionality in the code-behind file as we did for the login routines, an alternate pattern involves separating the code-behind file from a view-model.js file. This separation helps you isolate concerns for more effective unit testing. Let's build out the registration form using this pattern.
-
->A best practice for working within the MVVM pattern is to build the View Model first, before even touching the UI. The View Model shouldn't be aware of UI elements at all, it simply channels data back and forth.
-
-**Exercise: Construct the Registration View Model**
-
-Let's get the View Model into place so that data from the frontend XML can filter through the code-behind file, through the View Model, and over to the Model. We need to start with requiring and creating an Observable object.
-
- >**Observable** is a core building block for a View Model. It provides it with a mechanism required for two-way data binding so as to provide communication between the View and the View Model. This means that if the user updates the data in the UI the change will be reflected in the ViewModel and vice versa.
-
-In app/views/register/register-view-model.js, add the following code:
-
-```
-var dialogs = require("ui/dialogs");
-var frameModule = require("ui/frame");
-var observable = require("data/observable");
-var User = require("../../shared/models/User");
+		<ListView items="{{ groceryList }}" row="1" colSpan="3">
+			<ListView.itemTemplate>
+				<Label text="{{ name }}" horizontalAlignment="left"/>
+			</ListView.itemTemplate>
+		</ListView>
+	</GridLayout>
+</Page>
 ```
 
-Here, we're including several NativeScript modules, including dialog, frameModule, and observable. We also include the User Model so that it is available for data pass-through.
+Note our use of the ListView module. In this case, we're not requiring a tns_module from the ui folder, but are rather using the ui widget within the xml code. This is a different way of using these modules. If we wanted to, we could construct a ListView in pure JavaScript code behind the scenes as shown in [this example](http://docs.nativescript.org/ApiReference/ui/list-view/HOW-TO.html). However for our purposes, we can simply use xml to build the ListView and thereby follow the pattern we use in the login and register screens.
 
-Under that code, create a function that creates a new user based on the User Model:
 
-```
-function RegisterViewModel() {
-	this.set("user", new User());
-}
-```
-
-Then, we can use the prototype pattern to create a new bindable object, the RegisterViewModel:
-
-```
-RegisterViewModel.prototype = new observable.Observable();
-```
-
-Next, add in the register function to handle the way the UI will be have based on the response of the model to data passed to it:
-
-```
-RegisterViewModel.prototype.register = function() {
-	this.get("user").register()
-		.then(function() {
-			dialogs
-				.alert("Your account was successfully created.")
-				.then(function() {
-					frameModule.topmost().navigate("./views/login/login");
-				});
-		}).catch(function() {
-			dialogs.alert({
-				message: "Unfortunately we were unable to create your account.",
-				okButtonText: "OK"
-			});
-		});
-};
-```
-
-And finally, export this new View Model which we have called RegisterViewModel:
-
-```
-module.exports = new RegisterViewModel();
-```
-
-Note that, similarly to the way data is handled in login, we have set up a new prototype for registration, and invoked the function that is handled in app/shared/models/Users.js. The user is either registered or there is a problem, in which case a dialog pops up. We use the dialog ui by including it at the top of the View Model file, as you saw above.
-
-Now that we have the View Model finished, we can build the view and bind it to the View Model. We created the xml for the view earlier so as to learn about layouts, so let's create the registration code-behind file.
-
-**Exercise: Build the registration code-behind file**
-
-Since we have moved much of the application logic to the registration-view-model.js file, we can use the code-behind file to contain logic closer to the UI. In this case, we're going to add some OS-specific code to handle autocorrecting behavior. In app/register/register.js, include the core module 'view' so that we can control the view from this file, and include the View Model:
+Let's go ahead and build the code-behind file as usual. In app/views/list/list.js, add:
 
 ```
 var view = require("ui/core/view");
-var viewModel = require("./register-view-model");
-```
+var viewModel = require("./list-view-model");
+var page;
 
-Next, add the load function that is invoked from the xml:
-
-```
-exports.load = function(args) {
-	var page = args.object;
-	var email = view.getViewById(page, "email");
+exports.navigatedTo = function(args) {
+	page = args.object;
+	if (page.ios) {
+		page.ios.title = "Groceries";
+	}
 
 	page.bindingContext = viewModel;
-
-	// Turn off autocorrect and autocapitalization for iOS
-	if (email.ios) {
-		email.ios.autocapitalizationType =
-			UITextAutocapitalizationType.UITextAutocapitalizationTypeNone;
-		email.ios.autocorrectionType =
-			UITextAutocorrectionType.UITextAutocorrectionTypeNo;
-		email.ios.keyboardType =
-			UIKeyboardType.UIKeyboardTypeEmailAddress;
-	}
+	viewModel.reset();
 };
 ```
 
-In this snippet, we use a bit of native code to manage the keyboard and stop capitalization in the email field, based on its id.
-
-Then, route the logic for the registration routine through this file to the View Model:
+There are a couple of things happening in this file. First, we have the function navigatedTo, which will set up our page for data binding when we navigate to it in the xml:
 
 ```
-exports.register = function() {
-	viewModel.register();
-};
+<Page navigatedTo="navigatedTo">
 ```
+Notice the use of a slightly different pattern in the code-behind file. In this case, we're going to use a View Model file separately from the code-behind file. We'll get into more detail in the next chapter.
 
-Now we are ready for our presentation layer to pass information through the View Model and over to the Model.
+### Other modules
 
-**Exercise: Wire up the registration function in the Model**
+There are several modules that come out of the box with your NativeScript install, including a location service, a file-system helper, timer, camera, and even a color module that helps navigate the ways various colors are handled cross-platform. If you are interested in helping build and distribute more modules for the community, there's a [good guide](http://developer.telerik.com/featured/building-your-own-nativescript-modules-for-npm/) available on how to do this.
 
-Let's get something to happen when we click the register button in the register screen. Add the following code to /app/shared/models/User.js:
-
-```
-User.prototype.register = function() {
-	var that = this;
-	return new Promise(function(resolve, reject) {
-		http.request({
-			url: config.apiUrl + "Users",
-			method: "POST",
-			content: JSON.stringify({
-				Username: that.get("email_address"),
-				Email: that.get("email_address"),
-				Password: that.get("password")
-			}),
-			headers: {
-				"Content-Type": "application/json"
-			}
-		}).then(function() {
-			resolve();
-		}).catch(function() {
-			reject();
-		});
-	});
-};
-```
-
-Now, if you rebuild and run your app in an emulator, you can register a new user! 
-
-<img src="images/registration-success.png"/>
-
-You may have noticed that you can get away with submitting a blank registration form. Let's add a bit of form validation to stop a blank email address from being submitted.
-
-**Exercise: Form validation**
-
-Starting with the model, let's check that an email address was sent in the form. In /app/shred/models/User.js, add a validation function:
-
-```
-ListViewModel.prototype.getList = function() {
-	var groceryList = this.get("groceryList");
-	var list = [];
-	for (var i = 0, size = groceryList.length; i < size ; i++) {
-		list.push(groceryList.getItem(i).name);
-	}
-	return list.join(",");
-};
-```
-Then, in /app/views/register/register-view-model.js, add a function to get the user information:
-
-```
-RegisterViewModel.prototype.getUser = function() {
-	var user = this.get("user");
-	return user
-}
-```
-Finally, edit the register function in app/views/register/register.js to check for the validation and, if it passes, to continue the registration routine:
-
-```
-exports.register = function() {
-	if (viewModel.getUser().validateEmail()) {
-    	viewModel.register();
-	} else {
-    	alert("Please include your email address");
-	}
-};
-```
-Now, we can at least check for blank email fields. You can add more validation if you like, for example to check for other blank fields.
-
-Now that we have both login and registration routines complete, we need to work on the app's actual functionality as a grocery list management tool.
-
-### Connecting a Model and a View Model
-
-
-To be able to manage data in the grocery list, we need to build a connection between the presentation tier and the database as we did for registration. Let's build out these pieces in our grocery list.
-
-**Exercise: Construct the list Model and View Model**
-
-In app/views/list/list-view-model.js, add:
-
-```
-var dialogs = require("ui/dialogs");
-var observable = require("data/observable");
-var GroceryList = require("../../shared/models/GroceryList");
-
-function ListViewModel() {
-	this.set("grocery", "");
-	this.set("groceryList", new GroceryList([]));
-}
-ListViewModel.prototype = new observable.Observable();
-
-ListViewModel.prototype.reset = function() {
-	this.get("groceryList").empty();
-	this.get("groceryList").load();
-};
-
-module.exports = new ListViewModel();
-```
-
-Here, we're creating a new empty grocery array and a groceryList variable to instantiate our GroceryList object that we create in the Model. We're also emptying and refilling our groceryList in the reset function. Let's create the GroceryList object in the Model:
-
-In app/shared/models/GroceryList.js, let's grab any Grocery data that might exist in the backend and push it into the grocery array:
-
-```
-var config = require("../../shared/config");
-var http = require("http");
-var observableArray = require("data/observable-array");
-
-function GroceryList() {}
-GroceryList.prototype = new observableArray.ObservableArray([]);
-
-GroceryList.prototype.load = function() {
-	var that = this;
-	http.getJSON({
-		url: config.apiUrl + "Groceries",
-		method: "GET",
-		headers: {
-			"Authorization": "Bearer " + config.token
-		}
-	}).then(function(data) {
-		data.Result.forEach(function(grocery) {
-			that.push({ name: grocery.Name });
-		});
-	});
-};
-
-GroceryList.prototype.empty = function() {
-	while (this.length) {
-		this.pop();
-	}
-};
-
-module.exports = GroceryList;
-```
-In the load function above, we are pulling down the list associated to the user's credentials. If you rebuild, run the app, and login as tj.vantoll@gmail.com, you'll find a list of groceries pulled from Backend services in the Groceries data type. It will look something like this:
-
-<img src="images/list-view-1.png"/>
-
-It's great that we can see data already in the database, but we also need to add some items. Let's build that functionality.
-
-**Exercise: Add the ability to create a Grocery item**
-
-Notice at the top of the list is a text area and an 'Add' button. Right now, it doesn't do anything. Let's fix that.
-
-In app/views/list/list.js, add a function to respond to the 'add' tap event that is already in list.xml. We'll put this underneath the navigatedTo function.
-
-```
-exports.add = function() {
-	view.getViewById(page, "grocery").dismissSoftInput();
-	viewModel.add();
-};
-```
-
-Notice that this function performs two tasks: first, it dismisses the keyboard, and then it calls the add function in the ViewModel. 
-
-In app/views/list/list-view-model.js, let's add that 'add' function to pass data to the model:
-
-```
-ListViewModel.prototype.add = function() {
-	this.get("groceryList").add(this.get("grocery"))
-		.catch(function() {
-			dialogs.alert({
-				message: "An error occurred adding to your list.",
-				okButtonText: "OK"
-			});
-		});
-	this.set("grocery", "");
-};
-```
-In this function, we get the 'grocery' item from the input field and add it to the groceryList object. 
-
-Finally, let the manipulation of this new data be handled in the Model by adding the following function under the 'empty' function in /app/shared/models/GroceryList.js:
-
-```
-GroceryList.prototype.add = function(grocery) {
-	var that = this;
-	return new Promise(function(resolve, reject) {
-		http.request({
-			url: config.apiUrl + "Groceries",
-			method: "POST",
-			content: JSON.stringify({
-				Name: grocery
-			}),
-			headers: {
-				"Authorization": "Bearer " + config.token,
-				"Content-Type": "application/json"
-			}
-		}).then(function() {
-			that.push({ name: grocery });
-			resolve();
-		}).catch(function() {
-			reject();
-		});
-	});
-};
-```
-
-If you build and rerun your app now, you'll find that you can add a grocery item and it will appear immediately in your list.
