@@ -92,8 +92,8 @@ You'll find that running the app in an iOS emulator vs. an Android emulator offe
 
 ### Making changes with LiveSync
 
-> Jen: I think we need to show people how to change a file and see that change happen live. LiveSync should provide a good workflow for this and it's coming in 1.2. So let's just hold off for now and reevaluate this post 1.2.
+At this point, you have the NativeScript CLI downloaded and installed, as well as the iOS and Android dependencies that you need to run your app on both the iOS and Android emulators. Now you need a good workflow that lets you make changes and see results fast.
 
-> TODO: Reevaluate this after 1.2. At this point, you have the NativeScript CLI downloaded and installed, as well as the iOS and Android dependencies that you need to run your app on both the iOS and Android emulators. Now you need a good development workflow to ease development. [This article](http://developer.telerik.com/featured/a-nativescript-development-workflow-for-sublime-text/) elaborates on a good workflow process that uses node, Sublime Text 3, and a Sublime Package to make building your NativeScript app for an emulator really fast and easy. We recommend that you configure your environment this way to save time.
+> **TODO**: Discuss [LiveSync](https://github.com/NativeScript/nativescript-cli/issues/523), which is coming in version 1.2. Walk the reader through making a change and see it happen on iOS/Android. A gif would be good here.
 
 Now that you have your app created, your environment configured, and your app ready to emulate for iOS and Android, you're ready to start taking a look at the code structure.
