@@ -90,10 +90,12 @@ If all went well you should see your app running in an Android emulator:
 
 You'll find that running the app in an iOS emulator vs. an Android emulator offers a different user experience to the user. This is because NativeScript is actually leveraging native iOS and Android code to present the UI—cool, huh?
 
-### Making changes with LiveSync
+### Development workflow
 
 At this point, you have the NativeScript CLI downloaded and installed, as well as the iOS and Android dependencies that you need to run your app on both the iOS and Android emulators. Now you need a good workflow that lets you make changes and see results fast.
 
 > **TODO**: Discuss [LiveSync](https://github.com/NativeScript/nativescript-cli/issues/523), which is coming in version 1.2. Walk the reader through making a change and see it happen on iOS/Android. A gif would be good here.
+
+> **TODO**: Show how to see console logs and stack traces. Console logs are mentioned later on, so we need to introduce them here.
 
 Now that you have your app created, your environment configured, and your app ready to emulate for iOS and Android, you're ready to start taking a look at the code structure.
