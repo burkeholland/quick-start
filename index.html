@@ -174,7 +174,7 @@ application.start();
 <p>NativeScript allows you to construct a UI either using xml or JavaScript. Often, it&#39;s a bit easier to write your presentation layer in xml. Build out the login screen by adding some UI components, namely two textfields, and a button.</p>
 <p><strong>Exercise: Add UI components to login.xml</strong></p>
 <p>Between the <Page> tags, add the following code:</p>
-<pre><code>    &lt;TextField hint=&quot;Email Address&quot; /&gt;
+<pre><code>    &lt;TextField hint=&quot;Email Address&quot; keyboardType=&quot;email&quot; /&gt;
 
     &lt;TextField secure=&quot;true&quot; hint=&quot;Password&quot; /&gt;
 
@@ -183,7 +183,7 @@ application.start();
     &lt;Button text=&quot;Sign up for Groceries&quot; /&gt;
 </code></pre><p>You&#39;ve just added four items to your screen:</p>
 <ul>
-<li>The TextField has the attributes you&#39;d expect such as hints, which adds the specify hint text into the TextField to show the user what to type, and the parameter &#39;secure&#39; to ensure that a password isn&#39;t exposed. </li>
+<li>The TextField has the attributes you&#39;d expect such as hints, which adds the specify hint text into the TextField to show the user what to type, and the parameter &#39;secure&#39; to ensure that a password isn&#39;t exposed. It also makes available the parameter &#39;keyboardType&#39; which we set to email for the email field, so that the keyboard conveniently functions in a way optimized for entering email addresses.</li>
 <li>The Button component has its text, &quot;Sign in&quot; or &quot;Sign Up for Groceries&quot;, specified. </li>
 </ul>
 <p>If you run your app at this point, however, you won&#39;t see too much:</p>
@@ -316,7 +316,7 @@ exports.register = function() {
 <p>Since we have been working with forms in NativeScript, we need to understand how data flows back and forth between the frontend and backend. </p>
 <p><strong>Exercise: Send data from the frontend to the View Model</strong></p>
 <p>To get data to be sent from <code>login.xml</code>, add an id to the email textfield:</p>
-<pre><code>&lt;TextField id=&quot;email_address&quot; hint=&quot;Email Address&quot; /&gt;
+<pre><code>&lt;TextField id=&quot;email_address&quot; hint=&quot;Email Address&quot; keyboardType=&quot;email&quot; /&gt;
 </code></pre><p>You need to access this textfield via the view, so add a line at the top, underneath the frameModule variable. Also expose email as a variable available to both the load and signIn functions:</p>
 <pre><code>var view = require(&quot;ui/core/view&quot;);
 var email;
@@ -338,27 +338,19 @@ var email;
 <p><strong>Exercise: Bind data back to the frontend</strong></p>
 <p>You saw how to get data from the frontend to the backend, but what if you need to show some pre-filled values in the frontend?</p>
 <p>To allow for two-way data binding, edit the textfield markup in <code>app/views/login/login.xml</code>:</p>
-<pre><code>&lt;TextField id=&quot;email_address&quot; text=&quot;{{ email_address }}&quot; hint=&quot;Email Address&quot; /&gt;
+<pre><code>&lt;TextField id=&quot;email_address&quot; text=&quot;{{ email_address }}&quot; hint=&quot;Email Address&quot;  keyboardType=&quot;email&quot; /&gt;
 &lt;TextField secure=&quot;true&quot; text=&quot;{{ password }}&quot; hint=&quot;Password&quot; /&gt;
 </code></pre><p>At the top of <code>app/views/login/login.js</code>, edit the top code block to include the following libraries:</p>
 <pre><code>var dialogs = require(&quot;ui/dialogs&quot;);
 var frameModule = require(&quot;ui/frame&quot;);
-var observable = require(&quot;data/observable&quot;);
 var User = require(&quot;../../shared/models/User&quot;);
-var view = require(&quot;ui/core/view&quot;);
 
-var user = new observable.Observable();
+var user = new User();
 </code></pre><p>We need dialogs to show a more complex popup than an alert can give us, and we need User to expose the User Model to the View Model.</p>
-<blockquote>
-<p><strong>Observable</strong> is a core building block for a View Model. It provides it with a mechanism required for two-way data binding so as to provide communication between the View and the View Model. This means that if the user updates the data in the UI the change will be reflected in the ViewModel and vice versa.</p>
-</blockquote>
 <p>Now, edit the load function to hard-code some values that will show up on the frontend:</p>
 <pre><code>exports.load = function(args) {
 
     var page = args.object;
-
-    var email = view.getViewById(page, &quot;email_address&quot;);
-    var password = view.getViewById(page, &quot;password&quot;);
 
     user.set(&quot;email_address&quot;, &quot;tj.vantoll@gmail.com&quot;);
     user.set(&quot;password&quot;, &quot;password&quot;);
@@ -366,23 +358,67 @@ var user = new observable.Observable();
     page.bindingContext = user;
 
 };
-</code></pre><p>Now that you have the ability to bind the frontend and backends, you need to be able to send that data to a database in order to complete the login routine. If you run your app, you&#39;ll see the fields prefilled:</p>
+</code></pre><p>If you run your app, you&#39;ll see the fields prefilled:</p>
 <p><img src="images/login-stage5-ios.png" alt="login 5">
 <img src="images/login-stage5-android.png" alt="login 5"></p>
-<h3 id="connecting-to-a-backend-with-the-http-module">Connecting to a backend with the http module</h3>
-<p>You probably noticed, if you created your own user on the registration page, that, data was passing magically...somewhere. There&#39;s actually no magic involved; there is a config file that contains our API Key to <a href="http://www.telerik.com/backend-services">Telerik Backend Services</a>, a place where we are storing our users&#39; information.</p>
+<p>Now that you have the ability to bind the frontend to the backend, you need to be able to send that data to a database in order to complete the login routine. </p>
+<h3 id="connecting-to-the-model">Connecting to the Model</h3>
+<p>You probably noticed, if you created your own user on the registration page, that, data was passing magically...somewhere. There&#39;s actually no magic involved; there is a config file that contains our API Key to <a href="http://www.telerik.com/backend-services">Telerik Backend Services</a>, where we are storing our users&#39; information.</p>
 <p>Take a look at <code>app/shared/config.js</code>. There&#39;s only a small code snippet there, but it includes a hard-coded API Key that we use throughout the app to access the backend (in real life, you would of course use your own API Key):</p>
 <pre><code>module.exports = {
     apiUrl: &quot;http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/&quot;
 };
-</code></pre><p>Note that The config file is used in all the Model files, for example in User Model: <code>app/shared/models/User.js</code>:</p>
+</code></pre><p>Take a look in <code>app/shared/models</code>. The business logic of your app is normally stored in one or many Model files that normally connect to a database asynchronously by means of a promise pattern. You can see this demonstrated in the registration function.</p>
+<p>Note that the config file is used in all the Model files, for example in User Model: <code>app/shared/models/User.js</code>:</p>
 <pre><code>var config = require(&quot;../../shared/config&quot;);
-</code></pre><p><strong>Exercise: Complete login</strong></p>
-<p>To complete the login of a user, add a login function under the load function;</p>
-<blockquote>
-<p><em>Todo</em>: hit the model properly in login.js</p>
-</blockquote>
-<p>Now, if you rebuild and run your app in an emulator, you can login either using your credentials that you created earlier, or TJ&#39;s:</p>
+</code></pre><p><strong>Exercise: Complete the login in the Model</strong></p>
+<p>In <code>app/shared/Models/Users.js</code>, add the login function under </p>
+<p><strong>Exercise: Complete the login in the View Model</strong></p>
+<p>To complete the login of a user, add a login function under <code>User.prototype = new observableModule.Observable();</code>:</p>
+<pre><code>User.prototype.login = function() {
+    var that = this;
+    return new Promise(function(resolve, reject) {
+        http.request({
+            url: config.apiUrl + &quot;oauth/token&quot;,
+            method: &quot;POST&quot;,
+            content: JSON.stringify({
+                username: that.get(&quot;email_address&quot;),
+                password: that.get(&quot;password&quot;),
+                grant_type: &quot;password&quot;
+            }),
+            headers: {
+                &quot;Content-Type&quot;: &quot;application/json&quot;
+            }
+        }).then(function(data) {
+            config.token = data.content.toJSON().Result.access_token;
+            resolve();
+        }).catch(function() {
+            reject();
+        });
+    });
+};
+</code></pre><p>Several things are happening here:</p>
+<ul>
+<li><strong>Observables</strong>: Observable is a core building block in the MVVM design pattern. It provides it with a mechanism required for two-way data binding so as to provide communication between the front and backends. This means that if the user updates the data in the UI the change will be reflected in the Model and vice versa.</li>
+<li><strong>Use of the http module</strong>: We&#39;ll discuss modules more in the next chapter, but the http module is a NativeScript module that facilitates utilizing external services such a Telerik&#39;s backend services.</li>
+<li><strong>Promises</strong>: Since NativeScript leverages the <a href="http://wiki.commonjs.org/wiki/CommonJS">CommonJS specification</a>, it also makes use of promises to handle asynchronous requests. Read more about promises <a href="http://wiki.commonjs.org/wiki/Promises">here</a>.</li>
+</ul>
+<p>Finally, allow the View Model to invoke the login function that you just added to the Model. In <code>app/views/login/login.js</code> rewrite your signIn function to look like this:</p>
+<pre><code>exports.signIn = function() {
+    user.login()
+        .then(function() {
+            frameModule.topmost().navigate(&quot;./views/list/list&quot;);
+        }).catch(function() {
+            dialogs.alert({
+                message: &quot;Unfortunately we could not find your account.&quot;,
+                okButtonText: &quot;OK&quot;
+            });
+        });
+};
+</code></pre><p>Now, if you rebuild and run your app in an emulator, you can login either using your credentials that you created earlier, or TJ&#39;s:</p>
+<p><img src="images/login-stage6-ios.png" alt="login 6">
+<img src="images/login-stage6-android.png" alt="login 6"></p>
+<p>You&#39;ll find that after you login, you&#39;re sent to a blank screen. You&#39;re going to build a list to hold grocery data next. But since we started discussing modules, let&#39;s take a look at how those work in NativeScript before continuing. </p>
 
 		</div>
 		<hr>
@@ -425,24 +461,9 @@ var user = new observable.Observable();
         &lt;/ListView&gt;
     &lt;/GridLayout&gt;
 &lt;/Page&gt;
-</code></pre><p>Note our use of the ListView module. In this case, we&#39;re not requiring a tns_module from the ui folder, but are rather using the ui widget within the xml code. This is a different way of using these modules. If we wanted to, we could construct a ListView in pure JavaScript code behind the scenes as shown in <a href="http://docs.nativescript.org/ApiReference/ui/list-view/HOW-TO.html">this example</a>. However for our purposes, we can simply use xml to build the ListView and thereby follow the pattern we use in the login and register screens.</p>
-<p>Let&#39;s go ahead and build the code-behind file as usual. In app/views/list/list.js, add:</p>
-<pre><code>var view = require(&quot;ui/core/view&quot;);
-var viewModel = require(&quot;./list-view-model&quot;);
-var page;
-
-exports.navigatedTo = function(args) {
-    page = args.object;
-    if (page.ios) {
-        page.ios.title = &quot;Groceries&quot;;
-    }
-
-    page.bindingContext = viewModel;
-    viewModel.reset();
-};
-</code></pre><p>There are a couple of things happening in this file. First, we have the function navigatedTo, which will set up our page for data binding when we navigate to it in the xml:</p>
-<pre><code>&lt;Page navigatedTo=&quot;navigatedTo&quot;&gt;
-</code></pre><p>Notice the use of a slightly different pattern in the code-behind file. In this case, we&#39;re going to use a View Model file separately from the code-behind file. We&#39;ll get into more detail in the next chapter.</p>
+</code></pre><p>Note the use of the ListView module. In this case, we&#39;re not requiring a tns_module from the ui folder, but are rather using the ui widget within the xml code. This is a different way to use these modules. </p>
+<p>If we wanted to, we could construct a ListView in pure JavaScript code behind the scenes as shown in <a href="http://docs.nativescript.org/ApiReference/ui/list-view/HOW-TO.html">this example</a>. However for our purposes, we can simply use xml to build the ListView and thereby follow the pattern we use in the login and register screens.</p>
+<p>Finally, note the ListView&#39;s use of an itemTemplate. Using an itemTemplate gives you more control over how the actual items look within the list.</p>
 <h3 id="other-modules">Other modules</h3>
 <p>There are several modules that come out of the box with your NativeScript install, including a location service, a file-system helper, timer, camera, and even a color module that helps navigate the ways various colors are handled cross-platform. If you are interested in helping build and distribute more modules for the community, there&#39;s a <a href="http://developer.telerik.com/featured/building-your-own-nativescript-modules-for-npm/">good guide</a> available on how to do this.</p>
 
@@ -482,6 +503,37 @@ exports.navigatedTo = function(args) {
 <img src="images/share-email.png" alt="share"></p>
 <p>It&#39;s very cool to add ready-built modules to your app. But maybe you want to build your own! </p>
 <h3 id="building-your-own-nativescript-modules">Building your own NativeScript modules</h3>
+
+		</div>
+		<hr>
+		<div class="chapter">
+			<h2 id="advanced-nativescript">Advanced NativeScript</h2>
+<p>So far, we&#39;ve been working with some fairly standard forms and some common use cases for getting a mobile app up and running with NativeScript, including registering and logging into a backend service. Now it&#39;s time to dig a little deeper and turn this app into a grocery list app. In this chapter we&#39;ll construct a listView that will accept items into a list and save them in the backend database.</p>
+<h3 id="the-view-model-and-model">The View Model and Model</h3>
+<p>To be able to manage data in the grocery list, we need to build a connection between the presentation tier and the database as we did for login. Let&#39;s build out these pieces in our grocery list.</p>
+<p><strong>Exercise: Construct the list View Model and Model</strong></p>
+<p>In app/views/list/list.js, add:</p>
+<pre><code>VM
+</code></pre><p>Here, we&#39;re creating a new empty grocery array and a groceryList variable to instantiate our GroceryList object that we create in the Model. We&#39;re also emptying and refilling our groceryList in the reset function. Let&#39;s create the GroceryList object in the Model:</p>
+<p>In app/shared/models/GroceryList.js, let&#39;s grab any Grocery data that might exist in the backend and push it into the grocery array:</p>
+<pre><code>Model
+</code></pre><p>In the load function above, we are pulling down the list associated to the user&#39;s credentials. If you rebuild, run the app, and login as tj.vantoll@gmail.com, you&#39;ll find a list of groceries pulled from Backend services in the Groceries data type. It will look something like this:</p>
+<p>!()[]</p>
+<p>It&#39;s great that we can see data already in the database, but we also need to add some items. Let&#39;s build that functionality.</p>
+<p><strong>Exercise: Add the ability to create a Grocery item</strong></p>
+<p>Notice at the top of the list is a text area and an &#39;Add&#39; button. Right now, it doesn&#39;t do anything. Let&#39;s fix that.</p>
+<p>In app/views/list/list.js, add a function to respond to the &#39;add&#39; tap event that is already in list.xml. We&#39;ll put this underneath the navigatedTo function.</p>
+<pre><code>add routine in VM
+</code></pre><p>In this function, we get the &#39;grocery&#39; item from the input field and add it to the groceryList object. </p>
+<p>Finally, let the manipulation of this new data be handled in the Model by adding the following function under the &#39;empty&#39; function in /app/shared/models/GroceryList.js:</p>
+<pre><code>add routine in Model
+</code></pre><p>If you build and rerun your app now, you&#39;ll find that you can add a grocery item and it will appear immediately in your list.</p>
+<h3 id="form-validation">Form Validation</h3>
+<p>You may have noticed that you can get away with submitting a blank list item form. Let&#39;s add a bit of form validation to stop a blank email address from being submitted.</p>
+<blockquote>
+<p><strong>Todo</strong> validation for list field</p>
+</blockquote>
+<p>Now that we have login, registration, and list routines complete, we need to work on the app&#39;s actual functionality as a grocery list management tool.</p>
 
 		</div>
 		<hr>

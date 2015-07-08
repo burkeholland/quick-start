@@ -51,33 +51,11 @@ In app/views/list/list.xml, let's get started using the ListView module by creat
 </Page>
 ```
 
-Note our use of the ListView module. In this case, we're not requiring a tns_module from the ui folder, but are rather using the ui widget within the xml code. This is a different way of using these modules. If we wanted to, we could construct a ListView in pure JavaScript code behind the scenes as shown in [this example](http://docs.nativescript.org/ApiReference/ui/list-view/HOW-TO.html). However for our purposes, we can simply use xml to build the ListView and thereby follow the pattern we use in the login and register screens.
+Note the use of the ListView module. In this case, we're not requiring a tns_module from the ui folder, but are rather using the ui widget within the xml code. This is a different way to use these modules. 
 
+If we wanted to, we could construct a ListView in pure JavaScript code behind the scenes as shown in [this example](http://docs.nativescript.org/ApiReference/ui/list-view/HOW-TO.html). However for our purposes, we can simply use xml to build the ListView and thereby follow the pattern we use in the login and register screens.
 
-Let's go ahead and build the code-behind file as usual. In app/views/list/list.js, add:
-
-```
-var view = require("ui/core/view");
-var viewModel = require("./list-view-model");
-var page;
-
-exports.navigatedTo = function(args) {
-	page = args.object;
-	if (page.ios) {
-		page.ios.title = "Groceries";
-	}
-
-	page.bindingContext = viewModel;
-	viewModel.reset();
-};
-```
-
-There are a couple of things happening in this file. First, we have the function navigatedTo, which will set up our page for data binding when we navigate to it in the xml:
-
-```
-<Page navigatedTo="navigatedTo">
-```
-Notice the use of a slightly different pattern in the code-behind file. In this case, we're going to use a View Model file separately from the code-behind file. We'll get into more detail in the next chapter.
+Finally, note the ListView's use of an itemTemplate. Using an itemTemplate gives you more control over how the actual items look within the list.
 
 ### Other modules
 

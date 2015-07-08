@@ -101,7 +101,7 @@ Since we have been working with forms in NativeScript, we need to understand how
 To get data to be sent from `login.xml`, add an id to the email textfield:
 
 ```
-<TextField id="email_address" hint="Email Address" />
+<TextField id="email_address" hint="Email Address" keyboardType="email" />
 ```
 
 You need to access this textfield via the view, so add a line at the top, underneath the frameModule variable. Also expose email as a variable available to both the load and signIn functions:
@@ -141,7 +141,7 @@ You saw how to get data from the frontend to the backend, but what if you need t
 To allow for two-way data binding, edit the textfield markup in `app/views/login/login.xml`:
 
 ```
-<TextField id="email_address" text="{{ email_address }}" hint="Email Address" />
+<TextField id="email_address" text="{{ email_address }}" hint="Email Address"  keyboardType="email" />
 <TextField secure="true" text="{{ password }}" hint="Password" />
 ```
 
@@ -150,17 +150,13 @@ At the top of `app/views/login/login.js`, edit the top code block to include the
 ```
 var dialogs = require("ui/dialogs");
 var frameModule = require("ui/frame");
-var observable = require("data/observable");
 var User = require("../../shared/models/User");
-var view = require("ui/core/view");
 
-var user = new observable.Observable();
+var user = new User();
 
 ```
 We need dialogs to show a more complex popup than an alert can give us, and we need User to expose the User Model to the View Model.
-
- >**Observable** is a core building block for a View Model. It provides it with a mechanism required for two-way data binding so as to provide communication between the View and the View Model. This means that if the user updates the data in the UI the change will be reflected in the ViewModel and vice versa.
-
+ 
 Now, edit the load function to hard-code some values that will show up on the frontend:
 
 ```
@@ -168,9 +164,6 @@ exports.load = function(args) {
 	
 	var page = args.object;
 	
-	var email = view.getViewById(page, "email_address");
-	var password = view.getViewById(page, "password");
-
 	user.set("email_address", "tj.vantoll@gmail.com");
 	user.set("password", "password");
 
@@ -178,16 +171,16 @@ exports.load = function(args) {
 	
 };
 ```
-
-Now that you have the ability to bind the frontend and backends, you need to be able to send that data to a database in order to complete the login routine. If you run your app, you'll see the fields prefilled:
+If you run your app, you'll see the fields prefilled:
 
 ![login 5](images/login-stage5-ios.png)
 ![login 5](images/login-stage5-android.png)
 
+Now that you have the ability to bind the frontend to the backend, you need to be able to send that data to a database in order to complete the login routine. 
 
-### Connecting to a backend with the http module
+### Connecting to the Model
 
-You probably noticed, if you created your own user on the registration page, that, data was passing magically...somewhere. There's actually no magic involved; there is a config file that contains our API Key to [Telerik Backend Services](http://www.telerik.com/backend-services), a place where we are storing our users' information.
+You probably noticed, if you created your own user on the registration page, that, data was passing magically...somewhere. There's actually no magic involved; there is a config file that contains our API Key to [Telerik Backend Services](http://www.telerik.com/backend-services), where we are storing our users' information.
 
 Take a look at `app/shared/config.js`. There's only a small code snippet there, but it includes a hard-coded API Key that we use throughout the app to access the backend (in real life, you would of course use your own API Key):
 
@@ -197,16 +190,71 @@ module.exports = {
 };
 ```
 
-Note that The config file is used in all the Model files, for example in User Model: `app/shared/models/User.js`:
+Take a look in `app/shared/models`. The business logic of your app is normally stored in one or many Model files that normally connect to a database asynchronously by means of a promise pattern. You can see this demonstrated in the registration function.
+
+Note that the config file is used in all the Model files, for example in User Model: `app/shared/models/User.js`:
 
 ```
 var config = require("../../shared/config");
 ```
+**Exercise: Complete the login in the Model**
 
-**Exercise: Complete login**
+In `app/shared/Models/Users.js`, add the login function under 
 
-To complete the login of a user, add a login function under the load function;
+**Exercise: Complete the login in the View Model**
 
->*Todo*: hit the model properly in login.js
+To complete the login of a user, add a login function under `User.prototype = new observableModule.Observable();`:
+
+```
+User.prototype.login = function() {
+	var that = this;
+	return new Promise(function(resolve, reject) {
+		http.request({
+			url: config.apiUrl + "oauth/token",
+			method: "POST",
+			content: JSON.stringify({
+				username: that.get("email_address"),
+				password: that.get("password"),
+				grant_type: "password"
+			}),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		}).then(function(data) {
+			config.token = data.content.toJSON().Result.access_token;
+			resolve();
+		}).catch(function() {
+			reject();
+		});
+	});
+};
+```
+
+Several things are happening here:
+
+- **Observables**: Observable is a core building block in the MVVM design pattern. It provides it with a mechanism required for two-way data binding so as to provide communication between the front and backends. This means that if the user updates the data in the UI the change will be reflected in the Model and vice versa.
+- **Use of the http module**: We'll discuss modules more in the next chapter, but the http module is a NativeScript module that facilitates utilizing external services such a Telerik's backend services.
+- **Promises**: Since NativeScript leverages the [CommonJS specification](http://wiki.commonjs.org/wiki/CommonJS), it also makes use of promises to handle asynchronous requests. Read more about promises [here](http://wiki.commonjs.org/wiki/Promises).
+
+Finally, allow the View Model to invoke the login function that you just added to the Model. In `app/views/login/login.js` rewrite your signIn function to look like this:
+
+```
+exports.signIn = function() {
+	user.login()
+		.then(function() {
+			frameModule.topmost().navigate("./views/list/list");
+		}).catch(function() {
+			dialogs.alert({
+				message: "Unfortunately we could not find your account.",
+				okButtonText: "OK"
+			});
+		});
+};
+```
 
 Now, if you rebuild and run your app in an emulator, you can login either using your credentials that you created earlier, or TJ's:
+
+![login 6](images/login-stage6-ios.png)
+![login 6](images/login-stage6-android.png)
+
+You'll find that after you login, you're sent to a blank screen. You're going to build a list to hold grocery data next. But since we started discussing modules, let's take a look at how those work in NativeScript before continuing. 
