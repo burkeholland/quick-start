@@ -162,7 +162,9 @@ However, although the elements stack up as expected, the UI components could use
 
 NativeScript supports a [subset of CSS](http://docs.nativescript.org/styling) so that you can add styles to your app. You can include global styles in a css file in the root of your app. You can also include individual css files in each view folder, which would be appropriate for styles that are isolated to a certain page.  
 
-**Exercise: Create global styles**
+<h4 class="exercise-start">
+    <b>Exercise</b>: Create global styles
+</h4>
 
 ```
 Page {
@@ -187,6 +189,8 @@ Button {
 }
 ```
 
+<div class="exercise-end"></div>
+
 Now if you run the app, you'll see some nice styles!
 
 ![login 3](images/login-stage3-ios.png)
@@ -196,13 +200,17 @@ Now if you run the app, you'll see some nice styles!
 
 It would be nice to have a logo available to match the imagery that is in the icon and on the splash screen. 
 
-**Exercise: Add a logo**
+<h4 class="exercise-start">
+    <b>Exercise</b>: Add a logo
+</h4>
 
 Add a logo at the top of the login.xml, under the first StackLayout tag:
 
 ```
 <Image src="res://logo" stretch="none"/>
 ```
+
+<div class="exercise-end"></div>
 
 Images are handled differently across platforms. They need to be saved in three different sizes so that they will look sharp on different screen sizes. For iOS, you would create an image.png, image@2x.png, and image@3x.png with consistently larger sizes. For Android, your images need to avoid any special symbols like '@', so all you need to do is save the file ```logo.png``` in three different sizes. 
 
