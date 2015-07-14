@@ -174,7 +174,7 @@ application.start();
 <pre><code>&lt;Page&gt;
     &lt;Label text=&quot;hello world&quot; /&gt;
 &lt;/Page&gt;
-</code></pre><p>This page currently contains two UI components: a <code>&lt;Page&gt;</code> and a <code>&lt;Label&gt;</code>. To make this page look more like a login page, let&#39;s add a few additional components, namely two <code>&lt;TextField&gt;</code>s and a <code>&lt;Button&gt;</code>.</p>
+</code></pre><p>This page currently contains two UI components: a <code>&lt;Page&gt;</code> and a <code>&lt;Label&gt;</code>. To make this page look more like a login page, let&#39;s add a few additional components, namely two <code>&lt;TextField&gt;</code>s and two <code>&lt;Button&gt;</code>s.</p>
 <h4 class="exercise-start">
     <b>Exercise</b>: Add UI components to <code>login.xml</code>
 </h4>
@@ -189,17 +189,25 @@ application.start();
     &lt;Button text=&quot;Sign up for Groceries&quot; /&gt;
 </code></pre><div class="exercise-end"></div>
 
-<p>You&#39;ve just added four items to your screen:</p>
+<p>NativeScript UI components use attributes to configure their behavior and appearance. The code you just added uses the following attributes:</p>
 <ul>
-<li>The TextField has the attributes you&#39;d expect such as hints, which adds the specify hint text into the TextField to show the user what to type, and the parameter &#39;secure&#39; to ensure that a password isn&#39;t exposed. It also makes available the parameter &#39;keyboardType&#39; which we set to email for the email field, so that the keyboard conveniently functions in a way optimized for entering email addresses.</li>
-<li>The Button component has its text, &quot;Sign in&quot; or &quot;Sign Up for Groceries&quot;, specified. </li>
+<li><code>&lt;TextField&gt;</code><ul>
+<li><code>hint</code>: Used to specify placeholder text into the TextField to show the user what to type</li>
+<li><code>secure</code>: Boolean to determine whether the TextField&#39;s text should be masked, which is commonly done on password fields</li>
+<li><code>keyboardType</code>: The type of keyboard to present to the user for input. In this case <code>keyboardType=&quot;input&quot;</code> ensures the keyboard in a way optimized for entering email addresses</li>
 </ul>
-<p>If you run your app at this point, however, you won&#39;t see too much:</p>
+</li>
+<li><code>&lt;Button&gt;</code><ul>
+<li><code>text</code>: Controls the text displayed within the button</li>
+</ul>
+</li>
+</ul>
+<p>Since UI components are visual, you probably want to see what your app looks like. But if you try running the app you won&#39;t see too much:</p>
 <p><img src="images/login-stage1-ios.png" alt="login 1">
 <img src="images/login-stage1-android.png" alt="login 1"></p>
-<p>You need to specify a layout for this page to ensure that the children of the layout are properly styled.</p>
+<p>This app looks off because you need to tell NativeScript how to layout the UI components you place in your page. Let&#39;s look at how to do that next.</p>
 <blockquote>
-<p><em>Tip</em>: Learn more about the UI components available in your app <a href="http://docs.nativescript.org/ui-with-xml">here</a>.</p>
+<p><strong>Tip</strong>: You can learn more about the UI components, including a full list of the components and attributes available in <a href="http://docs.nativescript.org/ui-with-xml">the NativeScript docs</a>.</p>
 </blockquote>
 <h3 id="layouts">Layouts</h3>
 <p>NativeScript provides several different layout containers that allow you to place UI components precisely where you want them to appear. </p>

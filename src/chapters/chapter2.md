@@ -83,7 +83,7 @@ Let's dig into the files used to create your app's UI, which reside in the `app/
 </Page>
 ```
 
-This page currently contains two UI components: a `<Page>` and a `<Label>`. To make this page look more like a login page, let's add a few additional components, namely two `<TextField>`s and a `<Button>`.
+This page currently contains two UI components: a `<Page>` and a `<Label>`. To make this page look more like a login page, let's add a few additional components, namely two `<TextField>`s and two `<Button>`s.
 
 <h4 class="exercise-start">
     <b>Exercise</b>: Add UI components to <code>login.xml</code>
@@ -103,18 +103,23 @@ Replace the existing `<Label>` with the following code:
 
 <div class="exercise-end"></div>
 
-You've just added four items to your screen:
-- The TextField has the attributes you'd expect such as hints, which adds the specify hint text into the TextField to show the user what to type, and the parameter 'secure' to ensure that a password isn't exposed. It also makes available the parameter 'keyboardType' which we set to email for the email field, so that the keyboard conveniently functions in a way optimized for entering email addresses.
-- The Button component has its text, "Sign in" or "Sign Up for Groceries", specified. 
+NativeScript UI components use attributes to configure their behavior and appearance. The code you just added uses the following attributes:
 
-If you run your app at this point, however, you won't see too much:
+- `<TextField>`
+    - `hint`: Used to specify placeholder text into the TextField to show the user what to type
+    - `secure`: Boolean to determine whether the TextField's text should be masked, which is commonly done on password fields
+    - `keyboardType`: The type of keyboard to present to the user for input. In this case `keyboardType="input"` ensures the keyboard in a way optimized for entering email addresses
+- `<Button>`
+    - `text`: Controls the text displayed within the button
+
+Since UI components are visual, you probably want to see what your app looks like. But if you try running the app you won't see too much:
 
 ![login 1](images/login-stage1-ios.png)
 ![login 1](images/login-stage1-android.png)
 
-You need to specify a layout for this page to ensure that the children of the layout are properly styled.
+This app looks off because you need to tell NativeScript how to layout the UI components you place in your page. Let's look at how to do that next.
 
->*Tip*: Learn more about the UI components available in your app [here](http://docs.nativescript.org/ui-with-xml).
+> **Tip**: You can learn more about the UI components, including a full list of the components and attributes available in [the NativeScript docs](http://docs.nativescript.org/ui-with-xml).
 
 ### Layouts 
 
