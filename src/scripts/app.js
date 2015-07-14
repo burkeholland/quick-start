@@ -33,6 +33,14 @@
 		});
 	});
 
+	// Build the exercise sections
+	$( ".exercise-start" ).each(function() {
+		var exerciseDiv = $("<div class='exercise'></div>");
+		$(this).before(exerciseDiv);
+		$(this).nextUntil(".exercise-end").addBack().appendTo(exerciseDiv);
+	});
+	$(".exercise-end").remove();
+
 	$( "#toggle-toc" ).on( "click", function() {
 		$( "body" ).toggleClass( "no-toc" );
 		return false;

@@ -75,24 +75,34 @@ Now that your app is ready for development, let's add some UI components to make
 
 ### Adding UI Components
 
-First let's take a look at the UI components. Let's dig into the files where you create the UI, which reside in the ```app/views``` folder. Each folder contains one page of your app: list, login, and register are there already. If you look at ```app/views/login```, you'll see three files. Open up the ```login.xml``` file. 
+Let's dig into the files used to create your app's UI, which reside in the `app/views` folder. Each folder contains one page of your app: `list`, `login`, and `register` are there already. If you look at `app/views/login`, you'll see three files: `login.css`, `login.js`, and `login.xml`. Open up the `login.xml` file. You should see the following code:
 
-NativeScript allows you to construct a UI either using xml or JavaScript. Often, it's a bit easier to write your presentation layer in xml. Build out the login screen by adding some UI components, namely two textfields, and a button.
-
-**Exercise: Add UI components to login.xml**
-
-Between the <Page> tags, add the following code:
-
-```		
-	<TextField hint="Email Address" keyboardType="email" />
-		
-	<TextField secure="true" hint="Password" />
-		
-	<Button text="Sign in" />
-		
-	<Button text="Sign up for Groceries" />
-		
 ```
+<Page>
+    <Label text="hello world" />
+</Page>
+```
+
+This page currently contains two UI components: a `<Page>` and a `<Label>`. To make this page look more like a login page, let's add a few additional components, namely two `<TextField>`s and a `<Button>`.
+
+<h4 class="exercise-start">
+    <b>Exercise</b>: Add UI components to <code>login.xml</code>
+</h4>
+
+Replace the existing `<Label>` with the following code:
+
+```
+	<TextField hint="Email Address" keyboardType="email" />
+
+	<TextField secure="true" hint="Password" />
+
+	<Button text="Sign in" />
+
+	<Button text="Sign up for Groceries" />
+```
+
+<div class="exercise-end"></div>
+
 You've just added four items to your screen:
 - The TextField has the attributes you'd expect such as hints, which adds the specify hint text into the TextField to show the user what to type, and the parameter 'secure' to ensure that a password isn't exposed. It also makes available the parameter 'keyboardType' which we set to email for the email field, so that the keyboard conveniently functions in a way optimized for entering email addresses.
 - The Button component has its text, "Sign in" or "Sign Up for Groceries", specified. 

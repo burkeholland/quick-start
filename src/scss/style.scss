@@ -35,11 +35,11 @@ a:hover {
 	color: #333;
 	background: #f8f8f8;
 }
-code{
+code {
 	border:solid 1px #CCC;
 	background: #f8f8f8;
 	padding: 0.25em;
-	color: #333;	
+	color: #333;
 }
 strong{
 	font-size:1.2em;
@@ -260,6 +260,17 @@ body.no-toc #book {
 	img {
 		float: left;
 		width: 30%;
+	}
+}
+
+.exercise {
+	border: 1px solid #ccc;
+	border-radius: 1em;
+	p, pre { margin-left: 1em; margin-right: 1em; }
+	h4 {
+		margin-top: 0;
+		padding: 1em;
+		border-bottom: 1px solid #eee;
 	}
 }
 

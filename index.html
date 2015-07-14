@@ -170,10 +170,16 @@ application.start();
 </blockquote>
 <p>Now that your app is ready for development, let&#39;s add some UI components to make your login screen show more than just some basic text.</p>
 <h3 id="adding-ui-components">Adding UI Components</h3>
-<p>First let&#39;s take a look at the UI components. Let&#39;s dig into the files where you create the UI, which reside in the <code>app/views</code> folder. Each folder contains one page of your app: list, login, and register are there already. If you look at <code>app/views/login</code>, you&#39;ll see three files. Open up the <code>login.xml</code> file. </p>
-<p>NativeScript allows you to construct a UI either using xml or JavaScript. Often, it&#39;s a bit easier to write your presentation layer in xml. Build out the login screen by adding some UI components, namely two textfields, and a button.</p>
-<p><strong>Exercise: Add UI components to login.xml</strong></p>
-<p>Between the <Page> tags, add the following code:</p>
+<p>Let&#39;s dig into the files used to create your app&#39;s UI, which reside in the <code>app/views</code> folder. Each folder contains one page of your app: <code>list</code>, <code>login</code>, and <code>register</code> are there already. If you look at <code>app/views/login</code>, you&#39;ll see three files: <code>login.css</code>, <code>login.js</code>, and <code>login.xml</code>. Open up the <code>login.xml</code> file. You should see the following code:</p>
+<pre><code>&lt;Page&gt;
+    &lt;Label text=&quot;hello world&quot; /&gt;
+&lt;/Page&gt;
+</code></pre><p>This page currently contains two UI components: a <code>&lt;Page&gt;</code> and a <code>&lt;Label&gt;</code>. To make this page look more like a login page, let&#39;s add a few additional components, namely two <code>&lt;TextField&gt;</code>s and a <code>&lt;Button&gt;</code>.</p>
+<h4 class="exercise-start">
+    <b>Exercise</b>: Add UI components to <code>login.xml</code>
+</h4>
+
+<p>Replace the existing <code>&lt;Label&gt;</code> with the following code:</p>
 <pre><code>    &lt;TextField hint=&quot;Email Address&quot; keyboardType=&quot;email&quot; /&gt;
 
     &lt;TextField secure=&quot;true&quot; hint=&quot;Password&quot; /&gt;
@@ -181,7 +187,9 @@ application.start();
     &lt;Button text=&quot;Sign in&quot; /&gt;
 
     &lt;Button text=&quot;Sign up for Groceries&quot; /&gt;
-</code></pre><p>You&#39;ve just added four items to your screen:</p>
+</code></pre><div class="exercise-end"></div>
+
+<p>You&#39;ve just added four items to your screen:</p>
 <ul>
 <li>The TextField has the attributes you&#39;d expect such as hints, which adds the specify hint text into the TextField to show the user what to type, and the parameter &#39;secure&#39; to ensure that a password isn&#39;t exposed. It also makes available the parameter &#39;keyboardType&#39; which we set to email for the email field, so that the keyboard conveniently functions in a way optimized for entering email addresses.</li>
 <li>The Button component has its text, &quot;Sign in&quot; or &quot;Sign Up for Groceries&quot;, specified. </li>
