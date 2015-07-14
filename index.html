@@ -180,13 +180,11 @@ application.start();
 </h4>
 
 <p>Replace the existing <code>&lt;Label&gt;</code> with the following code:</p>
-<pre><code>    &lt;TextField hint=&quot;Email Address&quot; keyboardType=&quot;email&quot; /&gt;
+<pre><code>&lt;TextField hint=&quot;Email Address&quot; keyboardType=&quot;email&quot; /&gt;
+&lt;TextField secure=&quot;true&quot; hint=&quot;Password&quot; /&gt;
 
-    &lt;TextField secure=&quot;true&quot; hint=&quot;Password&quot; /&gt;
-
-    &lt;Button text=&quot;Sign in&quot; /&gt;
-
-    &lt;Button text=&quot;Sign up for Groceries&quot; /&gt;
+&lt;Button text=&quot;Sign in&quot; /&gt;
+&lt;Button text=&quot;Sign up for Groceries&quot; /&gt;
 </code></pre><div class="exercise-end"></div>
 
 <p>NativeScript UI components use attributes to configure their behavior and appearance. The code you just added uses the following attributes:</p>
@@ -212,24 +210,33 @@ application.start();
 <h3 id="layouts">Layouts</h3>
 <p>NativeScript provides several different layout containers that allow you to place UI components precisely where you want them to appear. </p>
 <ul>
-<li><a href="https://docs.nativescript.org/ApiReference/ui/layouts/absolute-layout/HOW-TO.html">Absolute Layout</a>: Position elements by a child&#39;s x and y coordinates. You might use absolute layouts to show an activity indicator widget in the top left corner of your app.</li>
-<li><a href="https://docs.nativescript.org/ApiReference/ui/layouts/dock-layout/HOW-TO.html">Dock Layout</a>: Dock layouts are useful if you need to place elements in very specific areas of your app. For example, a container docked at the bottom of the screen would be a good container for an ad.</li>
-<li><a href="https://docs.nativescript.org/ApiReference/ui/layouts/grid-layout/HOW-TO.html">Grid Layout</a>: Look at grid layouts as the <tr> and <td> tags of NativeScript. Create a grid and add children to it with rowSpans and colSpans, similar to HTML markup for tables.</li>
-<li><a href="https://docs.nativescript.org/ApiReference/ui/layouts/stack-layout/HOW-TO.html">Stack Layout</a>: Stack children of this layout either vertically or horizontally.</li>
-<li><a href="https://docs.nativescript.org/ApiReference/ui/layouts/wrap-layout/HOW-TO.html">Wrap Layout</a>: Children of this layout will flow from one row or column to the next when space is filled.</li>
+<li>The <a href="https://docs.nativescript.org/ApiReference/ui/layouts/absolute-layout/HOW-TO.html">Absolute Layout</a> lets you position elements using explicit x and y coordinates. This is useful when you need to place elements in exact locations, for instance showing an activity indicator widget in the top-left corner of your app.</li>
+<li>The <a href="https://docs.nativescript.org/ApiReference/ui/layouts/dock-layout/HOW-TO.html">Dock Layout</a> is Useful for placing UI elements at the outer edges of your app. For example, a container docked at the bottom of the screen would be a good container for an ad.</li>
+<li>The <a href="https://docs.nativescript.org/ApiReference/ui/layouts/grid-layout/HOW-TO.html">Grid Layout</a> lets you divide your interface into a series of rows and columns, much like a <code>&lt;table&gt;</code> in HTML markup.</li>
+<li>The <a href="https://docs.nativescript.org/ApiReference/ui/layouts/stack-layout/HOW-TO.html">Stack Layout</a> lets you stack children UI components either vertically or horizontally.</li>
+<li>The <a href="https://docs.nativescript.org/ApiReference/ui/layouts/wrap-layout/HOW-TO.html">Wrap Layout</a> allows child UI components to flow from one row or column to the next when space is filled.</li>
 </ul>
-<p><strong>Exercise: Add a stacked layout to the login screen</strong></p>
-<p>In login.xml, add StackLayout tags under the <code>&lt;Page&gt;</code> tags. This will allow you to arrange your content vertically and align it to the center.</p>
-<pre><code>&lt;StackLayout orientation=&quot;vertical&quot; horizontalAlignment=&quot;center&quot;&gt;
-...
-&lt;/StackLayout&gt;
-</code></pre><blockquote>
-<p><em>Tip</em>: Learn more about creating NativeScript layouts <a href="http://docs.nativescript.org/layouts">here</a> and <a href="http://developer.telerik.com/featured/demystifying-nativescript-layouts/">here</a>.</p>
-</blockquote>
-<p>Even if you specify a layout for your app, the page still doesn&#39;t look right. If run your app at this point, the fields are all jammed at the top:</p>
+<p>In the case of your login screen all you need is a simple <code>&lt;StackLayout&gt;</code> to stack up the elements on the screen. In later sections, you&#39;ll use some of the more advanced layouts.</p>
+<h4 class="exercise-start">
+    <b>Exercise</b>: Add a stack layout to the login screen</code>
+</h4>
+
+<p>In your <code>login.xml</code>, add the <code>&lt;StackLayout&gt;</code> component below directly within the <code>&lt;Page&gt;</code> component. Your <code>login.xml</code> should look something like this:</p>
+<pre><code>&lt;Page&gt;
+    &lt;StackLayout orientation=&quot;vertical&quot; horizontalAlignment=&quot;center&quot;&gt;
+        ... (the two buttons and text fields)
+    &lt;/StackLayout&gt;
+&lt;/Page&gt;
+</code></pre><div class="exercise-end"></div>
+
+<p>The stack layout is a UI component, and as such, it that has attributes just like the <code>&lt;TextField&gt;</code> and <code>&lt;Button&gt;</code> elements you used in the previous section. Here, the <code>orientation=&quot;vertical&quot;</code> attribute tells the stack layout to arrange its child components vertically, and the <code>horizontalAlignment=&quot;center&quot;</code> attribute tells the stack layout to align the child components in the center of the screen.</p>
+<p>If you run your app you&#39;ll see that that the elements now all appear, and are stacked up as expected:</p>
 <p><img src="images/login-stage2-ios.png" alt="login 2">
 <img src="images/login-stage2-android.png" alt="login 2"></p>
-<p>It needs some CSS styling to look better.</p>
+<p>However, although the elements stack up as expected, the UI components could use some spacing, and a bit of color to make the app look a bit nicer. To do that let&#39;s look at another NativeScript feature: CSS.</p>
+<blockquote>
+<p><strong>Tip</strong>: You can learn more about how NativeScript layouts works <a href="http://docs.nativescript.org/layouts">in the NativeScript docs</a> and <a href="http://developer.telerik.com/featured/demystifying-nativescript-layouts/">on our blog</a>.</p>
+</blockquote>
 <h3 id="css">CSS</h3>
 <p>NativeScript supports a <a href="http://docs.nativescript.org/styling">subset of CSS</a> so that you can add styles to your app. You can include global styles in a css file in the root of your app. You can also include individual css files in each view folder, which would be appropriate for styles that are isolated to a certain page.  </p>
 <p><strong>Exercise: Create global styles</strong></p>
