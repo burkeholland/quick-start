@@ -127,8 +127,8 @@ $ cd groceries
         └── ios
 </code></pre><p>Here&#39;s what these various files and folders do:</p>
 <ul>
-<li><strong>app</strong>: The <code>app</code> folder contains all the development resources you need to build your app.</li>
-<li><strong>package.json</strong>: This contains configuration about your app, such as your app id, the version of NativeScript you&#39;re using, and also which npm modules your app uses. We&#39;ll take a closer look at how to use this file when we talk about using npm modules in chapter 5.</li>
+<li><strong>app</strong>: This folder contains all the development resources you need to build your app.</li>
+<li><strong>package.json</strong>: This file contains configuration about your app, such as your app id, the version of NativeScript you&#39;re using, and also which npm modules your app uses. We&#39;ll take a closer look at how to use this file when we talk about using npm modules in chapter 5.</li>
 <li><strong>platforms</strong>: This folder contains the platform-specific code NativeScript needs to build native iOS and Android apps. For instance in the <code>android</code> folder you&#39;ll find things like your project&#39;s <code>AndroidManifest.xml</code> and .apk executable files. Similarly the <code>ios</code> folder contains the Groceries&#39; Xcode project and the .ipa executables.</li>
 </ul>
 <p>The NativeScript CLI manages the <code>platforms</code> folder for you as you develop and run your app; therefore it&#39;s a best practice to treat the <code>platforms</code> folder as generated code. The Groceries app includes the <code>platforms</code> folder in its <code>.gitignore</code> to exclude its files from source control.</p>
@@ -153,10 +153,10 @@ $ cd groceries
     └── ...
 </code></pre><p>Here&#39;s what these various files and folders do:</p>
 <ul>
-<li><strong>App_Resources</strong>: Contains platform-specific resources such as icons, splash screens, and configuration files. The NativeScript CLI takes care of injecting these resources into the appropriate places in the <code>platforms</code> folder when you execute <code>tns run</code>.</li>
+<li><strong>App_Resources</strong>: This folder contains platform-specific resources such as icons, splash screens, and configuration files. The NativeScript CLI takes care of injecting these resources into the appropriate places in the <code>platforms</code> folder when you execute <code>tns run</code>.</li>
 <li><strong>shared</strong>: This folder contains any files you need to share across views in your app. In the Groceries app you find a few model objects and a <code>config.js</code> file used to share configuration variables like API keys.</li>
 <li><strong>tns_modules</strong>: This folder contains the NativeScript-provided modules you&#39;ll use to build your app. Each module contains platform-specific code (camera, http, file system, etc), exposed through a platform-agnostic API (e.g. <code>http.getJSON()</code>). We&#39;ll look at some examples momentarily.</li>
-<li><strong>views</strong>: Each of your app&#39;s views will have a subfolder in <code>views</code>. Each view is made up of an XML file, a JavaScript file, and an optional CSS file. The groceries app contains three folders for its three views.</li>
+<li><strong>views</strong>: This folder contains the code to build your app&#39;s views—each of which will have a subfolder in <code>views</code>. Each view is made up of an XML file, a JavaScript file, and an optional CSS file. The groceries app contains three folders for its three views.</li>
 <li><strong>app.css</strong>: Contains global styles for your app. We&#39;ll dig into app styling in section 2.3.</li>
 <li><strong>app.js</strong>: Sets up your application&#39;s starting module and initializes the app.</li>
 </ul>
@@ -164,11 +164,11 @@ $ cd groceries
 <pre><code>var application = require(&quot;application&quot;);
 application.mainModule = &quot;./views/login/login&quot;;
 application.start();
-</code></pre><p>Here, you&#39;re requiring, or importing, the NativeScript application module. Then, you set the main screen of your app to be the <code>login</code> screen, which we&#39;ll dig into momentarily.</p>
+</code></pre><p>Here, you&#39;re requiring, or importing, the <a href="http://docs.nativescript.org/ApiReference/application/HOW-TO">NativeScript application module</a>. Then, you set the main (or start) screen of your app to be the login screen, which lives in your app&#39;s <code>views/login</code> folder.</p>
 <blockquote>
-<p>NativeScript supports JavaScript modules and their implementation follows the <a href="http://wiki.commonjs.org/wiki/CommonJS">CommonJS specification</a>. Using the &#39;<a href="http://wiki.commonjs.org/wiki/Modules/1.1#Module_Context">require</a>&#39; function at the top of this file allows us to identify a module to be imported, and it returns the exported API of this module. Similarly, we see the variable <code>exports</code>, which is an object that the module may add its API to as it executes.</p>
+<p><strong>Tip</strong>: JavaScript modules in NativeScript follow the <a href="http://wiki.commonjs.org/wiki/CommonJS">CommonJS specification</a>. This means you can use the <a href="http://wiki.commonjs.org/wiki/Modules/1.1#Module_Context"><code>require()</code> method</a> to import modules, as is done above, as well as the <code>export</code> keyword, which we&#39;ll look at later in this chapter. These are the same constructs Node.js uses for JavaScript modules, so if you already know how to use Node.js modules, you already know how to use NativeScript modules!</p>
 </blockquote>
-<p>Now that your app is ready for development, you can turn your attention to its UI. Let&#39;s add some UI components to make your login screen show more than just an image.</p>
+<p>Now that your app is ready for development, let&#39;s add some UI components to make your login screen show more than just some basic text.</p>
 <h3 id="adding-ui-components">Adding UI Components</h3>
 <p>First let&#39;s take a look at the UI components. Let&#39;s dig into the files where you create the UI, which reside in the <code>app/views</code> folder. Each folder contains one page of your app: list, login, and register are there already. If you look at <code>app/views/login</code>, you&#39;ll see three files. Open up the <code>login.xml</code> file. </p>
 <p>NativeScript allows you to construct a UI either using xml or JavaScript. Often, it&#39;s a bit easier to write your presentation layer in xml. Build out the login screen by adding some UI components, namely two textfields, and a button.</p>
