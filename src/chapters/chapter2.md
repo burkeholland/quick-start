@@ -220,34 +220,41 @@ For now this CSS does nothing as there is no `<Image>` UI component on the login
 
 ### Images
 
-It would be nice to have a logo available to match the imagery that is in the icon and on the splash screen. 
+NativeScript supports three different ways to use images within your apps. The first, and simplest, way is to point at the URL of an image:
+
+```
+<Image src="https://www.nativescript.org/images/default-source/landingpages/logo.png" />
+```
+
+The second way is to point at an image that lives within your app's `app` folder. For instance if you have an image at `app/images/logo.png`, you can use it with:
+
+```
+<Image src="~/images/logo.png" />
+```
+
+The third way, and the one Groceries uses, is to use platform-specific image resources. Let's add an image to the login screen and then discuss exactly what's happening.
 
 <h4 class="exercise-start">
     <b>Exercise</b>: Add a logo
 </h4>
 
-Add a logo at the top of the login.xml, under the first StackLayout tag:
+In `login.xml`, add the `<Image>` below as the first child of the existing `<StackLayout>` tag:
 
 ```
-<Image src="res://logo" stretch="none"/>
+<Image src="res://logo" stretch="none" />
 ```
 
 <div class="exercise-end"></div>
 
-Images are handled differently across platforms. They need to be saved in three different sizes so that they will look sharp on different screen sizes. For iOS, you would create an image.png, image@2x.png, and image@3x.png with consistently larger sizes. For Android, your images need to avoid any special symbols like '@', so all you need to do is save the file ```logo.png``` in three different sizes. 
+> **TODO**: Move the discussion below to a blog post where we can go into a lot more detail. I feel like this section should only use the simple method of using images within the app, and then link off to a more thorough discussion.
 
-All of these scaled resources can go into ```app/App_Resources```. 
+The `res://` syntax tells NativeScript to use a platform-specific resource, in this case an image. You might recall from before that platform-specific resources go in your app's `App_Resources` folder, and if you look there you'll find a few different image files, several of which are named `logo.png`.
 
-For iOS, you would place the three scaled images into the ```app/App_Resources/iOS``` folder. When you build your app, you'll see the files saved in ```platforms/ios/Groceries/Resources/icons/``` where they are referenced by the native code and appear scaled on the appropriate screen.
+Although more complex than putting an image directly in the `app` folder, using platform-specific images gives you more control over image display on difference device dimensions. For instance iOS lets you use provide three different image files for devices with different pixel densities. As such you'll find logos named `logo.png`, `logo@2x.png`, and `logo@3x.png` in your `App_Resources/iOS` folder. For Android you'll find similar image files in `App_Resources/Android/drawable-hdpi` (for "high" dpi, or high dots-per-inch), `App_Resources/Android/drawable-mdpi` (for medium-dpi), and `App_Resources/Android/drawable-ldpi` (for low-dpi).
 
-For Android, you would place a scaled image in the appropriate ```app/App_Resources/Android``` drawable subfolder. The largest goes into drawable-hdpi (for "high" dpi, or high dots-per-inch). The next largest goes into drawable-mdpi (medium-dpi), and the smallest goes into drawable-ldpi (low-dpi). When the app is compiled, you'll find the files in the appropriate ```platforms/android/res/``` subfolder. 
-
-The native code will pick the right file to display; all you have to do is reference the image src to be ```res://myImage```. 
-
-Go ahead and build your app for iOS and Android. Check out how the images find their way into the right place.
+Once these files are in place the NativeScript framework knows how to pick the correct file; all you have to do is reference the image using `res://` and its base file name—i.e. `res://logo`. With this change in place here's what your login screen should look like on iOS and Android:
 
 ![login 4](images/login-stage4-ios.png)
 ![login 4](images/login-stage4-android.png)
 
-Now that your UI looks good, we can move on to making this app a little more functional. In the next chapter, we'll build out the view model files.
-
+At this point your UI looks good, but the app still doesn't actually do anything. Let's look at how you can use JavaScript to add some functionality.
