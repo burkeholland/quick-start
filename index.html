@@ -238,22 +238,17 @@ application.start();
 <p><strong>Tip</strong>: You can learn more about how NativeScript layouts works <a href="http://docs.nativescript.org/layouts">in the NativeScript docs</a> and <a href="http://developer.telerik.com/featured/demystifying-nativescript-layouts/">on our blog</a>.</p>
 </blockquote>
 <h3 id="css">CSS</h3>
-<p>NativeScript supports a <a href="http://docs.nativescript.org/styling">subset of CSS</a> so that you can add styles to your app. You can include global styles in a css file in the root of your app. You can also include individual css files in each view folder, which would be appropriate for styles that are isolated to a certain page.  </p>
+<p>NativeScript uses a <a href="http://docs.nativescript.org/styling">subset of CSS</a> for adding styles to your app. There are three mechanisms you can use to add CSS properties to UI components: <a href="http://docs.nativescript.org/styling#application-wide-css">application-wide CSS</a> (<code>app.css</code>), <a href="http://docs.nativescript.org/styling#page-specific-css">page-specific CSS</a>, and an <a href="http://docs.nativescript.org/styling#inline-css">inline <code>style</code> attribute</a>.</p>
+<p>As a best practice, place CSS rules that should apply to all pages in your <code>app.css</code>, and CSS rules that apply to a single page in a page-specific CSS file (e.g. <code>login.css</code>). Inline styles are great for quick testing—e.g. <code>&lt;Page style=&quot;background-color: green;&quot;&gt;</code>—but should be avoided in general, as the <code>style</code> attributes tend to clutter up XML files, especially once you need to apply multiple rules.</p>
+<p>Let&#39;s start by adding a few application-wide CSS rules.</p>
 <h4 class="exercise-start">
     <b>Exercise</b>: Create global styles
 </h4>
 
+<p>Paste the following code in your app&#39;s <code>app.css</code> file:</p>
 <pre><code>Page {
     background-color: white;
     font-size: 17;
-}
-Image {
-    margin: 20 0;
-}
-Label {
-    /* left, top, right, bottom */
-    margin: 20, 0, 0, 0;
-    width: 300;
 }
 TextField {
     margin: 10;
@@ -265,9 +260,26 @@ Button {
 }
 </code></pre><div class="exercise-end"></div>
 
-<p>Now if you run the app, you&#39;ll see some nice styles!</p>
+<p>If you&#39;ve done any web development before the syntax should feel familiar here; you select three UI components (Page, TextField, and Button) by their tag name, and then apply a handful of CSS rules as name/value pairs. Not all web CSS properties are supported, as some aren&#39;t possible to replicate in native apps without incurring prohibitive performance penalties. A <a href="http://docs.nativescript.org/styling#supported-properties">full list of the CSS selectors that are supported</a> are listed on the NativeScript docs.</p>
+<blockquote>
+<p><strong>Tip</strong>: NativeScript also supports selecting elements by class names and ids. Refer to the docs for <a href="http://docs.nativescript.org/styling#supported-selectors">a full list of the supported selectors</a>.</p>
+</blockquote>
+<p>With these changes in place, if you run your app you&#39;ll see some nice styles!</p>
 <p><img src="images/login-stage3-ios.png" alt="login 3">
 <img src="images/login-stage3-android.png" alt="login 3"></p>
+<p>Because you placed the above CSS rules in <code>app.css</code>, they&#39;ll apply not only to the login page you&#39;re developing now, but also to the register and list pages you&#39;ll build later in this guide. Before we end our CSS discussion, let&#39;s add one rule that&#39;s specific to the login page.</p>
+<h4 class="exercise-start">
+    <b>Exercise</b>: Create page-specific styles
+</h4>
+
+<p>Paste the following code in your app&#39;s <code>views/login/login.css</code> file:</p>
+<pre><code>Image {
+    margin: 20 0;
+}
+</code></pre><div class="exercise-end"></div>
+
+<p>Here NativeScript follows <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/margin">CSS&#39;s conventions for specifying multiple values in one rule</a>, specifically the first value controls the <code>margin-top</code>/<code>margin-bottom</code>, and the second value controls the <code>margin-left/margin-right</code>. You could alternatively write this CSS as <code>Image { margin-top: 20; margin-bottom: 20; margin-left: 0; margin-right: 0 }</code> if you prefer your code to be more explicit.</p>
+<p>For now this CSS does nothing as there is no <code>&lt;Image&gt;</code> UI component on the login page. Let&#39;s change that.</p>
 <h3 id="images">Images</h3>
 <p>It would be nice to have a logo available to match the imagery that is in the icon and on the splash screen. </p>
 <h4 class="exercise-start">

@@ -160,41 +160,63 @@ However, although the elements stack up as expected, the UI components could use
 
 ### CSS
 
-NativeScript supports a [subset of CSS](http://docs.nativescript.org/styling) so that you can add styles to your app. You can include global styles in a css file in the root of your app. You can also include individual css files in each view folder, which would be appropriate for styles that are isolated to a certain page.  
+NativeScript uses a [subset of CSS](http://docs.nativescript.org/styling) for adding styles to your app. There are three mechanisms you can use to add CSS properties to UI components: [application-wide CSS](http://docs.nativescript.org/styling#application-wide-css) (`app.css`), [page-specific CSS](http://docs.nativescript.org/styling#page-specific-css), and an [inline `style` attribute](http://docs.nativescript.org/styling#inline-css).
+
+As a best practice, place CSS rules that should apply to all pages in your `app.css`, and CSS rules that apply to a single page in a page-specific CSS file (e.g. `login.css`). Inline styles are great for quick testing—e.g. `<Page style="background-color: green;">`—but should be avoided in general, as the `style` attributes tend to clutter up XML files, especially once you need to apply multiple rules.
+
+Let's start by adding a few application-wide CSS rules.
 
 <h4 class="exercise-start">
     <b>Exercise</b>: Create global styles
 </h4>
 
+Paste the following code in your app's `app.css` file:
+
 ```
 Page {
-	background-color: white;
-	font-size: 17;
-}
-Image {
-	margin: 20 0;
-}
-Label {
-	/* left, top, right, bottom */
-	margin: 20, 0, 0, 0;
-	width: 300;
+    background-color: white;
+    font-size: 17;
 }
 TextField {
-	margin: 10;
-	background-color: #FAFAFA;
-	padding: 10;
+    margin: 10;
+    background-color: #FAFAFA;
+    padding: 10;
 }
 Button {
-	margin: 10;
+    margin: 10;
 }
 ```
 
 <div class="exercise-end"></div>
 
-Now if you run the app, you'll see some nice styles!
+If you've done any web development before the syntax should feel familiar here; you select three UI components (Page, TextField, and Button) by their tag name, and then apply a handful of CSS rules as name/value pairs. Not all web CSS properties are supported, as some aren't possible to replicate in native apps without incurring prohibitive performance penalties. A [full list of the CSS selectors that are supported](http://docs.nativescript.org/styling#supported-properties) are listed on the NativeScript docs.
+
+> **Tip**: NativeScript also supports selecting elements by class names and ids. Refer to the docs for [a full list of the supported selectors](http://docs.nativescript.org/styling#supported-selectors).
+
+With these changes in place, if you run your app you'll see some nice styles!
 
 ![login 3](images/login-stage3-ios.png)
 ![login 3](images/login-stage3-android.png)
+
+Because you placed the above CSS rules in `app.css`, they'll apply not only to the login page you're developing now, but also to the register and list pages you'll build later in this guide. Before we end our CSS discussion, let's add one rule that's specific to the login page.
+
+<h4 class="exercise-start">
+    <b>Exercise</b>: Create page-specific styles
+</h4>
+
+Paste the following code in your app's `views/login/login.css` file:
+
+```
+Image {
+    margin: 20 0;
+}
+```
+
+<div class="exercise-end"></div>
+
+Here NativeScript follows [CSS's conventions for specifying multiple values in one rule](https://developer.mozilla.org/en-US/docs/Web/CSS/margin), specifically the first value controls the `margin-top`/`margin-bottom`, and the second value controls the `margin-left/margin-right`. You could alternatively write this CSS as `Image { margin-top: 20; margin-bottom: 20; margin-left: 0; margin-right: 0 }` if you prefer your code to be more explicit.
+
+For now this CSS does nothing as there is no `<Image>` UI component on the login page. Let's change that.
 
 ### Images
 
