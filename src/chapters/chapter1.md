@@ -6,7 +6,7 @@ For this guide, we're assuming that you are going to develop your app on your lo
 
 ### Install NativeScript and configure your environment
 
-The NativeScript CLI has a few system requirements you must complete before building NativeScript apps. As a first step start by going through the appropriate instructions below depending on your development machine's operating system:
+The NativeScript CLI has a few system requirements you must have in place before building NativeScript apps. As a first step start by going through the appropriate instructions below depending on your development machine's operating system:
 
 - [Windows](http://docs.nativescript.org/setup/ns-cli-setup/ns-setup-win.html)
 - [OS X](http://docs.nativescript.org/setup/ns-cli-setup/ns-setup-os-x.html)

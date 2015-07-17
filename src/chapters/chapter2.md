@@ -156,7 +156,7 @@ If you run your app you'll see that that the elements now all appear, and are st
 
 However, although the elements stack up as expected, the UI components could use some spacing, and a bit of color to make the app look a bit nicer. To do that let's look at another NativeScript feature: CSS.
 
-> **Tip**: You can learn more about how NativeScript layouts works [in the NativeScript docs](http://docs.nativescript.org/layouts) and [on our blog](http://developer.telerik.com/featured/demystifying-nativescript-layouts/).
+> **Tip**: You can learn more about how NativeScript layouts works [in the NativeScript docs](http://docs.nativescript.org/layouts) and [on our blog](https://www.nativescript.org/blog/demystifying-nativescript-layouts).
 
 ### CSS
 
@@ -189,7 +189,7 @@ Button {
 
 <div class="exercise-end"></div>
 
-If you've done any web development before the syntax should feel familiar here; you select three UI components (Page, TextField, and Button) by their tag name, and then apply a handful of CSS rules as name/value pairs. Not all web CSS properties are supported, as some aren't possible to replicate in native apps without incurring prohibitive performance penalties. A [full list of the CSS selectors that are supported](http://docs.nativescript.org/styling#supported-properties) are listed on the NativeScript docs.
+If you've done any web development before, the syntax should feel familiar here; you select three UI components (Page, TextField, and Button) by their tag name, and then apply a handful of CSS rules as name/value pairs. Not all web CSS properties are supported, as some aren't possible to replicate in native apps without incurring prohibitive performance penalties. A [full list of the CSS properties that are supported](http://docs.nativescript.org/styling#supported-properties) are listed on the NativeScript docs.
 
 > **Tip**: NativeScript also supports selecting elements by class names and ids. Refer to the docs for [a full list of the supported selectors](http://docs.nativescript.org/styling#supported-selectors).
 

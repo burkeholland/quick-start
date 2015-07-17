@@ -1,6 +1,6 @@
 ## NativeScript modules
 
-In the previous chapter, we already saw how NativeScript leverages the concept of 'modules' to include bits of code that are kept in the tns_modules folder. Using 'require', you can include these snippets ad hoc in your code when you need to use them, similar to the way we use npm to import node libraries. Let's take a closer look at these modules and what they can do for us.
+In the previous chapter, you already saw how NativeScript leverages the concept of 'modules' to include bits of code that are kept in the tns_modules folder. Using 'require', you can include these snippets ad hoc in your code when you need to use them, similar to the way you use npm to import node libraries. Let's take a closer look at these modules and what they can do for your app.
 
 >If you dig a bit into the tns_modules folder and find the http folder, you can see how a tns module is constructed. It includes:
 - a package.json that sets the name of the module and includes the base http.js file
@@ -29,7 +29,9 @@ Let's use another UI module to craft a page to actually hold our grocery data. T
 frameModule.topmost().navigate("./views/list/list");
 ```
 
-**Exercise: Construct the list view**
+<h4 class="exercise-start">
+    <b>Exercise</b>: Construct the list view
+</h4>
 
 In app/views/list/list.xml, let's get started using the ListView module by creating a list where our groceries will reside:
 
@@ -50,10 +52,11 @@ In app/views/list/list.xml, let's get started using the ListView module by creat
 	</GridLayout>
 </Page>
 ```
+<div class="exercise-end"></div>
 
 Note the use of the ListView module. In this case, we're not requiring a tns_module from the ui folder, but are rather using the ui widget within the xml code. This is a different way to use these modules. 
 
-If we wanted to, we could construct a ListView in pure JavaScript code behind the scenes as shown in [this example](http://docs.nativescript.org/ApiReference/ui/list-view/HOW-TO.html). However for our purposes, we can simply use xml to build the ListView and thereby follow the pattern we use in the login and register screens.
+If you wanted to, you could construct a ListView in pure JavaScript code behind the scenes as shown in [this example](http://docs.nativescript.org/ApiReference/ui/list-view/HOW-TO.html). However for now, you can simply use xml to build the ListView and thereby follow the pattern you use in the login and register screens.
 
 Finally, note the ListView's use of an itemTemplate. Using an itemTemplate gives you more control over how the actual items look within the list.
 

@@ -51,7 +51,7 @@
 <p><img src="images/screenshot-placeholder.png" alt="placeholder">
 <img src="images/screenshot-placeholder.png" alt="placeholder">
 <img src="images/screenshot-placeholder.png" alt="placeholder"></p>
-<p>By building “Groceries“ you&#39;ll see just how easy NativeScript makes building iOS and Android apps—and fun too! Let&#39;s get started.</p>
+<p>By building “Groceries“ you&#39;ll see just how easy and fun it is to build iOS and Android apps with NativeScript. Let&#39;s get started.</p>
 
 		</div>
 		<hr>
@@ -60,7 +60,7 @@
 <p>There are two ways to use NativeScript: through the NativeScript Command-Line Interface (CLI) and through <a href="http://www.telerik.com/appbuilder">Telerik AppBuilder</a>. Although the NativeScript framework itself is the same regardless of whether you use the CLI or AppBuilder, the way you interface with NativeScript—how you run your app, how you change configuration files, and so forth—differs based on the interface you choose.</p>
 <p>For this guide, we&#39;re assuming that you are going to develop your app on your local computer using the NativeScript CLI. Although most of the steps and advice given in this guide apply equally to using NativeScript through the CLI or AppBuilder, some—mostly related to development workflow—are specific to using NativeScript through the NativeScript CLI.</p>
 <h3 id="install-nativescript-and-configure-your-environment">Install NativeScript and configure your environment</h3>
-<p>The NativeScript CLI has a few system requirements you must complete before building NativeScript apps. As a first step start by going through the appropriate instructions below depending on your development machine&#39;s operating system:</p>
+<p>The NativeScript CLI has a few system requirements you must have in place before building NativeScript apps. As a first step start by going through the appropriate instructions below depending on your development machine&#39;s operating system:</p>
 <ul>
 <li><a href="http://docs.nativescript.org/setup/ns-cli-setup/ns-setup-win.html">Windows</a></li>
 <li><a href="http://docs.nativescript.org/setup/ns-cli-setup/ns-setup-os-x.html">OS X</a></li>
@@ -235,7 +235,7 @@ application.start();
 <img src="images/login-stage2-android.png" alt="login 2"></p>
 <p>However, although the elements stack up as expected, the UI components could use some spacing, and a bit of color to make the app look a bit nicer. To do that let&#39;s look at another NativeScript feature: CSS.</p>
 <blockquote>
-<p><strong>Tip</strong>: You can learn more about how NativeScript layouts works <a href="http://docs.nativescript.org/layouts">in the NativeScript docs</a> and <a href="http://developer.telerik.com/featured/demystifying-nativescript-layouts/">on our blog</a>.</p>
+<p><strong>Tip</strong>: You can learn more about how NativeScript layouts works <a href="http://docs.nativescript.org/layouts">in the NativeScript docs</a> and <a href="https://www.nativescript.org/blog/demystifying-nativescript-layouts">on our blog</a>.</p>
 </blockquote>
 <h3 id="css">CSS</h3>
 <p>NativeScript uses a <a href="http://docs.nativescript.org/styling">subset of CSS</a> for adding styles to your app. There are three mechanisms you can use to add CSS properties to UI components: <a href="http://docs.nativescript.org/styling#application-wide-css">application-wide CSS</a> (<code>app.css</code>), <a href="http://docs.nativescript.org/styling#page-specific-css">page-specific CSS</a>, and an <a href="http://docs.nativescript.org/styling#inline-css">inline <code>style</code> attribute</a>.</p>
@@ -260,7 +260,7 @@ Button {
 }
 </code></pre><div class="exercise-end"></div>
 
-<p>If you&#39;ve done any web development before the syntax should feel familiar here; you select three UI components (Page, TextField, and Button) by their tag name, and then apply a handful of CSS rules as name/value pairs. Not all web CSS properties are supported, as some aren&#39;t possible to replicate in native apps without incurring prohibitive performance penalties. A <a href="http://docs.nativescript.org/styling#supported-properties">full list of the CSS selectors that are supported</a> are listed on the NativeScript docs.</p>
+<p>If you&#39;ve done any web development before, the syntax should feel familiar here; you select three UI components (Page, TextField, and Button) by their tag name, and then apply a handful of CSS rules as name/value pairs. Not all web CSS properties are supported, as some aren&#39;t possible to replicate in native apps without incurring prohibitive performance penalties. A <a href="http://docs.nativescript.org/styling#supported-properties">full list of the CSS properties that are supported</a> are listed on the NativeScript docs.</p>
 <blockquote>
 <p><strong>Tip</strong>: NativeScript also supports selecting elements by class names and ids. Refer to the docs for <a href="http://docs.nativescript.org/styling#supported-selectors">a full list of the supported selectors</a>.</p>
 </blockquote>
@@ -318,16 +318,24 @@ Button {
 <h3 id="the-view-model">The View Model</h3>
 <p>Although you can now see your login screen as a nicely-styled entity with UI widgets and an image, it&#39;s not yet wired up to send data to the backend. Let&#39;s fix that.</p>
 <p>In <code>app/views/login</code>, you&#39;ll find <code>login.js</code>. You&#39;re going to add all the functions that support the xml markup you created in the previous chapter into this file, which will become this page&#39;s View Model.</p>
-<p><strong>Exercise: Construct the login View Model.</strong></p>
+<h4 class="exercise-start">
+    <b>Exercise</b>: Construct the login View Model
+</h4>
+
 <p>First, add a &#39;loaded&#39; attribute to the Page element at the top of <code>login.xml</code>:</p>
 <pre><code>&lt;Page loaded=&quot;load&quot;&gt;
 </code></pre><p>Now you can create a load function in <code>app/views/login/login.js</code>:</p>
 <pre><code>exports.load = function() {
     console.log(&quot;hello&quot;)
 };
-</code></pre><p>If you run the app, you can see how, when the login screen loads, you can view the word &#39;hello&#39; in the app console.</p>
+</code></pre><div class="exercise-end"></div>
+
+<p>If you run the app, you can see how, when the login screen loads, you can view the word &#39;hello&#39; in the app console.</p>
 <p>With this simple example, we can see how the xml file can append attributes to the markup that point to various functions in the accompanying JavaScript files. One such attribute is &#39;load&#39;, and another is &#39;tap&#39;.</p>
-<p><strong>Exercise: Add tap attributes to the login buttons and add their functions</strong></p>
+<h4 class="exercise-start">
+    <b>Exercise</b>: Add tap attributes to the login buttons and add their functions
+</h4>
+
 <p>You can add a &#39;tap&#39; attribute that will fire when a button is tapped or touched. </p>
 <p>In <code>app/views/login/login.xml</code>, edit the markup for both buttons at the bottom of the screen:</p>
 <pre><code>&lt;Button text=&quot;Sign in&quot; tap=&quot;signIn&quot; /&gt;
@@ -341,7 +349,9 @@ Button {
 exports.register = function() {
     alert(&quot;Registering&quot;);
 };
-</code></pre><p>At this point, if you run your app and tap either of the buttons in your simulator, you will see the appropriate alerts pop up. </p>
+</code></pre><div class="exercise-end"></div>
+
+<p>At this point, if you run your app and tap either of the buttons in your simulator, you will see the appropriate alerts pop up. </p>
 <p><img src="images/login-stage5-ios.png" alt="login 5">
 <img src="images/login-stage5-android.png" alt="login 5"></p>
 <p>Now that you can see tap gestures working, you can make them do something more interesting than open alerts.</p>
@@ -350,7 +360,10 @@ exports.register = function() {
 <blockquote>
 <p>While our Groceries app doesn&#39;t use complex navigation strategies, you have several available to you out of the box such as the <a href="http://docs.nativescript.org/ui-views#tabview">TabView</a> and the <a href="http://docs.nativescript.org/ui-views#segmentedbar">SegmentedBar</a></p>
 </blockquote>
-<p><strong>Exercise: Enable the &quot;Sign Up&quot; button on the login screen with a navigational change</strong></p>
+<h4 class="exercise-start">
+    <b>Exercise</b>: Enable the &quot;Sign Up&quot; button on the login screen with a navigational change
+</h4>
+
 <p>In <code>app/views/login/login.js</code>, add this line to the top of the file:</p>
 <pre><code>var frameModule = require(&quot;ui/frame&quot;);
 </code></pre><p>Then, remove the alert in the register function and add the following function under the signIn function:</p>
@@ -358,12 +371,19 @@ exports.register = function() {
     var topmost = frameModule.topmost();
     topmost.navigate(&quot;./views/register/register&quot;);
 };
-</code></pre><p>This function makes use of the module &#39;frameModule&#39; which looks for the topmost frame and navigates to it. Here, we tell the topmost frame to navigate to the register view. If you run your code in an emulator, you&#39;ll find that you can now navigate to your registration view by clicking the &quot;Sign Up for Groceries&quot; button.</p>
+</code></pre><div class="exercise-end"></div>
+
+<p>This function makes use of the module &#39;frameModule&#39; which looks for the topmost frame and navigates to it. Here, we tell the topmost frame to navigate to the register view. If you run your code in an emulator, you&#39;ll find that you can now navigate to your registration view by clicking the &quot;Sign Up for Groceries&quot; button.</p>
 <p>If you run your app and click this button, you will be sent to the registration screen, which we have pre-built for you. You can go ahead and create a new account for yourself if you like!</p>
+<blockquote>
 <p>Learn more about how to link up your navigational strategies <a href="http://docs.nativescript.org/navigation#navigation">here</a>.</p>
+</blockquote>
 <h3 id="data-binding">Data Binding</h3>
 <p>Since we have been working with forms in NativeScript, we need to understand how data flows back and forth between the frontend and backend. </p>
-<p><strong>Exercise: Send data from the frontend to the View Model</strong></p>
+<h4 class="exercise-start">
+    <b>Exercise</b>: Send data from the frontend to the View Model
+</h4>
+
 <p>To get data to be sent from <code>login.xml</code>, add an id to the email textfield:</p>
 <pre><code>&lt;TextField id=&quot;email_address&quot; hint=&quot;Email Address&quot; keyboardType=&quot;email&quot; /&gt;
 </code></pre><p>You need to access this textfield via the view, so add a line at the top, underneath the frameModule variable. Also expose email as a variable available to both the load and signIn functions:</p>
@@ -378,13 +398,18 @@ var email;
 <pre><code>exports.signIn = function() {
     console.log(email.text)
 };
-</code></pre><p>Now, if you run the app, you&#39;ll find data reaches the View Model when the signIn function is run via tapping the signIn button. In the next section, we&#39;ll show how to bind data back to the frontend.</p>
+</code></pre><div class="exercise-end"></div>
+
+<p>Now, if you run the app, you&#39;ll find data reaches the View Model when the signIn function is run via tapping the signIn button. In the next section, we&#39;ll show how to bind data back to the frontend.</p>
 <h3 id="connecting-the-view-model-to-a-model">Connecting the View Model to a Model</h3>
 <p>Although you can now see data reaching the View Model from the frontend XML file, you need to do more than that to actually complete login. The data has to reach a backend service, which for this app is the Model and is found in <code>app/shared/Models/User.js</code>.</p>
 <blockquote>
 <p>A best practice for working within the MVVM pattern is to build the View Model first, before even touching the UI. The View Model shouldn&#39;t be aware of UI elements at all, it simply channels data back and forth.</p>
 </blockquote>
-<p><strong>Exercise: Bind data back to the frontend</strong></p>
+<h4 class="exercise-start">
+    <b>Exercise</b>: Bind data back to the frontend
+</h4>
+
 <p>You saw how to get data from the frontend to the backend, but what if you need to show some pre-filled values in the frontend?</p>
 <p>To allow for two-way data binding, edit the textfield markup in <code>app/views/login/login.xml</code>:</p>
 <pre><code>&lt;TextField id=&quot;email_address&quot; text=&quot;{{ email_address }}&quot; hint=&quot;Email Address&quot;  keyboardType=&quot;email&quot; /&gt;
@@ -407,11 +432,13 @@ var user = new User();
     page.bindingContext = user;
 
 };
-</code></pre><p>If you run your app, you&#39;ll see the fields prefilled:</p>
+</code></pre><div class="exercise-end"></div>
+
+<p>If you run your app, you&#39;ll see the fields prefilled:</p>
 <p><img src="images/login-stage5-ios.png" alt="login 5">
 <img src="images/login-stage5-android.png" alt="login 5"></p>
 <p>Now that you have the ability to bind the frontend to the backend, you need to be able to send that data to a database in order to complete the login routine. </p>
-<h3 id="connecting-to-the-model">Connecting to the Model</h3>
+<h3 id="connecting-the-model-to-the-backend">Connecting the Model to the Backend</h3>
 <p>You probably noticed, if you created your own user on the registration page, that, data was passing magically...somewhere. There&#39;s actually no magic involved; there is a config file that contains our API Key to <a href="http://www.telerik.com/backend-services">Telerik Backend Services</a>, where we are storing our users&#39; information.</p>
 <p>Take a look at <code>app/shared/config.js</code>. There&#39;s only a small code snippet there, but it includes a hard-coded API Key that we use throughout the app to access the backend (in real life, you would of course use your own API Key):</p>
 <pre><code>module.exports = {
@@ -420,10 +447,11 @@ var user = new User();
 </code></pre><p>Take a look in <code>app/shared/models</code>. The business logic of your app is normally stored in one or many Model files that normally connect to a database asynchronously by means of a promise pattern. You can see this demonstrated in the registration function.</p>
 <p>Note that the config file is used in all the Model files, for example in User Model: <code>app/shared/models/User.js</code>:</p>
 <pre><code>var config = require(&quot;../../shared/config&quot;);
-</code></pre><p><strong>Exercise: Complete the login in the Model</strong></p>
-<p>In <code>app/shared/Models/Users.js</code>, add the login function under </p>
-<p><strong>Exercise: Complete the login in the View Model</strong></p>
-<p>To complete the login of a user, add a login function under <code>User.prototype = new observableModule.Observable();</code>:</p>
+</code></pre><h4 class="exercise-start">
+    <b>Exercise</b>: Complete the login in the Model
+</h4>
+
+<p>To complete the login of a user, in <code>app/shared/Models/Users.js</code>, add a login function under <code>User.prototype = new observableModule.Observable();</code>:</p>
 <pre><code>User.prototype.login = function() {
     var that = this;
     return new Promise(function(resolve, reject) {
@@ -446,13 +474,7 @@ var user = new User();
         });
     });
 };
-</code></pre><p>Several things are happening here:</p>
-<ul>
-<li><strong>Observables</strong>: Observable is a core building block in the MVVM design pattern. It provides it with a mechanism required for two-way data binding so as to provide communication between the front and backends. This means that if the user updates the data in the UI the change will be reflected in the Model and vice versa.</li>
-<li><strong>Use of the http module</strong>: We&#39;ll discuss modules more in the next chapter, but the http module is a NativeScript module that facilitates utilizing external services such a Telerik&#39;s backend services.</li>
-<li><strong>Promises</strong>: Since NativeScript leverages the <a href="http://wiki.commonjs.org/wiki/CommonJS">CommonJS specification</a>, it also makes use of promises to handle asynchronous requests. Read more about promises <a href="http://wiki.commonjs.org/wiki/Promises">here</a>.</li>
-</ul>
-<p>Finally, allow the View Model to invoke the login function that you just added to the Model. In <code>app/views/login/login.js</code> rewrite your signIn function to look like this:</p>
+</code></pre><p>Finally, allow the View Model to invoke the login function that you just added to the Model. In <code>app/views/login/login.js</code> rewrite your signIn function to look like this:</p>
 <pre><code>exports.signIn = function() {
     user.login()
         .then(function() {
@@ -464,7 +486,15 @@ var user = new User();
             });
         });
 };
-</code></pre><p>Now, if you rebuild and run your app in an emulator, you can login either using your credentials that you created earlier, or TJ&#39;s:</p>
+</code></pre><div class="exercise-end"></div>
+
+<p>Several things are happening here:</p>
+<ul>
+<li><strong>Observables</strong>: Observable is a core building block in the MVVM design pattern. It provides a mechanism used for two-way data binding so as to enable communication between the front and backends. This means that if the user updates the data in the UI the change will be reflected in the Model and vice versa.</li>
+<li><strong>Use of the http module</strong>: We&#39;ll discuss modules more in the next chapter, but the http module is a NativeScript module that facilitates utilizing external services such a Telerik&#39;s backend services.</li>
+<li><strong>Promises</strong>: Since NativeScript leverages the <a href="http://wiki.commonjs.org/wiki/CommonJS">CommonJS specification</a>, it also makes use of promises to handle asynchronous requests. Read more about promises <a href="http://wiki.commonjs.org/wiki/Promises">here</a>.</li>
+</ul>
+<p>Now, if you rebuild and run your app in an emulator, you can login either using your credentials that you created earlier, or TJ&#39;s:</p>
 <p><img src="images/login-stage6-ios.png" alt="login 6">
 <img src="images/login-stage6-android.png" alt="login 6"></p>
 <p>You&#39;ll find that after you login, you&#39;re sent to a blank screen. You&#39;re going to build a list to hold grocery data next. But since we started discussing modules, let&#39;s take a look at how those work in NativeScript before continuing. </p>
@@ -473,7 +503,7 @@ var user = new User();
 		<hr>
 		<div class="chapter">
 			<h2 id="nativescript-modules">NativeScript modules</h2>
-<p>In the previous chapter, we already saw how NativeScript leverages the concept of &#39;modules&#39; to include bits of code that are kept in the tns_modules folder. Using &#39;require&#39;, you can include these snippets ad hoc in your code when you need to use them, similar to the way we use npm to import node libraries. Let&#39;s take a closer look at these modules and what they can do for us.</p>
+<p>In the previous chapter, you already saw how NativeScript leverages the concept of &#39;modules&#39; to include bits of code that are kept in the tns_modules folder. Using &#39;require&#39;, you can include these snippets ad hoc in your code when you need to use them, similar to the way you use npm to import node libraries. Let&#39;s take a closer look at these modules and what they can do for your app.</p>
 <blockquote>
 <p>If you dig a bit into the tns_modules folder and find the http folder, you can see how a tns module is constructed. It includes:</p>
 <ul>
@@ -493,7 +523,10 @@ var user = new User();
 </code></pre><h3 id="listview">ListView</h3>
 <p>Let&#39;s use another UI module to craft a page to actually hold our grocery data. This is the page we want users to navigate to once they login, so let&#39;s add a line in app/views/login/login.js to allow this navigation to happen. In the signIn function, add the following line after &#39;.then(function(){&#39;:</p>
 <pre><code>frameModule.topmost().navigate(&quot;./views/list/list&quot;);
-</code></pre><p><strong>Exercise: Construct the list view</strong></p>
+</code></pre><h4 class="exercise-start">
+    <b>Exercise</b>: Construct the list view
+</h4>
+
 <p>In app/views/list/list.xml, let&#39;s get started using the ListView module by creating a list where our groceries will reside:</p>
 <pre><code>&lt;Page navigatedTo=&quot;navigatedTo&quot;&gt;
     &lt;GridLayout rows=&quot;auto, *&quot; columns=&quot;*, *, *&quot;&gt;
@@ -510,8 +543,10 @@ var user = new User();
         &lt;/ListView&gt;
     &lt;/GridLayout&gt;
 &lt;/Page&gt;
-</code></pre><p>Note the use of the ListView module. In this case, we&#39;re not requiring a tns_module from the ui folder, but are rather using the ui widget within the xml code. This is a different way to use these modules. </p>
-<p>If we wanted to, we could construct a ListView in pure JavaScript code behind the scenes as shown in <a href="http://docs.nativescript.org/ApiReference/ui/list-view/HOW-TO.html">this example</a>. However for our purposes, we can simply use xml to build the ListView and thereby follow the pattern we use in the login and register screens.</p>
+</code></pre><div class="exercise-end"></div>
+
+<p>Note the use of the ListView module. In this case, we&#39;re not requiring a tns_module from the ui folder, but are rather using the ui widget within the xml code. This is a different way to use these modules. </p>
+<p>If you wanted to, you could construct a ListView in pure JavaScript code behind the scenes as shown in <a href="http://docs.nativescript.org/ApiReference/ui/list-view/HOW-TO.html">this example</a>. However for now, you can simply use xml to build the ListView and thereby follow the pattern you use in the login and register screens.</p>
 <p>Finally, note the ListView&#39;s use of an itemTemplate. Using an itemTemplate gives you more control over how the actual items look within the list.</p>
 <h3 id="other-modules">Other modules</h3>
 <p>There are several modules that come out of the box with your NativeScript install, including a location service, a file-system helper, timer, camera, and even a color module that helps navigate the ways various colors are handled cross-platform. If you are interested in helping build and distribute more modules for the community, there&#39;s a <a href="http://developer.telerik.com/featured/building-your-own-nativescript-modules-for-npm/">good guide</a> available on how to do this.</p>
@@ -519,70 +554,182 @@ var user = new User();
 		</div>
 		<hr>
 		<div class="chapter">
-			<h2 id="using-npm">Using npm</h2>
-<p>Often, we need to include modules that are not by default available in tns_modules to allow for special functionality. We can leverage npm, node package manager, to import plugins and modules into our project. Let&#39;s add the <a href="https://www.npmjs.com/package/nativescript-social-share">NativeScript Social Share widget</a> so that we can email our grocery lists.</p>
-<h3 id="using-npm-modules-in-your-app">Using npm modules in your app</h3>
-<p><strong>Exercise: Install and use the Social Sharing widget</strong></p>
-<p>Cd to the app directory in your Groceries project folder:</p>
-<pre><code>cd Documents/NativeScript/Groceries/app/
-</code></pre><p>and install the module:</p>
-<pre><code>npm install nativescript-social-share
-</code></pre><p>We&#39;re going to add this functionality to our list of groceries, so in /app/views/list/list.js, require the module:</p>
-<pre><code>var socialShare = require(&quot;../../node_modules/nativescript-social-share/social-share&quot;);
-</code></pre><p>Let&#39;s make an area at the top of our list file to show a link to share a grocery list. Under the <Page> tag, add the following code. Tapping this link will open a native email sharing widget:</p>
-<pre><code>&lt;Page.optionsMenu&gt;
-    &lt;MenuItem text=&quot;Share&quot; tap=&quot;share&quot; android.position=&quot;actionBar&quot;/&gt;
-&lt;/Page.optionsMenu&gt;
-</code></pre><p>Now we need to get our grocery list into a comma-delimited format that will be fed to the socialSharing widget. To do this, add a function to return our list at the bottom of list-view-model.js:</p>
-<pre><code>ListViewModel.prototype.getList = function() {
-    var groceryList = this.get(&quot;groceryList&quot;);
-    var list = [];
-    for (var i = 0, size = groceryList.length; i &lt; size ; i++) {
-        list.push(groceryList.getItem(i).name);
+			<h2 id="advanced-nativescript">Advanced NativeScript</h2>
+<p>So far, we&#39;ve been working with some fairly standard forms and some common use cases for getting a mobile app up and running with NativeScript, including registering for and logging into a backend service. Now it&#39;s time to dig a little deeper and turn this app into a grocery list app. In this chapter we&#39;ll construct a listView that will accept items into a list and save them in the backend database.</p>
+<h3 id="the-view-model-and-model">The View Model and Model</h3>
+<p>To be able to manage data in the grocery list, we need to build a connection between the presentation tier and the database as we did for login. Let&#39;s build out these pieces in our grocery list.</p>
+<h4 class="exercise-start">
+    <b>Exercise</b>: Construct the list View Model and Model
+</h4>
+
+<p>In app/views/list/list.js, add:</p>
+<pre><code>var GroceryList = require(&quot;../../shared/models/GroceryList&quot;);
+
+var page;
+var pageData = new observable.Observable();
+var groceryList = new GroceryList();
+
+pageData.set(&quot;grocery&quot;, &quot;&quot;);
+pageData.set(&quot;groceryList&quot;, groceryList);
+
+exports.navigatedTo = function(args) {
+    page = args.object;
+    if (page.ios) {
+        page.ios.title = &quot;Groceries&quot;;
+        var listView = view.getViewById(page, &quot;groceryList&quot;);
+        swipeDelete.enable(listView, function(index) {
+            groceryList.delete(index);
+        });
     }
-    return list.join(&quot;,&quot;);
+
+    page.bindingContext = pageData;
+    groceryList.empty();
+    groceryList.load();
 };
-</code></pre><p>And then finally add a function in app/views/list/list.js to call the socialSharing widget:</p>
-<pre><code>exports.share = function() {
-    var list = viewModel.getList();
-    socialShare.shareText(list);
-}
-</code></pre><p>Now when you run the app, you&#39;ll see a Share button at the top that, when clicked, allows you to email a list using a native interface:</p>
-<p><img src="images/share-view.png" alt="share">
-<img src="images/share-email.png" alt="share"></p>
-<p>It&#39;s very cool to add ready-built modules to your app. But maybe you want to build your own! </p>
-<h3 id="building-your-own-nativescript-modules">Building your own NativeScript modules</h3>
+</code></pre><p>Here, we&#39;re creating a new empty grocery array and a groceryList variable to instantiate our GroceryList object that we create in the Model. We&#39;re also emptying and refilling our groceryList in the navigatedTo function which we added to the xml previously in <code>app/views/list/list.xml</code>. Let&#39;s create the GroceryList object in the Model:</p>
+<p>In app/shared/models/GroceryList.js, let&#39;s grab any Grocery data that might exist in the backend and push it into the grocery array:</p>
+<pre><code>GroceryList.prototype.load = function() {
+    var that = this;
+    http.getJSON({
+        url: config.apiUrl + &quot;Groceries&quot;,
+        method: &quot;GET&quot;,
+        headers: {
+            &quot;Authorization&quot;: &quot;Bearer &quot; + config.token
+        }
+    }).then(function(data) {
+        data.Result.forEach(function(grocery) {
+            that.push({
+                name: grocery.Name,
+                id: grocery.Id
+            });
+        });
+    });
+};
+GroceryList.prototype.empty = function() {
+    while (this.length) {
+        this.pop();
+    }
+};
+</code></pre><div class="exercise-end"></div>
+
+<p>In the load function above, we are pulling down the list associated to the user&#39;s credentials. In the empty function, we clear out the array and get ready to reload it. If you rebuild, run the app, and login as tj.vantoll@gmail.com, you&#39;ll find a list of groceries pulled from Backend services in the Groceries data type. It will look something like this:</p>
+<p><img src="images/list-ios.png" alt="list ios">
+<img src="images/list-android.png" alt="list android"></p>
+<p>It&#39;s great that we can see data already in the database, but we also need to add some items. Let&#39;s build that functionality.</p>
+<h4 class="exercise-start">
+    <b>Exercise</b>: Add the ability to create a Grocery item
+</h4>
+
+<p>Notice at the top of the list is a text area and an &#39;Add&#39; button. Right now, it doesn&#39;t do anything. Let&#39;s fix that.</p>
+<p>In app/views/list/list.js, add a function to respond to the &#39;add&#39; tap event that is already in list.xml. We&#39;ll put this underneath the navigatedTo function.</p>
+<pre><code>exports.add = function() {
+    view.getViewById(page, &quot;grocery&quot;).dismissSoftInput();
+    groceryList.add(pageData.get(&quot;grocery&quot;))
+        .catch(function() {
+            dialogs.alert({
+                message: &quot;An error occurred adding to your list.&quot;,
+                okButtonText: &quot;OK&quot;
+            });
+        });
+    pageData.set(&quot;grocery&quot;, &quot;&quot;);
+};
+</code></pre><p>In this function, we get the &#39;grocery&#39; item from the input field and add it to the groceryList object. </p>
+<p>Finally, let the manipulation of this new data be handled in the Model by adding the following function under the &#39;empty&#39; function in /app/shared/models/GroceryList.js:</p>
+<pre><code>GroceryList.prototype.add = function(grocery) {
+    var that = this;
+    return new Promise(function(resolve, reject) {
+        http.request({
+            url: config.apiUrl + &quot;Groceries&quot;,
+            method: &quot;POST&quot;,
+            content: JSON.stringify({
+                Name: grocery
+            }),
+            headers: {
+                &quot;Authorization&quot;: &quot;Bearer &quot; + config.token,
+                &quot;Content-Type&quot;: &quot;application/json&quot;
+            }
+        }).then(function() {
+            that.push({ name: grocery });
+            resolve();
+        }).catch(function() {
+            reject();
+        });
+    });
+};
+</code></pre><div class="exercise-end"></div>
+
+<p>If you build and rerun your app now, you&#39;ll find that you can add a grocery item and it will appear immediately in your list.</p>
+<h3 id="form-validation">Form Validation</h3>
+<p>You may have noticed that you can get away with submitting a blank list item form. Let&#39;s add a bit of form validation to stop a blank email address from being submitted.</p>
+<h4 class="exercise-start">
+    <b>Exercise</b>: Add validation to the list input
+</h4>
+
+<p>You shouldn&#39;t be able to input a blank item into your grocery list, so let&#39;s add some form validation. This validation will simply check if a field has been left blank.</p>
+<p>To do this, edit the <code>add</code> function in <code>app/views/list/list.js</code> to first check for a blank entry, and then to allow the item to be added:</p>
+<pre><code>exports.add = function() {
+    if (groceryList.isValidItem(pageData.get(&quot;grocery&quot;))) {
+        view.getViewById(page, &quot;grocery&quot;).dismissSoftInput();
+        groceryList.add(pageData.get(&quot;grocery&quot;))
+            .catch(function() {
+                dialogs.alert({
+                    message: &quot;An error occurred adding to your list.&quot;,
+                    okButtonText: &quot;OK&quot;
+                });
+            });
+        pageData.set(&quot;grocery&quot;, &quot;&quot;);
+    } else {
+        alert(&quot;Please enter a grocery item&quot;);
+    }
+};
+</code></pre><p>Then, edit the Model, adding a function at the end of <code>app/shared/models/GroceryList.js</code> that will test for a blank item being sent to the backend:</p>
+<pre><code>GroceryList.prototype.isValidItem = function(grocery) {
+    return !!(grocery);
+};
+</code></pre><div class="exercise-end"></div>
+
+<p>Now that we have login, registration, and list routines complete, we need to work on the app&#39;s actual functionality as a grocery list management tool. You can use the NativeScript Social Sharing plugin to get the data you input into an email so you can send yourself a reminder to pick up your groceries.</p>
 
 		</div>
 		<hr>
 		<div class="chapter">
-			<h2 id="advanced-nativescript">Advanced NativeScript</h2>
-<p>So far, we&#39;ve been working with some fairly standard forms and some common use cases for getting a mobile app up and running with NativeScript, including registering and logging into a backend service. Now it&#39;s time to dig a little deeper and turn this app into a grocery list app. In this chapter we&#39;ll construct a listView that will accept items into a list and save them in the backend database.</p>
-<h3 id="the-view-model-and-model">The View Model and Model</h3>
-<p>To be able to manage data in the grocery list, we need to build a connection between the presentation tier and the database as we did for login. Let&#39;s build out these pieces in our grocery list.</p>
-<p><strong>Exercise: Construct the list View Model and Model</strong></p>
-<p>In app/views/list/list.js, add:</p>
-<pre><code>VM
-</code></pre><p>Here, we&#39;re creating a new empty grocery array and a groceryList variable to instantiate our GroceryList object that we create in the Model. We&#39;re also emptying and refilling our groceryList in the reset function. Let&#39;s create the GroceryList object in the Model:</p>
-<p>In app/shared/models/GroceryList.js, let&#39;s grab any Grocery data that might exist in the backend and push it into the grocery array:</p>
-<pre><code>Model
-</code></pre><p>In the load function above, we are pulling down the list associated to the user&#39;s credentials. If you rebuild, run the app, and login as tj.vantoll@gmail.com, you&#39;ll find a list of groceries pulled from Backend services in the Groceries data type. It will look something like this:</p>
-<p>!()[]</p>
-<p>It&#39;s great that we can see data already in the database, but we also need to add some items. Let&#39;s build that functionality.</p>
-<p><strong>Exercise: Add the ability to create a Grocery item</strong></p>
-<p>Notice at the top of the list is a text area and an &#39;Add&#39; button. Right now, it doesn&#39;t do anything. Let&#39;s fix that.</p>
-<p>In app/views/list/list.js, add a function to respond to the &#39;add&#39; tap event that is already in list.xml. We&#39;ll put this underneath the navigatedTo function.</p>
-<pre><code>add routine in VM
-</code></pre><p>In this function, we get the &#39;grocery&#39; item from the input field and add it to the groceryList object. </p>
-<p>Finally, let the manipulation of this new data be handled in the Model by adding the following function under the &#39;empty&#39; function in /app/shared/models/GroceryList.js:</p>
-<pre><code>add routine in Model
-</code></pre><p>If you build and rerun your app now, you&#39;ll find that you can add a grocery item and it will appear immediately in your list.</p>
-<h3 id="form-validation">Form Validation</h3>
-<p>You may have noticed that you can get away with submitting a blank list item form. Let&#39;s add a bit of form validation to stop a blank email address from being submitted.</p>
-<blockquote>
-<p><strong>Todo</strong> validation for list field</p>
-</blockquote>
-<p>Now that we have login, registration, and list routines complete, we need to work on the app&#39;s actual functionality as a grocery list management tool.</p>
+			<h2 id="using-npm">Using npm</h2>
+<p>Often, we need to include modules that are not by default available in tns_modules to allow for special functionality. We can leverage npm, node package manager, to import plugins and modules into our project. Let&#39;s add the <a href="https://www.npmjs.com/package/nativescript-social-share">NativeScript Social Share widget</a> so that we can email our grocery lists.</p>
+<h3 id="using-npm-modules-in-your-app">Using npm modules in your app</h3>
+<h4 class="exercise-start">
+    <b>Exercise</b>: Install and use the Social Sharing widget
+</h4>
+
+<p>Cd to the app directory in your Groceries project folder:</p>
+<pre><code>cd Documents/NativeScript/Groceries/app/
+</code></pre><p>and install the module:</p>
+<pre><code>npm install nativescript-social-share
+</code></pre><p>We&#39;re going to add this functionality to our list of groceries, so in <code>/app/views/list/list.js</code>, require the module:</p>
+<pre><code>var socialShare = require(&quot;nativescript-social-share&quot;);
+</code></pre><p>Let&#39;s make an area at the top of our list file to show a link to share a grocery list. Under the <Page> tag, add the following code. Tapping this link will open a native email sharing widget:</p>
+<pre><code>&lt;Page.optionsMenu&gt;
+    &lt;MenuItem text=&quot;Share&quot; tap=&quot;share&quot; android.position=&quot;actionBar&quot;/&gt;
+&lt;/Page.optionsMenu&gt;
+</code></pre><p>Now we need to get our grocery list into a comma-delimited format and feed it to the socialSharing widget. To do this, add a function to return our list at the bottom of <code>/app/views/list/list.js</code>:</p>
+<pre><code>exports.share = function() {
+    var list = [];
+    var finalList = &quot;&quot;;
+    for (var i = 0, size = groceryList.length; i &lt; size ; i++) {
+        list.push(groceryList.getItem(i).name);
+    }
+    var listString = list.join(&quot;, &quot;).trim();
+    if (listString.substr(0,1) == &quot;,&quot;) {
+        finalList = listString.substring(1);
+    }
+    socialShare.shareText(finalList);
+};
+</code></pre><div class="exercise-end"></div>
+
+<p>Now when you run the app, you&#39;ll see a Share button at the top that, when clicked, allows you to email a list using a native interface:</p>
+<p><img src="images/share-view.png" alt="share">
+<img src="images/share-email.png" alt="share"></p>
+<p>It&#39;s very cool to add ready-built modules to your app. But maybe you want to build your own! </p>
+<h3 id="building-your-own-nativescript-modules">Building your own NativeScript modules</h3>
 
 		</div>
 		<hr>
