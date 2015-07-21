@@ -1,6 +1,6 @@
 ## Using npm
 
-Often, we need to include modules that are not by default available in tns_modules to allow for special functionality. We can leverage npm, node package manager, to import plugins and modules into our project. Let's add the [NativeScript Social Share widget](https://www.npmjs.com/package/nativescript-social-share) so that we can email our grocery lists.
+Often, you need to include modules that are not by default available in tns_modules to allow for special functionality. You can leverage npm, node package manager, to import plugins and modules into our project. Add the [NativeScript Social Share widget](https://www.npmjs.com/package/nativescript-social-share) so that you can email your grocery lists.
 
 ### Using npm modules in your app
 
@@ -34,7 +34,7 @@ Let's make an area at the top of our list file to show a link to share a grocery
 </Page.optionsMenu>
 ```
 
-Now we need to get our grocery list into a comma-delimited format and feed it to the socialSharing widget. To do this, add a function to return our list at the bottom of `/app/views/list/list.js`:
+Now you need to get our grocery list into a comma-delimited format and feed it to the socialSharing widget. To do this, add a function to return our list at the bottom of `/app/views/list/list.js`:
 
 
 ```

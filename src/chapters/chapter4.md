@@ -10,6 +10,98 @@ In the previous chapter, you already saw how NativeScript leverages the concept 
 
 >More information on modules can be found [here](http://developer.telerik.com/featured/nativescript-works/).
 
+### Connecting the model to the back end with the http module
+
+You probably noticed, if you created your own user on the registration page, that data was passing magically...somewhere. There's actually no magic involved; there is a config file that contains an API Key to [Telerik Back End Services](http://www.telerik.com/backend-services), where we are storing our users' information. You don't have to use Telerik Backend Services; you can connect to any back end endpoint you like! The Groceries app just happens to use the Telerik endpoint.
+
+Take a look at `app/shared/config.js`. There's only a small code snippet there, but it includes a hard-coded API Key that we use throughout the app to access the back end (in real life, you would of course use your own API Key):
+
+```
+module.exports = {
+	apiUrl: "http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/"
+};
+```
+
+Take a look in `app/shared/models`. Normally, models use a service to connect to and communicate with a back end. In this case, the connection code is added directly into the model for simplicity. You can see this demonstrated in the registration function.
+
+Note that the config file is used in all the model files, for example in User model: `app/shared/models/User.js`:
+
+```
+var config = require("../../shared/config");
+```
+
+<h4 class="exercise-start">
+    <b>Exercise</b>: Complete the login in the model
+</h4>
+
+To complete the login of a user, in `app/shared/Models/Users.js`, under the line where you require `config`, you need to require [the http module](http://docs.nativescript.org/ApiReference/http/README.html). This module allows the app to community to an external endpoint over http.
+
+```
+var http = require("http");
+```
+
+add a login function under `User.prototype = new observableModule.Observable();`:
+
+```
+User.prototype.login = function() {
+	var that = this;
+	return new Promise(function(resolve, reject) {
+		http.request({
+			url: config.apiUrl + "oauth/token",
+			method: "POST",
+			content: JSON.stringify({
+				username: that.get("email_address"),
+				password: that.get("password"),
+				grant_type: "password"
+			}),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		}).then(function(data) {
+			config.token = data.content.toJSON().Result.access_token;
+			resolve();
+		}).catch(function() {
+			reject();
+		});
+	});
+};
+```
+What's going on here? 
+
+- First, you alias the 'this' variable by assigning it to a private variable, 'that'. This allows you to continue to access the original value of 'this' in inner functions
+
+- Second, you return a new Promise, which creates an asynchronous request to an external endpoint
+>**Promises**: Promises are a part of ECMAScript 6 (the scripting language of which JavaScript is an implementation) that have been implemented in Google's V8 engine and JavaScriptCore framework (which provides a JavaScript engine for WebKit) and are thereby available in NativeScript apps.
+
+- Next, you use the http module to POST data to the apiUrl that is set up in config. The username and password is sent as a JSON string
+
+- Finally, the endpoint's response is handled
+
+Finally, allow the view model to invoke the login function that you just added to the model. In `app/views/login/login.js` rewrite your signIn function to look like this:
+
+```
+exports.signIn = function() {
+	user.login()
+		.then(function() {
+			frameModule.topmost().navigate("./views/list/list");
+		}).catch(function() {
+			dialogs.alert({
+				message: "Unfortunately we could not find your account.",
+				okButtonText: "OK"
+			});
+		});
+};
+```
+<div class="exercise-end"></div>
+
+Now, if you rebuild and run your app in an emulator, you can login either using your credentials that you created earlier, or TJ's:
+
+![login 6](images/login-stage6-ios.png)
+![login 6](images/login-stage6-android.png)
+
+You'll find that after you login, you're sent to a blank screen. You're going to build a list to hold grocery data next. But since we started discussing modules, let's take a look at how those work in NativeScript before continuing. 
+
+
 ### Dialog module
 
 The dialog module is also used several times in our Groceries app. Its code is found in the tns_modules/ui folder with other UI widgets. To use this module, you have several options, including control over the buttons you include in the alert and their text, along with custom messaging in the alert itself:
