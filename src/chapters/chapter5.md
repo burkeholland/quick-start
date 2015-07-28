@@ -1,170 +1,131 @@
-## Advanced NativeScript
+## Plugins and npm modules
 
-So far, you've been working with some fairly standard forms and some common use cases for getting a mobile app up and running with NativeScript, including registering for and logging into a back end service. Now it's time to dig a little deeper and turn this app into a grocery list app. In this chapter you'll construct a listView that will accept items into a list and save them in the back end database.
+Often, you need to include plugins and/or modules that are not by default available in the `tns_modules` folder to enable special functionality in your app. You can leverage [npm](https://www.npmjs.com/), node package manager, to import plugins and modules into your project. Alternately, you can install NativeScript plugins, which are simply npm modules that can access native code and leverage Android and iOS SDKs if required. 
 
-### Working with arrays
+In this section, you'll install and use an external module, an email validator, so that you can check email addresses for validity as they are entered in the login screen. Then, you'll add a NativeScript plugin, the [NativeScript Social Share widget](https://www.npmjs.com/package/nativescript-social-share), to manage sharing grocery lists. Read more about modules and plugins [here](https://www.nativescript.org/blog/using-npm-modules-and-nativescript-plugins).
 
+### Using a npm module in your app
 
-To be able to manage data in the grocery list, you need to build a connection between the presentation tier and the database as you did for login. Go ahead and build out these pieces in our grocery list.
+It would be nice to be able to make sure people are entering well-formatted email addresses into your app in the registration screen, so you can use a basic npm module from the npm registry to avoid having to write this functionality yourself. You can [use this validator](https://www.npmjs.com/package/email-validator) to test for valid addresses.
 
 <h4 class="exercise-start">
-    <b>Exercise</b>: Construct the list view model and model
+    <b>Exercise</b>: Install and use an email validator
 </h4>
 
-In app/views/list/list.js, add:
+Cd to the root directory in your Groceries project folder:
 
 ```
-var GroceryList = require("../../shared/models/GroceryList");
+cd Documents/NativeScript/Groceries/
+```
 
-var page;
-var pageData = new observable.Observable();
-var groceryList = new GroceryList();
+and install the module:
 
-pageData.set("grocery", "");
-pageData.set("groceryList", groceryList);
+```
+npm install email-validator --save
+```
+What just happened? The install process does a few things in the background. First, it adds a line to `app/package.json` because you added the `--save` flag to the above command:
 
-exports.navigatedTo = function(args) {
-	page = args.object;
-	if (page.ios) {
-		page.ios.title = "Groceries";
-		var listView = view.getViewById(page, "groceryList");
-		swipeDelete.enable(listView, function(index) {
-			groceryList.delete(index);
-		});
+```
+"dependencies": {
+		"email-validator": "^1.0.2"
 	}
+```
+Then, a folder is added to the `node_modules` in the root called `email-validator`. In this folder is the code used by the module, in this case a small regex check in `app/node_modules/index.js`. 
 
-	page.bindingContext = pageData;
-	groceryList.empty();
-	groceryList.load();
-};
+You're going to add this functionality to our list of groceries, so in `/app/shared/models/User.js`, require the module:
+
+```
+var validator = require("email-validator/index");
 
 ```
 
-Here, you're creating a new empty grocery array and a groceryList variable to instantiate our GroceryList object that you create in the model. You're also emptying and refilling the groceryList in the navigatedTo function which you added to the xml previously in `app/views/list/list.xml`. Create the GroceryList object in the model:
+>In this case, we need to explicitly point to the index.js file, because normally NativeScript is configured to look in an npm module's package.json file for the "main" value to reference a file, like `index.js`. In the case of this particular module, the `main` value is simply `index` so you need to reference the main file directly.
 
-In app/shared/models/GroceryList.js, grab any Grocery data that might exist in the back end and push it into the grocery array:
+To make use of this validator, add a function to `app/models/User.js` under the register function:
 
 ```
-GroceryList.prototype.load = function() {
-	var that = this;
-	http.getJSON({
-		url: config.apiUrl + "Groceries",
-		method: "GET",
-		headers: {
-			"Authorization": "Bearer " + config.token
-		}
-	}).then(function(data) {
-		data.Result.forEach(function(grocery) {
-			that.push({
-				name: grocery.Name,
-				id: grocery.Id
-			});
-		});
-	});
-};
-GroceryList.prototype.empty = function() {
-	while (this.length) {
-		this.pop();
-	}
+User.prototype.isValidEmail = function() {
+	var email = this.get("email_address");
+	return !! validator.validate(email);
 };
 ```
-<div class="exercise-end"></div>
-
-In the load function above, you are pulling down the list associated to the user's credentials. In the empty function, you clear out the array and get ready to reload it. If you rebuild, run the app, and login as tj.vantoll@gmail.com, you'll find a list of groceries pulled from Backend Services in the Groceries data type. It will look something like this:
-
-![list ios](images/list-ios.png)
-![list android](images/list-android.png)
-
-It's great that you can see data already in the database, but you also need to add some items. Go ahead and build that functionality.
-
-<h4 class="exercise-start">
-    <b>Exercise</b>: Add the ability to create a Grocery item
-</h4>
-
-Notice at the top of the list is a text area and an 'Add' button. Right now, it doesn't do anything. Let's fix that.
-
-In app/views/list/list.js, add a function to respond to the 'add' tap event that is already in list.xml. You'll put this underneath the navigatedTo function.
+Then, edit the registration function in `app/views/register/register.js` to trap any malformed email addresses:
 
 ```
-exports.add = function() {
-	view.getViewById(page, "grocery").dismissSoftInput();
-	groceryList.add(pageData.get("grocery"))
-		.catch(function() {
-			dialogs.alert({
-				message: "An error occurred adding to your list.",
-				okButtonText: "OK"
-			});
-		});
-	pageData.set("grocery", "");
-};
-```
-In this function, you get the 'grocery' item from the input field and add it to the groceryList object. 
-
-Finally, let the manipulation of this new data be handled in the model by adding the following function under the 'empty' function in /app/shared/models/GroceryList.js:
-
-```
-GroceryList.prototype.add = function(grocery) {
-	var that = this;
-	return new Promise(function(resolve, reject) {
-		http.request({
-			url: config.apiUrl + "Groceries",
-			method: "POST",
-			content: JSON.stringify({
-				Name: grocery
-			}),
-			headers: {
-				"Authorization": "Bearer " + config.token,
-				"Content-Type": "application/json"
-			}
-		}).then(function() {
-			that.push({ name: grocery });
-			resolve();
-		}).catch(function() {
-			reject();
-		});
-	});
-};
-```
-<div class="exercise-end"></div>
-
-If you build and rerun your app now, you'll find that you can add a grocery item and it will appear immediately in your list.
-
-###Form validation
-
-You may have noticed that you can get away with submitting a blank list item form. Let's add a bit of form validation to stop a blank email address from being submitted.
-
-<h4 class="exercise-start">
-    <b>Exercise</b>: Add validation to the list input
-</h4>
-
-You shouldn't be able to input a blank item into your grocery list, so add some form validation. This validation will simply check if a field has been left blank.
-
-To do this, edit the `add` function in `app/views/list/list.js` to first check for a blank entry, and then to allow the item to be added:
-
-```
-exports.add = function() {
-	if (groceryList.isValidItem(pageData.get("grocery"))) {
-		view.getViewById(page, "grocery").dismissSoftInput();
-		groceryList.add(pageData.get("grocery"))
-			.catch(function() {
-				dialogs.alert({
-					message: "An error occurred adding to your list.",
-					okButtonText: "OK"
-				});
-			});
-		pageData.set("grocery", "");
+exports.register = function() {
+	if (user.isValidEmail()) {
+		completeRegistration();
 	} else {
-		alert("Please enter a grocery item");
+		dialogs.alert({
+			message: "Please include a valid email address.",
+			okButtonText: "OK"
+		});
 	}
 };
 ```
-Then, edit the model, adding a function at the end of `app/shared/models/GroceryList.js` that will test for a blank item being sent to the back end:
+In this code, the user submits an email and password, and the value is sent to the model for validation. If it passes, registration can proceed, otherwise an alert is shown. 
 
-```
-GroceryList.prototype.isValidItem = function(grocery) {
-	return !!(grocery);
-};
-```
 <div class="exercise-end"></div>
 
-Now that you have login, registration, and list routines complete, you need to work on the app's actual functionality as a grocery list management tool. You can use the NativeScript Social Sharing plugin to get the data you input into an email so you can send yourself a reminder to pick up your groceries.
+### Using a NativeScript plugin in your app
+
+In order to email grocery lists via your app, you need to install the Social Sharing plugin, with which you can share both text and images. 
+
+<h4 class="exercise-start">
+    <b>Exercise</b>: Install and use the Social Sharing widget
+</h4>
+
+To install this plugin, all you need to do is type:
+
+```
+tns plugin add nativescript-social-share
+```
+What just happened? The install process does the same thing that an `npm install` command does, in that it writes the dependency to `package.json`, and it also configures any native code that the plugin needs to use. 
+
+Now, include the social share plugin at the top of `app/views/list/list.js` using `require()`:
+
+```
+var socialShare = require("nativescript-social-share");
+```
+
+Now, make an area at the top of `app/views/list/list.xml` file to show a link to share a grocery list. Under the <Page> tag, add the following code. Tapping this link will open a native email sharing widget:
+
+```
+<Page.actionBar>
+		<ActionBar title="Groceries">
+			<ActionBar.actionItems>
+				<ActionItem text="Share" tap="share" ios.position="right" />
+			</ActionBar.actionItems>
+		</ActionBar>
+</Page.actionBar>
+```
+>Note, we need to tell iOS devices where to place this menu item (on the right) as normally, for iOS, action bar items are placed from left to right in sequence.
+
+Now you need to get your grocery list into a comma-delimited format and feed it to the socialSharing widget. To do this, add a function to return our list at the bottom of `/app/views/list/list.js`:
+
+```
+exports.share = function() {
+	var list = [];
+	var finalList = "";
+	for (var i = 0, size = groceryList.length; i < size ; i++) {
+		list.push(groceryList.getItem(i).name);
+	}
+	var listString = list.join(", ").trim();
+	//get rid of any initial blanks
+	if (listString.substr(0,1) == ",") {
+        finalList = listString.substring(1);
+    }
+	socialShare.shareText(finalList);
+};
+```
+With this code, you are taking the `name` key of your groceryList object and converting it to a comma-delimited string to use in an email.
+
+<div class="exercise-end"></div>
+
+Now when you run the app, you'll see a Share button at the top that, when clicked, allows you to email a list using a native interface:
+
+![share](images/share-view.png)
+![share](images/share-email.png)
+
+>**Tip:** It's very cool to add ready-built modules to your app. But maybe you want to build your own! Read more on how to do this [here](http://developer.telerik.com/featured/building-your-own-nativescript-modules-for-npm/).
+
