@@ -1,16 +1,11 @@
-## Accessing native APIs
+## Next steps
 
 ...
 
-### How it works
+### Documentation
 
 ...
 
-### Deleting from a list
+### Showcase
 
 ...
-
-### Using android and ios files
-
-...
-
