@@ -1,16 +1,109 @@
 ## Accessing native APIs
 
-...
+The beauty of NativeScript is that you can write a native iOS or Android app in JavaScript, XML, and CSS without touching Swift, Objective-C, or Java, if you choose. But what if you want to present a different, more platform-specific UI to your users? In the case of this app, deleting an item from your groceries list would be a valid and common use case. 
 
-### How it works
+Sliding to delete a list item seems like a great gesture to support. But since you want to make this app feel as native as possible, it's better to fork your code at this point to provide a more platform-specific experience. So to enable a user to delete an item from a list, create a slide-to-delete UI for iOS, and use an Android-style 'trash can' icon for an Android.
 
-...
+>Learn more about how the NativeScript API leverages native code [here](http://developer.telerik.com/featured/nativescript-works/)
 
-### Deleting from a list
+### Deleting from a list - Android
 
-...
+Earlier, you saw how any element in a NativeScript app can have Android vs. iOS attributes, either by adding such an attribute directly in the code or creating separate .js, .css, or .xml files. To create a separate delete mechanism for this app, you will both all of these strategies.
 
-### Using android and ios files
+<h4 class="exercise-start">
+    <b>Exercise</b>: Edit the List View
+</h4>
 
-...
+For Android, you are going to add an icon that will be hidden on iOS. To account for this button, you also need to edit the layout of the ListView, so replace the current ListView code in `app/views/list/list.xml` with the following:
+
+```
+<ListView items="{{ groceryList }}" id="groceryList" row="1" colSpan="3">
+	<ListView.itemTemplate>
+		<GridLayout columns="*, auto">
+			<Label text="{{ name }}" horizontalAlignment="left" verticalAlignment="center"/>
+			<Image src="res://ic_menu_delete" ios:visibility='collapsed' margin="10" col="1" tap="delete"/>
+		</GridLayout>
+	</ListView.itemTemplate>
+</ListView>
+```
+In this code, you have created:
+
+- an itemTemplate, in which you can format the rows of your list view. In this itemTemplate you have nested a GridLayout with two columns, one stretched and one expanding only to the width of the child. 
+- a label that contains the name of the grocery item is added to one column and aligned left. 
+- an image, the delete icon, that is hidden from ios devices, placed in the right-hand column, and given a tap event. The image itself has already been placed in the app for you, and can be found in the platforms folder in the drawable folders in `platforms/android/bin/res`.
+
+<div class="exercise-end"></div>
+
+Now that you have built the interface for Android's tappable icon, add a way for a swipe delete interface to be shown on iOS.
+
+### Deleting from a list - iOS
+
+There is already a module ready-built for you to use to enable a swipe-to-delete gesture within a list view. Take a look in `shared/utils/ios-swipe-delete.js`. The code  
+
+<h4 class="exercise-start">
+    <b>Exercise</b>: Edit the List View
+</h4>
+
+Include this library into `app/views/list/list.js` at the top, under the inclusion of the social share plugin:
+
+```
+var swipeDelete = require("../../shared/utils/ios-swipe-delete");
+```
+Then, add this code to the `navigatedTo()` function under `page = args.object;`:
+```
+if (page.ios) {
+		//set the page title for iOS
+		page.ios.title = "Groceries";
+		var listView = view.getViewById(page, "groceryList");
+		swipeDelete.enable(listView, function(index) {
+			groceryList.delete(index);
+		});
+	}
+``` 
+<div class="exercise-end"></div>
+
+That's all you have to do to enable swipe-to-delete for iOS! What this code does is use this functionality from the included utility, invoking the `enable()` function from the swipeDelete utility for the referenced listView, and flagging the index of the list to be deleted. At this point, all that remains to accomplish the deletion is to build the `delete()` function.
+
+<h4 class="exercise-start">
+    <b>Exercise</b>: Build the delete function
+</h4>
+
+First, create a `delete()` function in `app/views/list/list.js` at the bottom of this file, under the `share()` function:
+
+```
+exports.delete = function(args) {
+	var item = args.view.bindingContext;
+	var index = groceryList.indexOf(item);
+	groceryList.delete(index);
+};
+```
+This code reads in the item that is tapped via the arguments passed into the function, matches that item to the index in the groceryList object, and sends that index to be deleted. It remains only to implement the actual deletion in the model.
+
+In `app/shared/models/GroceryList.js`, add a function to delete an item:
+
+```
+GroceryList.prototype.delete = function(index) {
+	var that = this;
+	return new Promise(function(resolve, reject) {
+		http.request({
+			url: config.apiUrl + "Groceries/" + that.getItem(index).id,
+			method: "DELETE",
+			headers: {
+				"Authorization": "Bearer " + config.token,
+				"Content-Type": "application/json"
+			}
+		}).then(function() {
+			that.splice(index, 1);
+			resolve();
+		}).catch(function() {
+			reject();
+		});
+	});
+};
+
+```
+Similar to code elsewhere in the models, as you have seen, an item is passed to the function and a Promise is returned. Data is sent to Backend Services, including a URL with the id of the item to be deleted appended, the method (DELETE), and headers which include the token saved after the user logs in. If the deletion is successful, item is removed from the grocery list observable that feeds the list view. 
+<div class="exercise-end"></div>
+
+You've created a functional, cross-platform app to manage your grocery list! In the process you created a unique UI for Android and iOS, leveraged plugins and npm modules, learned how to login and register, managed backend services, create a functioning list with add and delete options, and more. Congratulations!
 

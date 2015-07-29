@@ -135,7 +135,7 @@ In `app/views/list/list.xml`, let's get started using the ListView module by cre
 	<GridLayout>		
 		<ListView items="{{ groceryList }}">
 			<ListView.itemTemplate>
-				<Label text="{{ name }}" horizontalAlignment="left"/>
+				<Label text="{{ name }}" horizontalAlignment="left" verticalAlignment="center"/>
 			</ListView.itemTemplate>
 		</ListView>
 	</GridLayout>
@@ -277,7 +277,13 @@ Add a text field and a button to have a place to enter grocery items. The text f
 	<TextField id="grocery" text="{{ grocery }}" hint="Enter a grocery item" row="0" colspan="2" />
 	<Button text="Add" tap="add" row="0" col="2"></Button>
 ```
+Finally, edit the `<ListView>` tag to ensure that it will expand across the new columns you created:
 
+```
+<ListView items="{{ groceryList }}" id="groceryList" row="1" colSpan="3">
+```
+
+Now you are ready to build the add tap event.
 
 In app/views/list/list.js, add a function to respond to the 'add' tap event that you just added. You'll put this underneath the navigatedTo function.
 

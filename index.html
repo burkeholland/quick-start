@@ -576,7 +576,7 @@ var user = new User();
     &lt;GridLayout&gt;        
         &lt;ListView items=&quot;{{ groceryList }}&quot;&gt;
             &lt;ListView.itemTemplate&gt;
-                &lt;Label text=&quot;{{ name }}&quot; horizontalAlignment=&quot;left&quot;/&gt;
+                &lt;Label text=&quot;{{ name }}&quot; horizontalAlignment=&quot;left&quot; verticalAlignment=&quot;center&quot;/&gt;
             &lt;/ListView.itemTemplate&gt;
         &lt;/ListView&gt;
     &lt;/GridLayout&gt;
@@ -684,7 +684,10 @@ GroceryList.prototype.empty = function() {
 <p>Add a text field and a button to have a place to enter grocery items. The text field will have the id &#39;grocery&#39; and is bound to the grocery object, has a hint that will show on the front end to help the user, will occupy one row and two columns. The button will have a tap event - <code>tap</code> and will occupy the initial row as well and the third column - remember numbering of rows and columns starts at zero. Add these two lines after the GridLayout initial tag:</p>
 <pre><code>    &lt;TextField id=&quot;grocery&quot; text=&quot;{{ grocery }}&quot; hint=&quot;Enter a grocery item&quot; row=&quot;0&quot; colspan=&quot;2&quot; /&gt;
     &lt;Button text=&quot;Add&quot; tap=&quot;add&quot; row=&quot;0&quot; col=&quot;2&quot;&gt;&lt;/Button&gt;
-</code></pre><p>In app/views/list/list.js, add a function to respond to the &#39;add&#39; tap event that you just added. You&#39;ll put this underneath the navigatedTo function.</p>
+</code></pre><p>Finally, edit the <code>&lt;ListView&gt;</code> tag to ensure that it will expand across the new columns you created:</p>
+<pre><code>&lt;ListView items=&quot;{{ groceryList }}&quot; id=&quot;groceryList&quot; row=&quot;1&quot; colSpan=&quot;3&quot;&gt;
+</code></pre><p>Now you are ready to build the add tap event.</p>
+<p>In app/views/list/list.js, add a function to respond to the &#39;add&#39; tap event that you just added. You&#39;ll put this underneath the navigatedTo function.</p>
 <pre><code>exports.add = function() {
     //check for empty submission
     if (groceryList.isValidItem(pageData.get(&quot;grocery&quot;))) {
@@ -829,13 +832,89 @@ GroceryList.prototype.empty = function() {
 		<hr>
 		<div class="chapter">
 			<h2 id="accessing-native-apis">Accessing native APIs</h2>
-<p>...</p>
-<h3 id="how-it-works">How it works</h3>
-<p>...</p>
-<h3 id="deleting-from-a-list">Deleting from a list</h3>
-<p>...</p>
-<h3 id="using-android-and-ios-files">Using android and ios files</h3>
-<p>...</p>
+<p>The beauty of NativeScript is that you can write a native iOS or Android app in JavaScript, XML, and CSS without touching Swift, Objective-C, or Java, if you choose. But what if you want to present a different, more platform-specific UI to your users? In the case of this app, deleting an item from your groceries list would be a valid and common use case. </p>
+<p>Sliding to delete a list item seems like a great gesture to support. But since you want to make this app feel as native as possible, it&#39;s better to fork your code at this point to provide a more platform-specific experience. So to enable a user to delete an item from a list, create a slide-to-delete UI for iOS, and use an Android-style &#39;trash can&#39; icon for an Android.</p>
+<blockquote>
+<p>Learn more about how the NativeScript API leverages native code <a href="http://developer.telerik.com/featured/nativescript-works/">here</a></p>
+</blockquote>
+<h3 id="deleting-from-a-list-android">Deleting from a list - Android</h3>
+<p>Earlier, you saw how any element in a NativeScript app can have Android vs. iOS attributes, either by adding such an attribute directly in the code or creating separate .js, .css, or .xml files. To create a separate delete mechanism for this app, you will both all of these strategies.</p>
+<h4 class="exercise-start">
+    <b>Exercise</b>: Edit the List View
+</h4>
+
+<p>For Android, you are going to add an icon that will be hidden on iOS. To account for this button, you also need to edit the layout of the ListView, so replace the current ListView code in <code>app/views/list/list.xml</code> with the following:</p>
+<pre><code>&lt;ListView items=&quot;{{ groceryList }}&quot; id=&quot;groceryList&quot; row=&quot;1&quot; colSpan=&quot;3&quot;&gt;
+    &lt;ListView.itemTemplate&gt;
+        &lt;GridLayout columns=&quot;*, auto&quot;&gt;
+            &lt;Label text=&quot;{{ name }}&quot; horizontalAlignment=&quot;left&quot; verticalAlignment=&quot;center&quot;/&gt;
+            &lt;Image src=&quot;res://ic_menu_delete&quot; ios:visibility=&#39;collapsed&#39; margin=&quot;10&quot; col=&quot;1&quot; tap=&quot;delete&quot;/&gt;
+        &lt;/GridLayout&gt;
+    &lt;/ListView.itemTemplate&gt;
+&lt;/ListView&gt;
+</code></pre><p>In this code, you have created:</p>
+<ul>
+<li>an itemTemplate, in which you can format the rows of your list view. In this itemTemplate you have nested a GridLayout with two columns, one stretched and one expanding only to the width of the child. </li>
+<li>a label that contains the name of the grocery item is added to one column and aligned left. </li>
+<li>an image, the delete icon, that is hidden from ios devices, placed in the right-hand column, and given a tap event. The image itself has already been placed in the app for you, and can be found in the platforms folder in the drawable folders in <code>platforms/android/bin/res</code>.</li>
+</ul>
+<div class="exercise-end"></div>
+
+<p>Now that you have built the interface for Android&#39;s tappable icon, add a way for a swipe delete interface to be shown on iOS.</p>
+<h3 id="deleting-from-a-list-ios">Deleting from a list - iOS</h3>
+<p>There is already a module ready-built for you to use to enable a swipe-to-delete gesture within a list view. Take a look in <code>shared/utils/ios-swipe-delete.js</code>. The code  </p>
+<h4 class="exercise-start">
+    <b>Exercise</b>: Edit the List View
+</h4>
+
+<p>Include this library into <code>app/views/list/list.js</code> at the top, under the inclusion of the social share plugin:</p>
+<pre><code>var swipeDelete = require(&quot;../../shared/utils/ios-swipe-delete&quot;);
+</code></pre><p>Then, add this code to the <code>navigatedTo()</code> function under <code>page = args.object;</code>:</p>
+<pre><code>if (page.ios) {
+        //set the page title for iOS
+        page.ios.title = &quot;Groceries&quot;;
+        var listView = view.getViewById(page, &quot;groceryList&quot;);
+        swipeDelete.enable(listView, function(index) {
+            groceryList.delete(index);
+        });
+    }
+</code></pre><div class="exercise-end"></div>
+
+<p>That&#39;s all you have to do to enable swipe-to-delete for iOS! What this code does is use this functionality from the included utility, invoking the <code>enable()</code> function from the swipeDelete utility for the referenced listView, and flagging the index of the list to be deleted. At this point, all that remains to accomplish the deletion is to build the <code>delete()</code> function.</p>
+<h4 class="exercise-start">
+    <b>Exercise</b>: Build the delete function
+</h4>
+
+<p>First, create a <code>delete()</code> function in <code>app/views/list/list.js</code> at the bottom of this file, under the <code>share()</code> function:</p>
+<pre><code>exports.delete = function(args) {
+    var item = args.view.bindingContext;
+    var index = groceryList.indexOf(item);
+    groceryList.delete(index);
+};
+</code></pre><p>This code reads in the item that is tapped via the arguments passed into the function, matches that item to the index in the groceryList object, and sends that index to be deleted. It remains only to implement the actual deletion in the model.</p>
+<p>In <code>app/shared/models/GroceryList.js</code>, add a function to delete an item:</p>
+<pre><code>GroceryList.prototype.delete = function(index) {
+    var that = this;
+    return new Promise(function(resolve, reject) {
+        http.request({
+            url: config.apiUrl + &quot;Groceries/&quot; + that.getItem(index).id,
+            method: &quot;DELETE&quot;,
+            headers: {
+                &quot;Authorization&quot;: &quot;Bearer &quot; + config.token,
+                &quot;Content-Type&quot;: &quot;application/json&quot;
+            }
+        }).then(function() {
+            that.splice(index, 1);
+            resolve();
+        }).catch(function() {
+            reject();
+        });
+    });
+};
+</code></pre><p>Similar to code elsewhere in the models, as you have seen, an item is passed to the function and a Promise is returned. Data is sent to Backend Services, including a URL with the id of the item to be deleted appended, the method (DELETE), and headers which include the token saved after the user logs in. If the deletion is successful, item is removed from the grocery list observable that feeds the list view. </p>
+<div class="exercise-end"></div>
+
+<p>You&#39;ve created a functional, cross-platform app to manage your grocery list! In the process you created a unique UI for Android and iOS, leveraged plugins and npm modules, learned how to login and register, managed backend services, create a functioning list with add and delete options, and more. Congratulations!</p>
 
 		</div>
 		<hr>
