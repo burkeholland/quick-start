@@ -2,7 +2,7 @@
 
 Often, you need to include plugins and/or modules that are not by default available in the `tns_modules` folder to enable special functionality in your app. You can leverage [npm](https://www.npmjs.com/), node package manager, to import plugins and modules into your project. Alternately, you can install NativeScript plugins, which are simply npm modules that can access native code and leverage Android and iOS SDKs if required. 
 
-In this section, you'll install and use an external module, an email validator, so that you can check email addresses for validity as they are entered in the login screen. Then, you'll add a NativeScript plugin, the [NativeScript Social Share widget](https://www.npmjs.com/package/nativescript-social-share), to manage sharing grocery lists. Read more about modules and plugins [here](https://www.nativescript.org/blog/using-npm-modules-and-nativescript-plugins).
+In this section, you'll install and use an external module, an email validator, so that you can check email addresses for validity as they are entered in the login screen. Then, you'll add a NativeScript plugin, the [NativeScript Social Share widget](https://www.npmjs.com/package/nativescript-social-share), to manage sharing grocery lists. 
 
 ### Using a npm module in your app
 
@@ -12,11 +12,15 @@ It would be nice to be able to make sure people are entering well-formatted emai
     <b>Exercise</b>: Install and use an email validator
 </h4>
 
-Cd to the root directory in your Groceries project folder:
+Make sure that you are working in the root directory in your Groceries project folder, a.k.a. here:
 
-```
-cd Documents/NativeScript/Groceries/
-```
+my-project <----------------
+    ├── app
+    │   └── ...
+    ├── package.json
+    └── platforms
+        ├── android
+        └── ios 
 
 and install the module:
 
@@ -30,7 +34,7 @@ What just happened? The install process does a few things in the background. Fir
 		"email-validator": "^1.0.2"
 	}
 ```
-Then, a folder is added to the `node_modules` in the root called `email-validator`. In this folder is the code used by the module, in this case a small regex check in `app/node_modules/index.js`. 
+Then, the NativeScript CLI adds a folder to the `node_modules` in the root called `email-validator`. In this folder is the code used by the module, in this case a small regex check in `app/node_modules/email_validatorindex.js`. 
 
 You're going to add this functionality to our list of groceries, so in `/app/shared/models/User.js`, require the module:
 
@@ -46,7 +50,7 @@ To make use of this validator, add a function to `app/models/User.js` under the 
 ```
 User.prototype.isValidEmail = function() {
 	var email = this.get("email_address");
-	return !! validator.validate(email);
+	return validator.validate(email);
 };
 ```
 Then, edit the registration function in `app/views/register/register.js` to trap any malformed email addresses:
@@ -63,7 +67,10 @@ exports.register = function() {
 	}
 };
 ```
-In this code, the user submits an email and password, and the value is sent to the model for validation. If it passes, registration can proceed, otherwise an alert is shown. 
+In this code, the user submits an email and password, and the value is sent to the model for validation. If it passes, registration can proceed, otherwise an alert is shown:
+
+![share](images/email-validate-ios.png)
+![share](images/email-validate-android.png) 
 
 <div class="exercise-end"></div>
 
@@ -88,7 +95,7 @@ Now, include the social share plugin at the top of `app/views/list/list.js` usin
 var socialShare = require("nativescript-social-share");
 ```
 
-Now, make an area at the top of `app/views/list/list.xml` file to show a link to share a grocery list. Under the <Page> tag, add the following code. Tapping this link will open a native email sharing widget:
+Now, make an area at the top of `app/views/list/list.xml` file to show a link to share a grocery list. Under the <Page> tag, add the following code. Once you build the `share()` function, tapping this link will open a native email sharing widget:
 
 ```
 <Page.actionBar>
@@ -99,7 +106,9 @@ Now, make an area at the top of `app/views/list/list.xml` file to show a link to
 		</ActionBar>
 </Page.actionBar>
 ```
->Note, we need to tell iOS devices where to place this menu item (on the right) as normally, for iOS, action bar items are placed from left to right in sequence.
+You have now added an [ActionBar](https://docs.nativescript.org/ApiReference/ui/action-bar/ActionBar), which is a UI component that includes various menu items, enclosed in the `<ActionBar.actionItems>` tag. The title of the ActionBar allows page-specific titles to be displayed.
+
+>Note, on iOS devices, action bar items are placed from left to right in sequence, so you can override that by specifying an icon's position.
 
 Now you need to get your grocery list into a comma-delimited format and feed it to the socialSharing widget. To do this, add a function to return our list at the bottom of `/app/views/list/list.js`:
 
@@ -111,21 +120,22 @@ exports.share = function() {
 		list.push(groceryList.getItem(i).name);
 	}
 	var listString = list.join(", ").trim();
-	//get rid of any initial blanks
-	if (listString.substr(0,1) == ",") {
-        finalList = listString.substring(1);
-    }
-	socialShare.shareText(finalList);
+	socialShare.shareText(listString);
 };
 ```
 With this code, you are taking the `name` key of your groceryList object and converting it to a comma-delimited string to use in an email.
 
 <div class="exercise-end"></div>
 
+
 Now when you run the app, you'll see a Share button at the top that, when clicked, allows you to email a list using a native interface:
 
-![share](images/share-view.png)
-![share](images/share-email.png)
+![share](images/share-view-ios.png)
+![share](images/share-email-ios.png)
+![share](images/share-view-android.png)
+![share](images/share-email-android.png)
 
->**Tip:** It's very cool to add ready-built modules to your app. But maybe you want to build your own! Read more on how to do this [here](http://developer.telerik.com/featured/building-your-own-nativescript-modules-for-npm/).
+You can learn more about modules and plugins [here](https://www.nativescript.org/blog/using-npm-modules-and-nativescript-plugins).
+
+>**Tip:** It's very cool to add ready-built modules to your app. You can search for NativeScript plugins [here](https://www.npmjs.com/search?q=nativescript) and find a good variety of supported npm modules [here](https://github.com/NativeScript/NativeScript/wiki/supported-npm-modules). But maybe you want to build your own! Read more on how to do this [here](http://developer.telerik.com/featured/building-your-own-nativescript-modules-for-npm/).
 
