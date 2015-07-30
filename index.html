@@ -741,7 +741,7 @@ GroceryList.prototype.empty = function() {
 		<hr>
 		<div class="chapter">
 			<h2 id="plugins-and-npm-modules">Plugins and npm modules</h2>
-<p>Often, you need to include plugins and/or modules that are not by default available in the <code>tns_modules</code> folder to enable special functionality in your app. You can leverage <a href="https://www.npmjs.com/">npm</a>, node package manager, to import plugins and modules into your project. Alternately, you can install NativeScript plugins, which are simply npm modules that can access native code and leverage Android and iOS SDKs if required. </p>
+<p>Often, you need to include plugins and/or modules that are not by default available in the <code>tns_modules</code> folder to enable special functionality in your app. You can leverage <a href="https://www.npmjs.com/">npm</a>, node package manager, to import plugins and modules into your project. Alternately, you can install NativeScript plugins, which are simply npm modules that can access native span and leverage Android and iOS SDKs if required. </p>
 <p>In this section, you&#39;ll install and use an external module, an email validator, so that you can check email addresses for validity as they are entered in the login screen. Then, you&#39;ll add a NativeScript plugin, the <a href="https://www.npmjs.com/package/nativescript-social-share">NativeScript Social Share widget</a>, to manage sharing grocery lists. </p>
 <h3 id="using-a-npm-module-in-your-app">Using a npm module in your app</h3>
 <p>It would be nice to be able to make sure people are entering well-formatted email addresses into your app in the registration screen, so you can use a basic npm module from the npm registry to avoid having to write this functionality yourself. You can <a href="https://www.npmjs.com/package/email-validator">use this validator</a> to test for valid addresses.</p>
@@ -750,20 +750,15 @@ GroceryList.prototype.empty = function() {
 </h4>
 
 <p>Make sure that you are working in the root directory in your Groceries project folder, a.k.a. here:</p>
-<p>my-project &lt;----------------
-    ├── app
-    │   └── ...
-    ├── package.json
-    └── platforms
-        ├── android
-        └── ios </p>
+<pre><span><div class="respanBlock"><div ><span style="margin-left: 0px !important;"><span>my-project &lt;----------------</span></span></div><div><span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="margin-left: 16px !important;"><span>├── app</span></span></span></div><div ><span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="margin-left: 16px !important;"><span>│&nbsp;&nbsp; └── ...</span></span></span></div><div><span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="margin-left: 16px !important;"><span>├── package.json</span></span></span></div><div ><span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="margin-left: 16px !important;"><span>└── platforms</span></span></span></div><div><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="margin-left: 32px !important;"><span>├── android</span></span></span></div><div ><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="margin-left: 32px !important;"><span>└── ios</span></span></span></div></div></span></pre>
+
 <p>and install the module:</p>
 <pre><code>npm install email-validator --save
 </code></pre><p>What just happened? The install process does a few things in the background. First, it adds a line to <code>app/package.json</code> because you added the <code>--save</code> flag to the above command:</p>
 <pre><code>&quot;dependencies&quot;: {
         &quot;email-validator&quot;: &quot;^1.0.2&quot;
     }
-</code></pre><p>Then, the NativeScript CLI adds a folder to the <code>node_modules</code> in the root called <code>email-validator</code>. In this folder is the code used by the module, in this case a small regex check in <code>app/node_modules/email_validatorindex.js</code>. </p>
+</code></pre><p>Then, the NativeScript CLI adds a folder to the <code>node_modules</code> in the root called <code>email-validator</code>. In this folder is the span used by the module, in this case a small regex check in <code>app/node_modules/email_validatorindex.js</code>. </p>
 <p>You&#39;re going to add this functionality to our list of groceries, so in <code>/app/shared/models/User.js</code>, require the module:</p>
 <pre><code>var validator = require(&quot;email-validator/index&quot;);
 </code></pre><blockquote>
@@ -785,7 +780,7 @@ GroceryList.prototype.empty = function() {
         });
     }
 };
-</code></pre><p>In this code, the user submits an email and password, and the value is sent to the model for validation. If it passes, registration can proceed, otherwise an alert is shown:</p>
+</code></pre><p>In this span, the user submits an email and password, and the value is sent to the model for validation. If it passes, registration can proceed, otherwise an alert is shown:</p>
 <p><img src="images/email-validate-ios.png" alt="share">
 <img src="images/email-validate-android.png" alt="share"> </p>
 <div class="exercise-end"></div>
@@ -798,10 +793,10 @@ GroceryList.prototype.empty = function() {
 
 <p>To install this plugin, all you need to do is type:</p>
 <pre><code>tns plugin add nativescript-social-share
-</code></pre><p>What just happened? The install process does the same thing that an <code>npm install</code> command does, in that it writes the dependency to <code>package.json</code>, and it also configures any native code that the plugin needs to use. </p>
+</code></pre><p>What just happened? The install process does the same thing that an <code>npm install</code> command does, in that it writes the dependency to <code>package.json</code>, and it also configures any native span that the plugin needs to use. </p>
 <p>Now, include the social share plugin at the top of <code>app/views/list/list.js</code> using <code>require()</code>:</p>
 <pre><code>var socialShare = require(&quot;nativescript-social-share&quot;);
-</code></pre><p>Now, make an area at the top of <code>app/views/list/list.xml</code> file to show a link to share a grocery list. Under the <Page> tag, add the following code. Once you build the <code>share()</code> function, tapping this link will open a native email sharing widget:</p>
+</code></pre><p>Now, make an area at the top of <code>app/views/list/list.xml</code> file to show a link to share a grocery list. Under the <Page> tag, add the following span. Once you build the <code>share()</code> function, tapping this link will open a native email sharing widget:</p>
 <pre><code>&lt;Page.actionBar&gt;
         &lt;ActionBar title=&quot;Groceries&quot;&gt;
             &lt;ActionBar.actionItems&gt;
@@ -823,7 +818,7 @@ GroceryList.prototype.empty = function() {
     var listString = list.join(&quot;, &quot;).trim();
     socialShare.shareText(listString);
 };
-</code></pre><p>With this code, you are taking the <code>name</code> key of your groceryList object and converting it to a comma-delimited string to use in an email.</p>
+</code></pre><p>With this span, you are taking the <code>name</code> key of your groceryList object and converting it to a comma-delimited string to use in an email.</p>
 <div class="exercise-end"></div>
 
 

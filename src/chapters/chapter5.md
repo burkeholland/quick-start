@@ -1,6 +1,6 @@
 ## Plugins and npm modules
 
-Often, you need to include plugins and/or modules that are not by default available in the `tns_modules` folder to enable special functionality in your app. You can leverage [npm](https://www.npmjs.com/), node package manager, to import plugins and modules into your project. Alternately, you can install NativeScript plugins, which are simply npm modules that can access native code and leverage Android and iOS SDKs if required. 
+Often, you need to include plugins and/or modules that are not by default available in the `tns_modules` folder to enable special functionality in your app. You can leverage [npm](https://www.npmjs.com/), node package manager, to import plugins and modules into your project. Alternately, you can install NativeScript plugins, which are simply npm modules that can access native span and leverage Android and iOS SDKs if required. 
 
 In this section, you'll install and use an external module, an email validator, so that you can check email addresses for validity as they are entered in the login screen. Then, you'll add a NativeScript plugin, the [NativeScript Social Share widget](https://www.npmjs.com/package/nativescript-social-share), to manage sharing grocery lists. 
 
@@ -14,13 +14,7 @@ It would be nice to be able to make sure people are entering well-formatted emai
 
 Make sure that you are working in the root directory in your Groceries project folder, a.k.a. here:
 
-my-project <----------------
-    ├── app
-    │   └── ...
-    ├── package.json
-    └── platforms
-        ├── android
-        └── ios 
+<pre><span><div class="respanBlock"><div ><span style="margin-left: 0px !important;"><span>my-project &lt;----------------</span></span></div><div><span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="margin-left: 16px !important;"><span>├── app</span></span></span></div><div ><span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="margin-left: 16px !important;"><span>│&nbsp;&nbsp; └── ...</span></span></span></div><div><span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="margin-left: 16px !important;"><span>├── package.json</span></span></span></div><div ><span><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="margin-left: 16px !important;"><span>└── platforms</span></span></span></div><div><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="margin-left: 32px !important;"><span>├── android</span></span></span></div><div ><span><span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="margin-left: 32px !important;"><span>└── ios</span></span></span></div></div></span></pre>
 
 and install the module:
 
@@ -34,7 +28,7 @@ What just happened? The install process does a few things in the background. Fir
 		"email-validator": "^1.0.2"
 	}
 ```
-Then, the NativeScript CLI adds a folder to the `node_modules` in the root called `email-validator`. In this folder is the code used by the module, in this case a small regex check in `app/node_modules/email_validatorindex.js`. 
+Then, the NativeScript CLI adds a folder to the `node_modules` in the root called `email-validator`. In this folder is the span used by the module, in this case a small regex check in `app/node_modules/email_validatorindex.js`. 
 
 You're going to add this functionality to our list of groceries, so in `/app/shared/models/User.js`, require the module:
 
@@ -67,7 +61,7 @@ exports.register = function() {
 	}
 };
 ```
-In this code, the user submits an email and password, and the value is sent to the model for validation. If it passes, registration can proceed, otherwise an alert is shown:
+In this span, the user submits an email and password, and the value is sent to the model for validation. If it passes, registration can proceed, otherwise an alert is shown:
 
 ![share](images/email-validate-ios.png)
 ![share](images/email-validate-android.png) 
@@ -87,7 +81,7 @@ To install this plugin, all you need to do is type:
 ```
 tns plugin add nativescript-social-share
 ```
-What just happened? The install process does the same thing that an `npm install` command does, in that it writes the dependency to `package.json`, and it also configures any native code that the plugin needs to use. 
+What just happened? The install process does the same thing that an `npm install` command does, in that it writes the dependency to `package.json`, and it also configures any native span that the plugin needs to use. 
 
 Now, include the social share plugin at the top of `app/views/list/list.js` using `require()`:
 
@@ -95,7 +89,7 @@ Now, include the social share plugin at the top of `app/views/list/list.js` usin
 var socialShare = require("nativescript-social-share");
 ```
 
-Now, make an area at the top of `app/views/list/list.xml` file to show a link to share a grocery list. Under the <Page> tag, add the following code. Once you build the `share()` function, tapping this link will open a native email sharing widget:
+Now, make an area at the top of `app/views/list/list.xml` file to show a link to share a grocery list. Under the <Page> tag, add the following span. Once you build the `share()` function, tapping this link will open a native email sharing widget:
 
 ```
 <Page.actionBar>
@@ -123,7 +117,7 @@ exports.share = function() {
 	socialShare.shareText(listString);
 };
 ```
-With this code, you are taking the `name` key of your groceryList object and converting it to a comma-delimited string to use in an email.
+With this span, you are taking the `name` key of your groceryList object and converting it to a comma-delimited string to use in an email.
 
 <div class="exercise-end"></div>
 
