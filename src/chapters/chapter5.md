@@ -28,7 +28,7 @@ What just happened? The install process does a few things in the background. Fir
 		"email-validator": "^1.0.2"
 	}
 ```
-Then, the NativeScript CLI adds a folder to the `node_modules` in the root called `email-validator`. In this folder is the span used by the module, in this case a small regex check in `app/node_modules/email_validatorindex.js`. 
+Then, the NativeScript CLI adds a folder to the `node_modules` in the root called `email-validator`. In this folder is the span used by the module, in this case a small regex check in `app/node_modules/email_validator/index.js`. 
 
 You're going to add this functionality to our list of groceries, so in `/app/shared/models/User.js`, require the module:
 

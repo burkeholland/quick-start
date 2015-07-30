@@ -758,7 +758,7 @@ GroceryList.prototype.empty = function() {
 <pre><code>&quot;dependencies&quot;: {
         &quot;email-validator&quot;: &quot;^1.0.2&quot;
     }
-</code></pre><p>Then, the NativeScript CLI adds a folder to the <code>node_modules</code> in the root called <code>email-validator</code>. In this folder is the span used by the module, in this case a small regex check in <code>app/node_modules/email_validatorindex.js</code>. </p>
+</code></pre><p>Then, the NativeScript CLI adds a folder to the <code>node_modules</code> in the root called <code>email-validator</code>. In this folder is the span used by the module, in this case a small regex check in <code>app/node_modules/email_validator/index.js</code>. </p>
 <p>You&#39;re going to add this functionality to our list of groceries, so in <code>/app/shared/models/User.js</code>, require the module:</p>
 <pre><code>var validator = require(&quot;email-validator/index&quot;);
 </code></pre><blockquote>
