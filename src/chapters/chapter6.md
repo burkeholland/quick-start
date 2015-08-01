@@ -2,13 +2,11 @@
 
 The beauty of NativeScript is that you can write a native iOS or Android app in JavaScript, XML, and CSS without touching Swift, Objective-C, or Java, if you choose. But what if you want to present a different, more platform-specific UI to your users? In the case of this app, deleting an item from your groceries list would be a valid and common use case. 
 
-Sliding to delete a list item seems like a great gesture to support. But since you want to make this app feel as native as possible, it's better to fork your code at this point to provide a more platform-specific experience. So to enable a user to delete an item from a list, create a slide-to-delete UI for iOS, and use an Android-style 'trash can' icon for an Android.
-
->Learn more about how the NativeScript API leverages native code [here](http://developer.telerik.com/featured/nativescript-works/)
+Sliding to delete list items is a common UI interaction on iOS. But since you want to make this app feel as native as possible, it's better to fork your code at this point to provide a more platform-specific experience. So to enable a user to delete an item from a list, create a slide-to-delete UI for iOS, and use an Android-style 'trash can' icon for an Android.
 
 ### Deleting from a list - Android
 
-Earlier, you saw how any element in a NativeScript app can have Android vs. iOS attributes, either by adding such an attribute directly in the code or creating separate .js, .css, or .xml files. To create a separate delete mechanism for this app, you will both all of these strategies.
+Earlier, you saw how any element in a NativeScript app can have Android vs. iOS attributes, either by adding such an attribute directly into the xml presentation tier code or by creating separate .js, .css, or .xml files, such as using a `page.android.xml` file for your Android UI, and page.ios.xml for your iOS UI. To create a separate delete mechanism for this app, you will both all of these strategies.
 
 <h4 class="exercise-start">
     <b>Exercise</b>: Edit the List View
@@ -20,8 +18,8 @@ For Android, you are going to add an icon that will be hidden on iOS. To account
 <ListView items="{{ groceryList }}" id="groceryList" row="1" colSpan="3">
 	<ListView.itemTemplate>
 		<GridLayout columns="*, auto">
-			<Label text="{{ name }}" horizontalAlignment="left" verticalAlignment="center"/>
-			<Image src="res://ic_menu_delete" ios:visibility='collapsed' margin="10" col="1" tap="delete"/>
+			<Label text="{{ name }}/>
+			<Image src="res://ic_menu_delete" ios:visibility='collapsed' col="1" tap="delete"/>
 		</GridLayout>
 	</ListView.itemTemplate>
 </ListView>
@@ -29,12 +27,15 @@ For Android, you are going to add an icon that will be hidden on iOS. To account
 In this code, you have created:
 
 - an itemTemplate, in which you can format the rows of your list view. In this itemTemplate you have nested a GridLayout with two columns, one stretched and one expanding only to the width of the child. 
-- a label that contains the name of the grocery item is added to one column and aligned left. 
-- an image, the delete icon, that is hidden from ios devices, placed in the right-hand column, and given a tap event. The image itself has already been placed in the app for you, and can be found in the platforms folder in the drawable folders in `platforms/android/bin/res`.
+- a label that contains the name of the grocery item is added to the first column and aligned left. 
+- an image, the delete icon, that is hidden from ios devices. The attribute `ios.visibility` sets the Image's visibility CSS property to "collapsed", which hides it. Because the attribute was prefixed with "ios:", that CSS property is only applied on iOS; therefore the button displays on Android devices, but not on iOS ones. This icon is placed in the right-hand column, and given a tap event. The image itself has already been placed in the app for you, and can be found in appropriate sizes in the four drawable folders in `/app/App_Resources/Android/drawable-*dpi`.
 
 <div class="exercise-end"></div>
 
-Now that you have built the interface for Android's tappable icon, add a way for a swipe delete interface to be shown on iOS.
+![delete](images/delete-ios.png)
+![delete](images/delete-android.png) 
+
+Now that you have built the interface for Android's tappable icon, let's add a way for a swipe delete interface to be shown on iOS.
 
 ### Deleting from a list - iOS
 
@@ -52,8 +53,6 @@ var swipeDelete = require("../../shared/utils/ios-swipe-delete");
 Then, add this code to the `navigatedTo()` function under `page = args.object;`:
 ```
 if (page.ios) {
-		//set the page title for iOS
-		page.ios.title = "Groceries";
 		var listView = view.getViewById(page, "groceryList");
 		swipeDelete.enable(listView, function(index) {
 			groceryList.delete(index);
@@ -104,6 +103,8 @@ GroceryList.prototype.delete = function(index) {
 ```
 Similar to code elsewhere in the models, as you have seen, an item is passed to the function and a Promise is returned. Data is sent to Backend Services, including a URL with the id of the item to be deleted appended, the method (DELETE), and headers which include the token saved after the user logs in. If the deletion is successful, item is removed from the grocery list observable that feeds the list view. 
 <div class="exercise-end"></div>
+
+>Learn more about how the NativeScript API leverages native code [here](http://developer.telerik.com/featured/nativescript-works/)
 
 You've created a functional, cross-platform app to manage your grocery list! In the process you created a unique UI for Android and iOS, leveraged plugins and npm modules, learned how to login and register, managed backend services, create a functioning list with add and delete options, and more. Congratulations!
 

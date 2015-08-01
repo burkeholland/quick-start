@@ -63,8 +63,8 @@ exports.register = function() {
 ```
 In this span, the user submits an email and password, and the value is sent to the model for validation. If it passes, registration can proceed, otherwise an alert is shown:
 
-![share](images/email-validate-ios.png)
-![share](images/email-validate-android.png) 
+![validate](images/email-validate-ios.png)
+![validate](images/email-validate-android.png) 
 
 <div class="exercise-end"></div>
 
