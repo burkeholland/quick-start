@@ -912,7 +912,8 @@ var navigationBar = controller.navigationBar;
             groceryList.delete(index);
         });
     }
-</code></pre><div class="exercise-end"></div>
+</code></pre><p>Take a brief look at <code>app/shared/utils/ios-swipe-delete.js</code>. You&#39;ll find the Objective-C class <code>UITableViewDataSource</code> instantiated and a number of its properties are set, including <code>tableViewNumberOfRowsInSection</code>, <code>tableViewCanEditRowAtIndexPath</code>, etc, to build up the EditableDataSource that is used to build the editable list for iOS.</p>
+<div class="exercise-end"></div>
 
 <p>That&#39;s all you have to do to enable swipe-to-delete for iOS! What this code does is use this functionality from the included utility, invoking the <code>enable()</code> function from the swipeDelete utility for the referenced listView, and flagging the index of the list to be deleted. At this point, all that remains to accomplish the deletion is to build the <code>delete()</code> function.</p>
 <h4 class="exercise-start">

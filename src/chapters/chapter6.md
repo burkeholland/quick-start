@@ -111,6 +111,8 @@ if (page.ios) {
 		});
 	}
 ``` 
+Take a brief look at `app/shared/utils/ios-swipe-delete.js`. You'll find the Objective-C class `UITableViewDataSource` instantiated and a number of its properties are set, including `tableViewNumberOfRowsInSection`, `tableViewCanEditRowAtIndexPath`, etc, to build up the EditableDataSource that is used to build the editable list for iOS.
+
 <div class="exercise-end"></div>
 
 That's all you have to do to enable swipe-to-delete for iOS! What this code does is use this functionality from the included utility, invoking the `enable()` function from the swipeDelete utility for the referenced listView, and flagging the index of the list to be deleted. At this point, all that remains to accomplish the deletion is to build the `delete()` function.
