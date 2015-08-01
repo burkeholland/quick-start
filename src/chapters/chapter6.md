@@ -1,6 +1,58 @@
 ## Accessing native APIs
 
-The beauty of NativeScript is that you can write a native iOS or Android app in JavaScript, XML, and CSS without touching Swift, Objective-C, or Java, if you choose. But what if you want to present a different, more platform-specific UI to your users? In the case of this app, deleting an item from your groceries list would be a valid and common use case. 
+The beauty of NativeScript is that you can write a native iOS or Android app in JavaScript, XML, and CSS without touching Swift, Objective-C, or Java, if you choose. But what if you want to present a different, more platform-specific UI to your users?
+
+NativeScript gives you the option to dig into native code as needed. Let's add some color to the ActionBar in the iOS version of the Groceries app, and change the color of the fonts and status bar to customize the look a bit on iOS.
+
+### Customize the ActionBar - iOS
+
+To create a really native look and feel for the action bar on iOS, you need to work with lower-level classes in the UINavigationController code. It's useful to reference [the iOS docs](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UINavigationController_Class/) when working in this level of the code.
+
+In addition, you can view the mappings to these customizations that NativeScript provides [here](https://github.com/NativeScript/NativeScript/blob/master/ios.d.ts). In this file, you can search for 'UINavigationBar' and observe the classes you can work with to customize the iOS navigation bar.
+
+<h4 class="exercise-start">
+    <b>Exercise</b>: Modify the ActionBar items
+</h4>
+
+To access the internals of the ActionBar, import the frame module where the navigation resides.
+
+In `app/views/list/list.js`, add the following line at the top of the file, under var view:
+
+```
+var frameModule = require("ui/frame");
+```
+Then, create variables to hold the controller and the ios navigationBar by adding the following lines to the top, under `pageData.set("groceryList", groceryList);`:
+
+```
+var controller = frameModule.topmost().ios.controller;
+var navigationBar = controller.navigationBar;
+```
+
+The controller holds a reference to the iOS controller within the frameModule's topmost frame, and the navigationBar is referenced from within the ios controller.
+
+Finally, add some customizations to the navigationBar for iOS in the codeblock in the `exports.navigatedTo()` function after the if statement (`if(page.ios)`):
+
+```
+navigationBar.barTintColor = UIColor.colorWithRedGreenBlueAlpha(0.011, 0.278, 0.576, 1);
+		navigationBar.titleTextAttributes = new NSDictionary([UIColor.whiteColor()], [NSForegroundColorAttributeName]);
+		navigationBar.barStyle = 1;
+		navigationBar.tintColor = UIColor.whiteColor();
+		
+```
+
+
+<div class="exercise-end"></div>
+
+
+![actionbar](images/actionbar-ios.png)
+
+
+Now if you emulate the app for iOS, you'll see the new colors appear in the ActionBar.
+
+
+### Delete from a list
+
+Forking the user experience can entail more than just changing some colors. In the case of this app, deleting an item from your groceries list using platform-specific UI strategies would be a valid and common use case. 
 
 Sliding to delete list items is a common UI interaction on iOS. But since you want to make this app feel as native as possible, it's better to fork your code at this point to provide a more platform-specific experience. So to enable a user to delete an item from a list, create a slide-to-delete UI for iOS, and use an Android-style 'trash can' icon for an Android.
 

@@ -179,11 +179,17 @@ Page {
 }
 TextField {
     margin: 10;
-    background-color: #FAFAFA;
     padding: 10;
+    background-color: #FAFAFA;
+    border-width: 1;
+    border-style: solid;
+    border-color: #034793;
 }
 Button {
     margin: 10;
+    border-width: 1;
+    border-style: solid;
+    border-color: #034793;
 }
 ```
 

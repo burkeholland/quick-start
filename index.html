@@ -252,11 +252,17 @@ application.start();
 }
 TextField {
     margin: 10;
-    background-color: #FAFAFA;
     padding: 10;
+    background-color: #FAFAFA;
+    border-width: 1;
+    border-style: solid;
+    border-color: #034793;
 }
 Button {
     margin: 10;
+    border-width: 1;
+    border-style: solid;
+    border-color: #034793;
 }
 </code></pre><div class="exercise-end"></div>
 
@@ -836,7 +842,34 @@ GroceryList.prototype.empty = function() {
 		<hr>
 		<div class="chapter">
 			<h2 id="accessing-native-apis">Accessing native APIs</h2>
-<p>The beauty of NativeScript is that you can write a native iOS or Android app in JavaScript, XML, and CSS without touching Swift, Objective-C, or Java, if you choose. But what if you want to present a different, more platform-specific UI to your users? In the case of this app, deleting an item from your groceries list would be a valid and common use case. </p>
+<p>The beauty of NativeScript is that you can write a native iOS or Android app in JavaScript, XML, and CSS without touching Swift, Objective-C, or Java, if you choose. But what if you want to present a different, more platform-specific UI to your users?</p>
+<p>NativeScript gives you the option to dig into native code as needed. Let&#39;s add some color to the ActionBar in the iOS version of the Groceries app, and change the color of the fonts and status bar to customize the look a bit on iOS.</p>
+<h3 id="customize-the-actionbar-ios">Customize the ActionBar - iOS</h3>
+<p>To create a really native look and feel for the action bar on iOS, you need to work with lower-level classes in the UINavigationController code. It&#39;s useful to reference <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UINavigationController_Class/">the iOS docs</a> when working in this level of the code.</p>
+<p>In addition, you can view the mappings to these customizations that NativeScript provides <a href="https://github.com/NativeScript/NativeScript/blob/master/ios.d.ts">here</a>. In this file, you can search for &#39;UINavigationBar&#39; and observe the classes you can work with to customize the iOS navigation bar.</p>
+<h4 class="exercise-start">
+    <b>Exercise</b>: Modify the ActionBar items
+</h4>
+
+<p>To access the internals of the ActionBar, import the frame module where the navigation resides.</p>
+<p>In <code>app/views/list/list.js</code>, add the following line at the top of the file, under var view:</p>
+<pre><code>var frameModule = require(&quot;ui/frame&quot;);
+</code></pre><p>Then, create variables to hold the controller and the ios navigationBar by adding the following lines to the top, under <code>pageData.set(&quot;groceryList&quot;, groceryList);</code>:</p>
+<pre><code>var controller = frameModule.topmost().ios.controller;
+var navigationBar = controller.navigationBar;
+</code></pre><p>The controller holds a reference to the iOS controller within the frameModule&#39;s topmost frame, and the navigationBar is referenced from within the ios controller.</p>
+<p>Finally, add some customizations to the navigationBar for iOS in the codeblock in the <code>exports.navigatedTo()</code> function after the if statement (<code>if(page.ios)</code>):</p>
+<pre><code>navigationBar.barTintColor = UIColor.colorWithRedGreenBlueAlpha(0.011, 0.278, 0.576, 1);
+        navigationBar.titleTextAttributes = new NSDictionary([UIColor.whiteColor()], [NSForegroundColorAttributeName]);
+        navigationBar.barStyle = 1;
+        navigationBar.tintColor = UIColor.whiteColor();
+</code></pre><div class="exercise-end"></div>
+
+
+<p><img src="images/actionbar-ios.png" alt="actionbar"></p>
+<p>Now if you emulate the app for iOS, you&#39;ll see the new colors appear in the ActionBar.</p>
+<h3 id="delete-from-a-list">Delete from a list</h3>
+<p>Forking the user experience can entail more than just changing some colors. In the case of this app, deleting an item from your groceries list using platform-specific UI strategies would be a valid and common use case. </p>
 <p>Sliding to delete list items is a common UI interaction on iOS. But since you want to make this app feel as native as possible, it&#39;s better to fork your code at this point to provide a more platform-specific experience. So to enable a user to delete an item from a list, create a slide-to-delete UI for iOS, and use an Android-style &#39;trash can&#39; icon for an Android.</p>
 <h3 id="deleting-from-a-list-android">Deleting from a list - Android</h3>
 <p>Earlier, you saw how any element in a NativeScript app can have Android vs. iOS attributes, either by adding such an attribute directly into the xml presentation tier code or by creating separate .js, .css, or .xml files, such as using a <code>page.android.xml</code> file for your Android UI, and page.ios.xml for your iOS UI. To create a separate delete mechanism for this app, you will both all of these strategies.</p>
@@ -924,7 +957,7 @@ GroceryList.prototype.empty = function() {
 		<hr>
 		<div class="chapter">
 			<h2 id="next-steps">Next steps</h2>
-<p>...</p>
+<p>Now that you&#39;ve built an app and viewed it in an emulator, you might want to test it on a device. </p>
 <h3 id="documentation">Documentation</h3>
 <p>...</p>
 <h3 id="showcase">Showcase</h3>
