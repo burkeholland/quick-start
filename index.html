@@ -843,7 +843,7 @@ GroceryList.prototype.empty = function() {
 		<div class="chapter">
 			<h2 id="accessing-native-apis">Accessing native APIs</h2>
 <p>The beauty of NativeScript is that you can write a native iOS or Android app in JavaScript, XML, and CSS without touching Swift, Objective-C, or Java, if you choose. But what if you want to present a different, more platform-specific UI to your users?</p>
-<p>NativeScript gives you the option to dig into native code as needed. Let&#39;s add some color to the ActionBar in the iOS version of the Groceries app, and change the color of the fonts and status bar to customize the look a bit on iOS.</p>
+<p>NativeScript gives you the option to dig into native code as needed and to do so without leaving JavaScript. To show how this works in action, let&#39;s add some color to the ActionBar in the iOS version of the Groceries app, and change the color of the fonts and status bar to customize the look a bit on iOS.</p>
 <h3 id="customize-the-actionbar-ios">Customize the ActionBar - iOS</h3>
 <p>To create a really native look and feel for the action bar on iOS, you need to work with lower-level classes in the UINavigationController code. It&#39;s useful to reference <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UINavigationController_Class/">the iOS docs</a> when working in this level of the code.</p>
 <p>In addition, you can view the mappings to these customizations that NativeScript provides <a href="https://github.com/NativeScript/NativeScript/blob/master/ios.d.ts">here</a>. In this file, you can search for &#39;UINavigationBar&#39; and observe the classes you can work with to customize the iOS navigation bar.</p>
@@ -858,21 +858,25 @@ GroceryList.prototype.empty = function() {
 <pre><code>var controller = frameModule.topmost().ios.controller;
 var navigationBar = controller.navigationBar;
 </code></pre><p>The controller holds a reference to the iOS controller within the frameModule&#39;s topmost frame, and the navigationBar is referenced from within the ios controller.</p>
-<p>Finally, add some customizations to the navigationBar for iOS in the codeblock in the <code>exports.navigatedTo()</code> function after the if statement (<code>if(page.ios)</code>):</p>
-<pre><code>navigationBar.barTintColor = UIColor.colorWithRedGreenBlueAlpha(0.011, 0.278, 0.576, 1);
-        navigationBar.titleTextAttributes = new NSDictionary([UIColor.whiteColor()], [NSForegroundColorAttributeName]);
-        navigationBar.barStyle = 1;
-        navigationBar.tintColor = UIColor.whiteColor();
-</code></pre><div class="exercise-end"></div>
+<p>Finally, add some customizations to the navigationBar for iOS in the codeblock in the <code>exports.navigatedTo()</code> function:</p>
+<pre><code>if (page.ios) {
+    navigationBar.barTintColor = UIColor.colorWithRedGreenBlueAlpha(0.011, 0.278, 0.576, 1);
+    navigationBar.titleTextAttributes = new NSDictionary([UIColor.whiteColor()], [NSForegroundColorAttributeName]);
+    navigationBar.barStyle = 1;
+    navigationBar.tintColor = UIColor.whiteColor();
+}
+</code></pre><blockquote>
+<p>Note, you can fork the user&#39;s platform-specific experience by leveraging page attributes, specifying <code>ios</code> or <code>android</code></p>
+</blockquote>
+<div class="exercise-end"></div>
 
 
 <p><img src="images/actionbar-ios.png" alt="actionbar"></p>
-<p>Now if you emulate the app for iOS, you&#39;ll see the new colors appear in the ActionBar.</p>
-<h3 id="delete-from-a-list">Delete from a list</h3>
+<p>Now if you emulate the app for iOS, you&#39;ll see the new colors appear in the ActionBar. In the above code, notice how you access native iOS APIs from JavaScript. NativeScript does the abstraction for you to make it easy.</p>
 <p>Forking the user experience can entail more than just changing some colors. In the case of this app, deleting an item from your groceries list using platform-specific UI strategies would be a valid and common use case. </p>
-<p>Sliding to delete list items is a common UI interaction on iOS. But since you want to make this app feel as native as possible, it&#39;s better to fork your code at this point to provide a more platform-specific experience. So to enable a user to delete an item from a list, create a slide-to-delete UI for iOS, and use an Android-style &#39;trash can&#39; icon for an Android.</p>
+<p>Sliding to delete list items is a common UI interaction on iOS. But since you want to make this app feel as native as possible, it&#39;s better to fork your code at this point to provide a more platform-specific experience. So to enable a user to delete an item from a list, we&#39;re going to create a slide-to-delete UI for iOS, and use an Android-style &#39;trash can&#39; icon for Android.</p>
 <h3 id="deleting-from-a-list-android">Deleting from a list - Android</h3>
-<p>Earlier, you saw how any element in a NativeScript app can have Android vs. iOS attributes, either by adding such an attribute directly into the xml presentation tier code or by creating separate .js, .css, or .xml files, such as using a <code>page.android.xml</code> file for your Android UI, and page.ios.xml for your iOS UI. To create a separate delete mechanism for this app, you will both all of these strategies.</p>
+<p>Earlier, you saw how any element in a NativeScript app can have Android vs. iOS attributes. One way is to add such an attribute directly into the xml presentation tier code: <code>ios.position=&quot;right&quot;</code>. Another is by creating separate .js, .css, or .xml files, such as using a <code>page.android.xml</code> file for your Android UI, and page.ios.xml for your iOS UI. To create a separate delete mechanism for this app, you will use both of these strategies.</p>
 <h4 class="exercise-start">
     <b>Exercise</b>: Edit the List View
 </h4>
@@ -896,26 +900,7 @@ var navigationBar = controller.navigationBar;
 
 <p><img src="images/delete-ios.png" alt="delete">
 <img src="images/delete-android.png" alt="delete"> </p>
-<p>Now that you have built the interface for Android&#39;s tappable icon, let&#39;s add a way for a swipe delete interface to be shown on iOS.</p>
-<h3 id="deleting-from-a-list-ios">Deleting from a list - iOS</h3>
-<p>There is already a module ready-built for you to use to enable a swipe-to-delete gesture within a list view. Take a look in <code>shared/utils/ios-swipe-delete.js</code>. The code  </p>
-<h4 class="exercise-start">
-    <b>Exercise</b>: Edit the List View
-</h4>
-
-<p>Include this library into <code>app/views/list/list.js</code> at the top, under the inclusion of the social share plugin:</p>
-<pre><code>var swipeDelete = require(&quot;../../shared/utils/ios-swipe-delete&quot;);
-</code></pre><p>Then, add this code to the <code>navigatedTo()</code> function under <code>page = args.object;</code>:</p>
-<pre><code>if (page.ios) {
-        var listView = view.getViewById(page, &quot;groceryList&quot;);
-        swipeDelete.enable(listView, function(index) {
-            groceryList.delete(index);
-        });
-    }
-</code></pre><p>Take a brief look at <code>app/shared/utils/ios-swipe-delete.js</code>. You&#39;ll find the Objective-C class <code>UITableViewDataSource</code> instantiated and a number of its properties are set, including <code>tableViewNumberOfRowsInSection</code>, <code>tableViewCanEditRowAtIndexPath</code>, etc, to build up the EditableDataSource that is used to build the editable list for iOS.</p>
-<div class="exercise-end"></div>
-
-<p>That&#39;s all you have to do to enable swipe-to-delete for iOS! What this code does is use this functionality from the included utility, invoking the <code>enable()</code> function from the swipeDelete utility for the referenced listView, and flagging the index of the list to be deleted. At this point, all that remains to accomplish the deletion is to build the <code>delete()</code> function.</p>
+<p>Now that you have a trash can icon appear within the grocery list view, you need to add the delete() functions in the model and view model:</p>
 <h4 class="exercise-start">
     <b>Exercise</b>: Build the delete function
 </h4>
@@ -946,9 +931,26 @@ var navigationBar = controller.navigationBar;
         });
     });
 };
-</code></pre><p>Similar to code elsewhere in the models, as you have seen, an item is passed to the function and a Promise is returned. Data is sent to Backend Services, including a URL with the id of the item to be deleted appended, the method (DELETE), and headers which include the token saved after the user logs in. If the deletion is successful, item is removed from the grocery list observable that feeds the list view. </p>
+</code></pre><p>Similar to code elsewhere in the models, as you have seen, an item is passed to the function and a Promise is returned. Data is sent to Backend Services, including a URL with the id of the item to be deleted appended, the method (DELETE), and headers which include the token saved after the user logs in. If the deletion is successful, the item is removed from the grocery list observable that feeds the list view. </p>
 <div class="exercise-end"></div>
 
+<p>Now that you have built the interface for Android&#39;s tappable icon, let&#39;s add a way for a swipe delete interface to be shown on iOS.</p>
+<h3 id="deleting-from-a-list-ios">Deleting from a list - iOS</h3>
+<p>There is already a module ready-built for you to use to enable a swipe-to-delete gesture within a list view. Take a look in <code>shared/utils/ios-swipe-delete.js</code>. You&#39;ll find the Objective-C class <code>UITableViewDataSource</code> instantiated and a number of its properties are set, including <code>tableViewNumberOfRowsInSection</code>, <code>tableViewCanEditRowAtIndexPath</code>, etc, to build up the EditableDataSource that is used to build the editable list for iOS.</p>
+<h4 class="exercise-start">
+    <b>Exercise</b>: Edit the List View
+</h4>
+
+<p>Include this library into <code>app/views/list/list.js</code> at the top, under the inclusion of the social share plugin:</p>
+<pre><code>var swipeDelete = require(&quot;../../shared/utils/ios-swipe-delete&quot;);
+</code></pre><p>Then, add this code to the <code>navigatedTo()</code> function under <code>page = args.object;</code>:</p>
+<pre><code>    var listView = view.getViewById(page, &quot;groceryList&quot;);
+    swipeDelete.enable(listView, function(index) {
+        groceryList.delete(index);
+    });
+</code></pre><div class="exercise-end"></div>
+
+<p>That&#39;s all you have to do to enable swipe-to-delete for iOS! What this code does is use this functionality from the included utility, invoking the <code>enable()</code> function from the swipeDelete utility for the referenced listView, and flagging the index of the list to be deleted.</p>
 <blockquote>
 <p>Learn more about how the NativeScript API leverages native code <a href="http://developer.telerik.com/featured/nativescript-works/">here</a></p>
 </blockquote>
@@ -958,12 +960,17 @@ var navigationBar = controller.navigationBar;
 		<hr>
 		<div class="chapter">
 			<h2 id="next-steps">Next steps</h2>
-<p>Now that you&#39;ve built an app and viewed it in an emulator, you might want to test it on a device. </p>
-<p>...</p>
-<h3 id="documentation">Documentation</h3>
-<p>NativeScript&#39;s documentation can be found <a href="http://docs.nativescript.org/">here</a>. The <a href="https://www.nativescript.org/roadmap">Roadmap</a> gives you a good idea where the framework is headed over the long term.</p>
-<h3 id="showcase">Showcase</h3>
-<p>Developers are building production-ready apps in NativeScript already. Take a look at the <a href="https://www.nativescript.org/app-samples-with-code">Sample apps</a> to get an idea of what people are building. </p>
+<p>This guide should get you on your way to creating an app with NativeScript using the CLI. There are many resources available to you to help you build your understanding and skills with this framework.</p>
+<ul>
+<li>NativeScript&#39;s documentation can be found <a href="http://docs.nativescript.org/">here</a>. </li>
+<li>Good articles that dive deep into the framework are found on the <a href="http://nativescript.org/blogs">blog</a>.</li>
+<li>The <a href="https://www.nativescript.org/roadmap">Roadmap</a> gives you a good idea where the framework is headed over the long term.</li>
+<li>Developers are building production-ready apps in NativeScript already. Take a look at the <a href="https://www.nativescript.org/app-samples-with-code">Sample apps</a> to get an idea of what people are building.</li>
+<li>Follow @nativescript on Twitter</li>
+<li>Check out the <a href="https://groups.google.com/forum/#!forum/nativescript">NativeScript Google Group</a> if you run into problems</li>
+<li>If you find an error in this Guide, please enter it in the Github Issues Log</li>
+<li>Visit the <a href="https://github.com/nativescript">NativeScript Github Repo</a> to learn more about how NativeScript works</li>
+</ul>
 
 		</div>
 	</div>
