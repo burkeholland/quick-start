@@ -10,7 +10,7 @@ Welcome to the [NativeScript](https://nativescript.org) Getting Started Guide. U
 
 ### What you're building
 
-Here's the premise: your boss has tasked you with creating the next great grocery management app. You're given some designs from your design team, a few HTTP endpoints from your back end team, and you're told to build an app that does the following things:
+A groceries-management app that does the following things:
 
 - Allows users to register and login.
 - Allows authenticated users to add and delete groceries from a list.
