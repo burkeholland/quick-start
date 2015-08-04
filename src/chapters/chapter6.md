@@ -50,13 +50,12 @@ if (page.ios) {
 
 Now if you emulate the app for iOS, you'll see the new colors appear in the ActionBar. In the above code, notice how you access native iOS APIs from JavaScript. NativeScript does the abstraction for you to make it easy.
 
-Forking the user experience can entail more than just changing some colors. In the case of this app, deleting an item from your groceries list using platform-specific UI strategies would be a valid and common use case. 
-
+Forking the user experience can entail more than just changing some colors.
 Sliding to delete list items is a common UI interaction on iOS. But since you want to make this app feel as native as possible, it's better to fork your code at this point to provide a more platform-specific experience. So to enable a user to delete an item from a list, we're going to create a slide-to-delete UI for iOS, and use an Android-style 'trash can' icon for Android.
 
 ### Deleting from a list - Android
 
-Earlier, you saw how any element in a NativeScript app can have Android vs. iOS attributes. One way is to add such an attribute directly into the xml presentation tier code: `ios.position="right"`. Another is by creating separate .js, .css, or .xml files, such as using a `page.android.xml` file for your Android UI, and page.ios.xml for your iOS UI. To create a separate delete mechanism for this app, you will use both of these strategies.
+Earlier, you saw how any element in a NativeScript app can have Android vs. iOS attributes. One way is to add such an attribute directly into the xml presentation tier code: `ios.position="right"`. Another is by creating separate .js, .css, or .xml files, such as using a `page.android.xml` file for your Android UI, and `page.ios.xml` for your iOS UI. To create a separate delete mechanism for this app, you will use both of these strategies.
 
 <h4 class="exercise-start">
     <b>Exercise</b>: Edit the List View
@@ -88,7 +87,7 @@ In this code, you have created:
 Now that you have a trash can icon appear within the grocery list view, you need to add the delete() functions in the model and view model:
 
 <h4 class="exercise-start">
-    <b>Exercise</b>: Build the delete function
+    <b>Exercise</b>: Build the delete functions
 </h4>
 
 First, create a `delete()` function in `app/views/list/list.js` at the bottom of this file, under the `share()` function:

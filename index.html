@@ -873,10 +873,10 @@ var navigationBar = controller.navigationBar;
 
 <p><img src="images/actionbar-ios.png" alt="actionbar"></p>
 <p>Now if you emulate the app for iOS, you&#39;ll see the new colors appear in the ActionBar. In the above code, notice how you access native iOS APIs from JavaScript. NativeScript does the abstraction for you to make it easy.</p>
-<p>Forking the user experience can entail more than just changing some colors. In the case of this app, deleting an item from your groceries list using platform-specific UI strategies would be a valid and common use case. </p>
-<p>Sliding to delete list items is a common UI interaction on iOS. But since you want to make this app feel as native as possible, it&#39;s better to fork your code at this point to provide a more platform-specific experience. So to enable a user to delete an item from a list, we&#39;re going to create a slide-to-delete UI for iOS, and use an Android-style &#39;trash can&#39; icon for Android.</p>
+<p>Forking the user experience can entail more than just changing some colors.
+Sliding to delete list items is a common UI interaction on iOS. But since you want to make this app feel as native as possible, it&#39;s better to fork your code at this point to provide a more platform-specific experience. So to enable a user to delete an item from a list, we&#39;re going to create a slide-to-delete UI for iOS, and use an Android-style &#39;trash can&#39; icon for Android.</p>
 <h3 id="deleting-from-a-list-android">Deleting from a list - Android</h3>
-<p>Earlier, you saw how any element in a NativeScript app can have Android vs. iOS attributes. One way is to add such an attribute directly into the xml presentation tier code: <code>ios.position=&quot;right&quot;</code>. Another is by creating separate .js, .css, or .xml files, such as using a <code>page.android.xml</code> file for your Android UI, and page.ios.xml for your iOS UI. To create a separate delete mechanism for this app, you will use both of these strategies.</p>
+<p>Earlier, you saw how any element in a NativeScript app can have Android vs. iOS attributes. One way is to add such an attribute directly into the xml presentation tier code: <code>ios.position=&quot;right&quot;</code>. Another is by creating separate .js, .css, or .xml files, such as using a <code>page.android.xml</code> file for your Android UI, and <code>page.ios.xml</code> for your iOS UI. To create a separate delete mechanism for this app, you will use both of these strategies.</p>
 <h4 class="exercise-start">
     <b>Exercise</b>: Edit the List View
 </h4>
@@ -902,7 +902,7 @@ var navigationBar = controller.navigationBar;
 <img src="images/delete-android.png" alt="delete"> </p>
 <p>Now that you have a trash can icon appear within the grocery list view, you need to add the delete() functions in the model and view model:</p>
 <h4 class="exercise-start">
-    <b>Exercise</b>: Build the delete function
+    <b>Exercise</b>: Build the delete functions
 </h4>
 
 <p>First, create a <code>delete()</code> function in <code>app/views/list/list.js</code> at the bottom of this file, under the <code>share()</code> function:</p>
