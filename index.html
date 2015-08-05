@@ -95,7 +95,7 @@ $ cd sample-Groceries
 </code></pre><p>The master branch has the final state of the Groceries app. Feel free to refer back to it at any time, but for now switch over to the “start” branch for the guide&#39;s starting point:</p>
 <pre><code>$ git checkout start
 </code></pre><h3 id="add-target-development-platforms">Add target development platforms</h3>
-<p>Your project is now setup, but before you run it you have to do a little iOS- and Android-specific configuration using the <code>tns platform add</code> command. Start by adding the Android platform:</p>
+<p>Your project is now setup, but before you run it you need to tell NativeScript which mobile platform you want to build for using the <code>tns platform add</code> command. You can add multiple mobile platforms to a single project allowing you to deploy the same application on different mobile operating systems. Start by adding the Android platform:</p>
 <pre><code>$ tns platform add android
 </code></pre><p>And if you&#39;re on a Mac add the iOS platform next:</p>
 <pre><code>$ tns platform add ios
