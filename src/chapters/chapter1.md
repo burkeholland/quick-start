@@ -39,7 +39,7 @@ With NativeScript CLI installed, it's time to start your app. You normally use t
 ```
 $ cd folder-you-want-groceries-to-be-in
 $ git clone https://github.com/NativeScript/sample-Groceries.git
-$ cd groceries
+$ cd sample-Groceries
 ```
 
 The master branch has the final state of the Groceries app. Feel free to refer back to it at any time, but for now switch over to the “start” branch for the guide's starting point:
