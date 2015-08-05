@@ -394,7 +394,7 @@ exports.register = function() {
 
 <p>To get data to be sent from <code>login.xml</code>, add an id to the email textfield:</p>
 <pre><code>&lt;TextField id=&quot;email_address&quot; hint=&quot;Email Address&quot; keyboardType=&quot;email&quot; /&gt;
-</code></pre><p>You need to access this textfield via the view, so add a line at the top, underneath the frameModule variable. Also expose email as a variable available to both the load and signIn functions:</p>
+</code></pre><p>You need to access this textfield via the view, so in <code>app/views/login/login.js</code> add a line at the top, underneath the frameModule variable. Also expose email as a variable available to both the load and signIn functions:</p>
 <pre><code>var view = require(&quot;ui/core/view&quot;);
 var email;
 </code></pre><blockquote>

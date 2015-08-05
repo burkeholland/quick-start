@@ -121,7 +121,7 @@ To get data to be sent from `login.xml`, add an id to the email textfield:
 <TextField id="email_address" hint="Email Address" keyboardType="email" />
 ```
 
-You need to access this textfield via the view, so add a line at the top, underneath the frameModule variable. Also expose email as a variable available to both the load and signIn functions:
+You need to access this textfield via the view, so in `app/views/login/login.js` add a line at the top, underneath the frameModule variable. Also expose email as a variable available to both the load and signIn functions:
 
 ```
 var view = require("ui/core/view");
