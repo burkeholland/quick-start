@@ -4,7 +4,9 @@ In this chapter, you'll learn how to add JavaScript logic to your NativeScript a
 
 - Model: The model defines and represents the data. Separating the model from the various views that may use it allows for code reuse.
 - View: The view represents the UI, written in XML. The view is often data-bound to the view model so that changes are instantly represented on the presentation tier.
-- view model: The view model contains the application logic, exposing it for the view. This is the file that is named the same as the view, so in a given folder you will have file.xml and file.js representing the view and the view model, respectively.
+- View Model: The view model contains the application logic (usually including the model) and exposes it to the view. NativeScript provides a module called 'Observable' that facilitates creating a view model object which can be bound to the view. We'll discuss that shortly.
+
+The communication between the view and the model / view model is facilitated by the code-behind. This is the file that is named the same as the view, so in a given folder you will have file.xml and file.js representing the view and the code-behind, respectively.
 
 The most basic benefit of using this sort of separation between the model, view, and view model, is that we are able to craft two-way data binding such that the view model can act as a switchboard between the model and the view. Let's wire up our login xml to support binding.
 
