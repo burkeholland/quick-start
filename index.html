@@ -97,8 +97,7 @@ $ cd sample-Groceries
 </code></pre><blockquote>
 <p><strong>Tip:</strong> You can only add platforms for SDKs that you have already installed. See <a href="#install-nativescript-and-configure-your-environment">Install NativeScript and configure your environment</a>.</p>
 </blockquote>
-<p>The <code>platform add</code> command uses the native SDKs to initialize platform-specific projects and places the generated contents in your app&#39;s <code>platforms</code> folder. Later on, the NativeScript CLI will use the tools of the native SDKs to build these platform-specific projects into truly native application packages. During the process, the NativeScript CLI will automatically transfer your cross-platform code and resources from your project&#39;s <code>app</code> folder into its <code>platforms</code> folder.</p>
-<p>Don&#39;t worry too much about the details, as the NativeScript CLI does a good job of abstracting you from the messy details. Let&#39;s look at how to run your app.</p>
+<p>The <code>platform add</code> command adds a folder called <code>platforms</code> to your project. It copies all of the required native SDKs into this folder. When you eventually build the application later on, NativeScript will also copy your project code into the <code>platforms</code> folder so that a native binary can be created.</p>
 <h3 id="running-your-app">Running your app</h3>
 <p>With the platform initialization complete you can now run your app in an emulator or on devices. If you&#39;re on an app start by running the app in an iOS simulator with the following command:</p>
 <pre><code>tns run ios --emulator

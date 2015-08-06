@@ -68,9 +68,7 @@ $ tns platform add android
 
 >**Tip:** You can only add platforms for SDKs that you have already installed. See [Install NativeScript and configure your environment](#install-nativescript-and-configure-your-environment).
 
-The `platform add` command uses the native SDKs to initialize platform-specific projects and places the generated contents in your app's `platforms` folder. Later on, the NativeScript CLI will use the tools of the native SDKs to build these platform-specific projects into truly native application packages. During the process, the NativeScript CLI will automatically transfer your cross-platform code and resources from your project's `app` folder into its `platforms` folder.
-
-Don't worry too much about the details, as the NativeScript CLI does a good job of abstracting you from the messy details. Let's look at how to run your app.
+The `platform add` command adds a folder called `platforms` to your project. It copies all of the required native SDKs into this folder. When you eventually build the application later on, NativeScript will also copy your project code into the `platforms` folder so that a native binary can be created.
 
 ### Running your app
 
