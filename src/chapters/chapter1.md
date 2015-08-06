@@ -76,13 +76,13 @@ With the platform initialization complete you can now run your app in an emulato
 
 ```
 tns run ios --emulator
-``` 
+```
 
 If all went well you should see something like this:
 
 ![login](images/login-intro1-ios.png)
 
-Next run your app on Android with the following command:
+Likewise, you can run your app in the Android emulator with the following command:
 
 ```
 tns run android --emulator
