@@ -56,7 +56,7 @@ Here's what these various files and folders do:
 - **shared**: This folder contains any files you need to share across views in your app. In the Groceries app you find a few model objects and a ```config.js``` file used to share configuration variables like API keys.
 - **tns_modules**: This folder contains the NativeScript-provided modules you'll use to build your app. Each module contains platform-specific code (camera, http, file system, etc), exposed through a platform-agnostic API (e.g. ```http.getJSON()```). We'll look at some examples momentarily.
 - **views**: This folder contains the code to build your app's views—each of which will have a subfolder in `views`. Each view is made up of an XML file, a JavaScript file, and an optional CSS file. The groceries app contains three folders for its three views.
-- **app.css**: Contains global styles for your app. We'll dig into app styling in section 2.3.
+- **app.css**: Contains global styles for your app. We'll dig into app styling in [section 2.3](#chapter2.3).
 - **app.js**: Sets up your application's starting module and initializes the app.
 
 Let's start with `app/app.js`, as it's the starting point for NativeScript apps. It contains the three lines below: 
@@ -106,7 +106,7 @@ NativeScript UI components use attributes to configure their behavior and appear
 - `<TextField>`
     - `hint`: Used to specify placeholder text into the TextField to show the user what to type
     - `secure`: Boolean to determine whether the TextField's text should be masked, which is commonly done on password fields
-    - `keyboardType`: The type of keyboard to present to the user for input. In this case `keyboardType="input"` ensures the keyboard in a way optimized for entering email addresses
+    - `keyboardType`: The type of keyboard to present to the user for input. In this case `keyboardType="email"` ensures the keyboard in a way optimized for entering email addresses
 - `<Button>`
     - `text`: Controls the text displayed within the button
 
