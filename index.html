@@ -462,11 +462,18 @@ var user = new observableModule.Observable({
     page.bindingContext = user;
 
 };
+
+exports.signIn = function() {
+    var email = user.get(&quot;email_address&quot;);
+    console.log(email);
+};
 </code></pre><p>What&#39;s going on here?</p>
 <ul>
 <li>First, we&#39;re creating a user object that is based on the NativeScript observable module. The object is created with an &quot;email_address&quot; and &quot;password&quot; fields that are pre-populated.</li>
 <li>Then, we bind the page to the user view model.</li>
 <li>The values appear as bound values in the UI as delineated by the curly brackets you added above</li>
+<li>The signIn method now gets the email address from the observable via the <code>get</code> method. To change a value in an observable, the <code>set</code> method is used...<br>
+  <code>user.set(&quot;email_address&quot;, &quot;someone@domain.com&quot;)</code></li>
 </ul>
 <div class="exercise-end"></div>
 
