@@ -38,7 +38,7 @@ $ tns
 
 ### Start your app
 
-With NativeScript CLI installed, it's time to start your app. You normally use the `tns create` command to create new apps—e.g. `tns create hello-world`—but for this guide we've scaffolded out a boilerplate project to act as a starting point for [Groceries](https://github.com/NativeScript/sample-Groceries). To get it, navigate to a folder where you want to keep your app's code and clone the Groceries repo:
+With NativeScript CLI installed, it's time to start your app. Normally, a new NativeScript project is started by running `tns create`, which creates an empty NativeScript application e.g. `tns create hello-world` - but for this guide we've scaffolded out a boilerplate project to act as a starting point for [Groceries](https://github.com/NativeScript/sample-Groceries). To get it, navigate to a folder where you want to keep your app's code and clone the Groceries repo:
 
 ```
 $ cd folder-you-want-groceries-to-be-in
@@ -54,17 +54,19 @@ $ git checkout start
 
 ### Add target development platforms
 
-Your project is now setup, but before you run it you have to do a little iOS- and Android-specific configuration using the `tns platform add` command. Start by adding the Android platform:
+Your project is now setup, but before you run it, you need to tell NativeScript which mobile platform you want to build for using the `tns platform add` command. You can add multiple mobile platforms to a single project allowing you to deploy the same application to different mobile operating systems. Start by adding the iOS platform (if on a Mac):
+
+```
+$ tns platform add ios
+```
+
+The Android platform can be added in the same way
 
 ```
 $ tns platform add android
 ```
 
-And if you're on a Mac add the iOS platform next:
-
-```
-$ tns platform add ios
-```
+>**Tip:** You can only add platforms for SDKs that you have already installed. See [Install NativeScript and configure your environment](#install-nativescript-and-configure-your-environment).
 
 The `platform add` command uses the native SDKs to initialize platform-specific projects and places the generated contents in your app's `platforms` folder. Later on, the NativeScript CLI will use the tools of the native SDKs to build these platform-specific projects into truly native application packages. During the process, the NativeScript CLI will automatically transfer your cross-platform code and resources from your project's `app` folder into its `platforms` folder.
 

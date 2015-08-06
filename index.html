@@ -83,18 +83,21 @@
 │ Alias   │ $ nativescript &lt;Command&gt; [Command Parameters] [--command &lt;Options&gt;] │
 └─────────┴─────────────────────────────────────────────────────────────────────┘
 </code></pre><h3 id="start-your-app">Start your app</h3>
-<p>With NativeScript CLI installed, it&#39;s time to start your app. You normally use the <code>tns create</code> command to create new apps—e.g. <code>tns create hello-world</code>—but for this guide we&#39;ve scaffolded out a boilerplate project to act as a starting point for <a href="https://github.com/NativeScript/sample-Groceries">Groceries</a>. To get it, navigate to a folder where you want to keep your app&#39;s code and clone the Groceries repo:</p>
+<p>With NativeScript CLI installed, it&#39;s time to start your app. Normally, a new NativeScript project is started by running <code>tns create</code>, which creates an empty NativeScript application e.g. <code>tns create hello-world</code> - but for this guide we&#39;ve scaffolded out a boilerplate project to act as a starting point for <a href="https://github.com/NativeScript/sample-Groceries">Groceries</a>. To get it, navigate to a folder where you want to keep your app&#39;s code and clone the Groceries repo:</p>
 <pre><code>$ cd folder-you-want-groceries-to-be-in
 $ git clone https://github.com/NativeScript/sample-Groceries.git
 $ cd sample-Groceries
 </code></pre><p>The master branch has the final state of the Groceries app. Feel free to refer back to it at any time, but for now switch over to the “start” branch for the guide&#39;s starting point:</p>
 <pre><code>$ git checkout start
 </code></pre><h3 id="add-target-development-platforms">Add target development platforms</h3>
-<p>Your project is now setup, but before you run it you have to do a little iOS- and Android-specific configuration using the <code>tns platform add</code> command. Start by adding the Android platform:</p>
-<pre><code>$ tns platform add android
-</code></pre><p>And if you&#39;re on a Mac add the iOS platform next:</p>
+<p>Your project is now setup, but before you run it, you need to tell NativeScript which mobile platform you want to build for using the <code>tns platform add</code> command. You can add multiple mobile platforms to a single project allowing you to deploy the same application to different mobile operating systems. Start by adding the iOS platform (if on a Mac):</p>
 <pre><code>$ tns platform add ios
-</code></pre><p>The <code>platform add</code> command uses the native SDKs to initialize platform-specific projects and places the generated contents in your app&#39;s <code>platforms</code> folder. Later on, the NativeScript CLI will use the tools of the native SDKs to build these platform-specific projects into truly native application packages. During the process, the NativeScript CLI will automatically transfer your cross-platform code and resources from your project&#39;s <code>app</code> folder into its <code>platforms</code> folder.</p>
+</code></pre><p>The Android platform can be added in the same way</p>
+<pre><code>$ tns platform add android
+</code></pre><blockquote>
+<p><strong>Tip:</strong> You can only add platforms for SDKs that you have already installed. See <a href="#install-nativescript-and-configure-your-environment">Install NativeScript and configure your environment</a>.</p>
+</blockquote>
+<p>The <code>platform add</code> command uses the native SDKs to initialize platform-specific projects and places the generated contents in your app&#39;s <code>platforms</code> folder. Later on, the NativeScript CLI will use the tools of the native SDKs to build these platform-specific projects into truly native application packages. During the process, the NativeScript CLI will automatically transfer your cross-platform code and resources from your project&#39;s <code>app</code> folder into its <code>platforms</code> folder.</p>
 <p>Don&#39;t worry too much about the details, as the NativeScript CLI does a good job of abstracting you from the messy details. Let&#39;s look at how to run your app.</p>
 <h3 id="running-your-app">Running your app</h3>
 <p>With the platform initialization complete you can now run your app in an emulator or on devices. If you&#39;re on an app start by running the app in an iOS simulator with the following command:</p>
