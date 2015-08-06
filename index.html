@@ -334,9 +334,9 @@ Button {
 </ul>
 <p>The communication between the view and the model / view model is facilitated by the code-behind. This is the file that is named the same as the view, so in a given folder you will have file.xml and file.js representing the view and the code-behind, respectively.</p>
 <p>The most basic benefit of using this sort of separation between the model, view, and view model, is that we are able to craft two-way data binding such that the view model can act as a switchboard between the model and the view. Let&#39;s wire up our login xml to support binding.</p>
-<h3 id="the-view-model">The view model</h3>
-<p>Although you can now see your login screen as a nicely-styled entity with UI widgets and an image, it&#39;s not yet wired up to send data to the back end. Let&#39;s fix that.</p>
-<p>In <code>app/views/login</code>, you&#39;ll find <code>login.js</code>. You&#39;re going to add all the functions that support the xml markup you created in the previous chapter into this file, which will become this page&#39;s view model.</p>
+<h3 id="the-code-behind">The code-behind</h3>
+<p>Although you can now see your login screen as a nicely-styled entity with UI widgets and an image, it&#39;s not yet wired up to send data to the code-behind file. Let&#39;s fix that.</p>
+<p>In <code>app/views/login</code>, you&#39;ll find <code>login.js</code>. This is the code-behind file for <code>login.xml</code> where you are going to add all the logic that support the xml markup you created in the previous chapter.</p>
 <h4 class="exercise-start">
     <b>Exercise</b>: Construct the login view model
 </h4>

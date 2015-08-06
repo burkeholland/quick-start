@@ -10,12 +10,11 @@ The communication between the view and the model / view model is facilitated by 
 
 The most basic benefit of using this sort of separation between the model, view, and view model, is that we are able to craft two-way data binding such that the view model can act as a switchboard between the model and the view. Let's wire up our login xml to support binding.
 
+### The code-behind
 
-### The view model
+Although you can now see your login screen as a nicely-styled entity with UI widgets and an image, it's not yet wired up to send data to the code-behind file. Let's fix that.
 
-Although you can now see your login screen as a nicely-styled entity with UI widgets and an image, it's not yet wired up to send data to the back end. Let's fix that.
-
-In `app/views/login`, you'll find `login.js`. You're going to add all the functions that support the xml markup you created in the previous chapter into this file, which will become this page's view model.
+In `app/views/login`, you'll find `login.js`. This is the code-behind file for `login.xml` where you are going to add all the logic that support the xml markup you created in the previous chapter.
 
 <h4 class="exercise-start">
     <b>Exercise</b>: Construct the login view model
