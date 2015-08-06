@@ -110,7 +110,7 @@ NativeScript UI components use attributes to configure their behavior and appear
 - `<Button>`
     - `text`: Controls the text displayed within the button
 
-Since UI components are visual, you probably want to see what your app looks like. But if you try running the app you won't see too much:
+Since UI components are visual, you probably want to see what your app looks like. You can re-run the app by pressing `Ctrl + C` in your terminal or command line to stop the iOS/Android emulator and then running `tns run [ios,android] -emulator` again. But when run the app, you won&#39;t see too much:
 
 ![login 1](images/login-stage1-ios.png)
 ![login 1](images/login-stage1-android.png)
