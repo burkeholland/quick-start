@@ -14,8 +14,7 @@ A groceries-management app that does the following things:
 
 - Allows users to register and login.
 - Allows authenticated users to add and delete groceries from a list.
-- Connects to your companies' existing RESTful services.
-- Meets your design team's “native” mockups.
+- Connects to RESTful services.
 - Runs cross-platform—i.e. iOS and Android.
 - Runs cross-device—i.e. phones and tablets.
 
@@ -30,5 +29,3 @@ And here's what the app looks like on Android:
 ![placeholder](images/screenshot-placeholder.png)
 ![placeholder](images/screenshot-placeholder.png)
 ![placeholder](images/screenshot-placeholder.png)
-
-By building “Groceries“ you'll see just how easy and fun it is to build iOS and Android apps with NativeScript. Let's get started.
