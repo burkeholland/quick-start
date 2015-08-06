@@ -92,8 +92,6 @@ If all went well you should see your app running in an Android emulator:
 
 ![login](images/login-intro1-android.png)
 
-You'll find that running the app in an iOS emulator vs. an Android emulator offers a different user experience to the user. This is because NativeScript is actually leveraging native iOS and Android code to present the UI—cool, huh?
-
 ### Development workflow
 
 At this point, you have the NativeScript CLI downloaded and installed, as well as the iOS and Android dependencies that you need to run your app on both the iOS and Android emulators. Now you need a good workflow that lets you make changes and see results fast.
