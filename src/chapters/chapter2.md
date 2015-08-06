@@ -140,7 +140,7 @@ In your `login.xml`, add the `<StackLayout>` component below directly within the
 ```
 <Page>
     <StackLayout orientation="vertical" horizontalAlignment="center">
-    
+
         <TextField hint="Email Address" keyboardType="email" />
         <TextField secure="true" hint="Password" />
 
@@ -153,7 +153,7 @@ In your `login.xml`, add the `<StackLayout>` component below directly within the
 
 <div class="exercise-end"></div>
 
-The stack layout is a UI component, and as such, it that has attributes just like the `<TextField>` and `<Button>` elements you used in the previous section. Here, the `orientation="vertical"` attribute tells the stack layout to arrange its child components vertically, and the `horizontalAlignment="center"` attribute tells the stack layout to align the child components in the center of the screen.
+The Stack Layout is a UI component, and as such, it that has attributes just like the `<TextField>` and `<Button>` elements you used in the previous section. Here, the `orientation="vertical"` attribute tells the Stack Layout to arrange its child components vertically, and the `horizontalAlignment="center"` attribute tells the Stack Layout to align the child components in the center of the screen.
 
 If you run your app you'll see that that the elements now all appear, and are stacked up as expected:
 
