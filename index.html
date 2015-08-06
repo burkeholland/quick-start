@@ -428,17 +428,19 @@ var email;
 </code></pre><div class="exercise-end"></div>
 
 <p>Now, if you run the app, you&#39;ll find data reaches the view model when the signIn function is run via tapping the signIn button. </p>
-<blockquote>
-<p>By building JavaScript references to a given UI element, you can control how it looks and behaves on the front end. For example, you can bind a model to a textField and control its target properties:</p>
-<pre><code>    var email = view.getViewById(page, &quot;email_address&quot;);
-    var model = new observable.Observable();
+<p>By building JavaScript references to a given UI element, you can control how it looks and behaves on the front end. However, this is a very manual way to keep track of the state of the UI. This is where View Models come in.</p>
+<h3 id="add-a-view-model">Add A View Model</h3>
+<p>NativeScript provides view model functionality in the form of a module called &#39;Observable&#39;. </p>
+<p>Observable is the view model in the MVVM design pattern. It provides a mechanism used for two-way data binding so as to enable communication between the UI and code-behind. This means that if the user updates the data in the UI the change will be reflected in the model and vice versa. </p>
+<pre><code>    var model = new observable.Observable();
     model.set(&quot;emailAddress&quot;, &quot;me@myemail.com&quot;);
     var options = {
         sourceProperty: &quot;emailAddress&quot;,
         targetProperty: &quot;text&quot;
     };
     email.bind(options, model);
-</code></pre><p><strong>Observables</strong>: Observable is a core building block in the MVVM design pattern. It provides a mechanism used for two-way data binding so as to enable communication between the front and back ends. This means that if the user updates the data in the UI the change will be reflected in the model and vice versa. </p>
+</code></pre><blockquote>
+<p><strong>Observables</strong>: </p>
 </blockquote>
 <p>In the next section, we&#39;ll show how to bind data back to the front end.</p>
 <p>###Data binding</p>

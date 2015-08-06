@@ -150,10 +150,16 @@ exports.signIn = function() {
 
 Now, if you run the app, you'll find data reaches the view model when the signIn function is run via tapping the signIn button. 
 
->By building JavaScript references to a given UI element, you can control how it looks and behaves on the front end. For example, you can bind a model to a textField and control its target properties:
+By building JavaScript references to a given UI element, you can control how it looks and behaves on the front end. However, this is a very manual way to keep track of the state of the UI. This is where View Models come in.
+
+### Add A View Model
+
+NativeScript provides view model functionality in the form of a module called 'Observable'. 
+
+Observable is the view model in the MVVM design pattern. It provides a mechanism used for two-way data binding so as to enable communication between the UI and code-behind. This means that if the user updates the data in the UI the change will be reflected in the model and vice versa. 
+
 ```
-    var email = view.getViewById(page, "email_address");
-	var model = new observable.Observable();
+    var model = new observable.Observable();
 	model.set("emailAddress", "me@myemail.com");
 	var options = {
 	    sourceProperty: "emailAddress",
@@ -161,7 +167,7 @@ Now, if you run the app, you'll find data reaches the view model when the signIn
 	};
 	email.bind(options, model);
 ```
->**Observables**: Observable is a core building block in the MVVM design pattern. It provides a mechanism used for two-way data binding so as to enable communication between the front and back ends. This means that if the user updates the data in the UI the change will be reflected in the model and vice versa. 
+>**Observables**: 
 
 In the next section, we'll show how to bind data back to the front end.
 
