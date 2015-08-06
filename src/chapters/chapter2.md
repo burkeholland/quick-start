@@ -140,7 +140,13 @@ In your `login.xml`, add the `<StackLayout>` component below directly within the
 ```
 <Page>
     <StackLayout orientation="vertical" horizontalAlignment="center">
-        ... (the two buttons and text fields)
+    
+        <TextField hint="Email Address" keyboardType="email" />
+        <TextField secure="true" hint="Password" />
+
+        <Button text="Sign in" />
+        <Button text="Sign up for Groceries" />
+
     </StackLayout>
 </Page>
 ```

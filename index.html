@@ -230,7 +230,13 @@ application.start();
 <p>In your <code>login.xml</code>, add the <code>&lt;StackLayout&gt;</code> component below directly within the <code>&lt;Page&gt;</code> component. Your <code>login.xml</code> should look something like this:</p>
 <pre><code>&lt;Page&gt;
     &lt;StackLayout orientation=&quot;vertical&quot; horizontalAlignment=&quot;center&quot;&gt;
-        ... (the two buttons and text fields)
+
+        &lt;TextField hint=&quot;Email Address&quot; keyboardType=&quot;email&quot; /&gt;
+        &lt;TextField secure=&quot;true&quot; hint=&quot;Password&quot; /&gt;
+
+        &lt;Button text=&quot;Sign in&quot; /&gt;
+        &lt;Button text=&quot;Sign up for Groceries&quot; /&gt;
+
     &lt;/StackLayout&gt;
 &lt;/Page&gt;
 </code></pre><div class="exercise-end"></div>
