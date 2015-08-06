@@ -108,7 +108,7 @@ If you run your app and click this button, you will be sent to the registration 
 
 >While our Groceries app doesn't use complex navigation strategies, you have several available to you out of the box such as the [TabView](http://docs.nativescript.org/ui-views#tabview) and the [SegmentedBar](http://docs.nativescript.org/ui-views#segmentedbar)
 
-###Accessing UI components
+### Accessing UI components
 
 Since you have been working with forms in NativeScript, you need to understand how data flows back and forth between the front end and back end. Specifically, you have created a login form, but you need to able to know what is typed into the fields and how to control the look and feel of the fields themselves. 
 
