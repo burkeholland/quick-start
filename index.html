@@ -486,7 +486,7 @@ exports.signIn = function() {
 		<hr>
 		<div class="chapter">
 			<h2 id="nativescript-modules">NativeScript modules</h2>
-<p>In the previous chapter, you already saw how NativeScript leverages the concept of &#39;modules&#39; to include bits of code that are kept in the <code>tns_modules</code> folder. Using <code>require()</code>, you can include these snippets ad hoc in your code when you need to use them, similar to the way you use npm to import node libraries. Let&#39;s take a closer look at these modules and what they can do for your app.</p>
+<p>In the previous chapter, you saw how NativeScript leverages the concept of &#39;modules&#39; to include bits of code that are kept in the <code>tns_modules</code> folder. Using <code>require()</code>, you can include these snippets ad-hoc in your code when you need to use them, similar to the way you use npm to import node libraries. Let&#39;s take a closer look at these modules and what they can do for your app.</p>
 <blockquote>
 <p>If you dig a bit into the tns_modules folder and find the http folder, you can see how a NativeScript module is constructed. It includes:</p>
 <ul>
@@ -495,11 +495,11 @@ exports.signIn = function() {
 <li>a file containing ios native code (http-request.ios.js).</li>
 <li>a generic file (http.js) that abstracts the platform-specific code above into a platform-agnostic API so that you can make HTTP calls on both platforms using a single JavaScript API.</li>
 </ul>
-<p>A note about platform-specific files: Any file, whether XML, CSS, or JavaScript, in NativeScript can have a platform-specific file and will be named accordingly. These files are included on an ad hoc basis when NativeScript compiles an app - for an iOS app, the ios file is included, and for Android, the android version is included. These files contain native code to manage device-specific actions, but a platform-specific file written in XML or CSS might contain code to make the presentation layer behave or look differently on a different platform. We&#39;ll explore this method in detail below.</p>
+<p>A note about platform-specific files: Any file, whether XML, CSS, or JavaScript, in NativeScript can have a platform-specific file and will be named accordingly. These files are included on an &quot;as needed&quot; basis when NativeScript compiles an app - for an iOS app, the ios file is included, and for Android, the android version is included. These files contain native code to manage device-specific actions, but a platform-specific file written in XML or CSS might contain code to make the presentation layer behave or look differently on a different platform. We&#39;ll explore this method in detail below.</p>
 </blockquote>
 <p>More information on modules can be found <a href="http://developer.telerik.com/featured/nativescript-works/">here</a>.</p>
 <h3 id="connecting-the-model-to-the-back-end-with-the-http-module">Connecting the model to the back end with the http module</h3>
-<p>You probably noticed, if you created your own user on the registration page, that data was passing magically...somewhere. There&#39;s actually no magic involved; there is a config file that contains an API Key to <a href="http://www.telerik.com/backend-services">Telerik BackEnd Services</a>, where we are storing our users&#39; information. You don&#39;t have to use Telerik Backend Services; you can connect to any back end endpoint you like! The Groceries app just happens to use the Telerik endpoint.</p>
+<p>You probably noticed, if you created your own user on the registration page, that data was passing magically...somewhere. There&#39;s actually no magic involved; there is a config file that contains an API Key to <a href="http://www.telerik.com/backend-services">Telerik BackEnd Services</a>, where we are storing our users&#39; information. You don&#39;t have to use Telerik Backend Services; you can connect to any HTTP endpoint you like! The Groceries app just happens to use the Telerik endpoint.</p>
 <p>Take a look at <code>app/shared/config.js</code>. There&#39;s only a small code snippet there, but it includes a hard-coded API Key that we use throughout the app to access the back end (in real life, you would of course use your own API Key):</p>
 <pre><code>module.exports = {
     apiUrl: &quot;http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/&quot;

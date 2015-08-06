@@ -1,6 +1,6 @@
 ## NativeScript modules
 
-In the previous chapter, you already saw how NativeScript leverages the concept of 'modules' to include bits of code that are kept in the `tns_modules` folder. Using `require()`, you can include these snippets ad hoc in your code when you need to use them, similar to the way you use npm to import node libraries. Let's take a closer look at these modules and what they can do for your app.
+In the previous chapter, you saw how NativeScript leverages the concept of 'modules' to include bits of code that are kept in the `tns_modules` folder. Using `require()`, you can include these snippets ad-hoc in your code when you need to use them, similar to the way you use npm to import node libraries. Let's take a closer look at these modules and what they can do for your app.
 
 >If you dig a bit into the tns_modules folder and find the http folder, you can see how a NativeScript module is constructed. It includes:
 - a package.json file that sets the name of the module and includes the base file that defines the module.
@@ -8,13 +8,13 @@ In the previous chapter, you already saw how NativeScript leverages the concept 
 - a file containing ios native code (http-request.ios.js).
 - a generic file (http.js) that abstracts the platform-specific code above into a platform-agnostic API so that you can make HTTP calls on both platforms using a single JavaScript API.
 
->A note about platform-specific files: Any file, whether XML, CSS, or JavaScript, in NativeScript can have a platform-specific file and will be named accordingly. These files are included on an ad hoc basis when NativeScript compiles an app - for an iOS app, the ios file is included, and for Android, the android version is included. These files contain native code to manage device-specific actions, but a platform-specific file written in XML or CSS might contain code to make the presentation layer behave or look differently on a different platform. We'll explore this method in detail below.
+>A note about platform-specific files: Any file, whether XML, CSS, or JavaScript, in NativeScript can have a platform-specific file and will be named accordingly. These files are included on an "as needed" basis when NativeScript compiles an app - for an iOS app, the ios file is included, and for Android, the android version is included. These files contain native code to manage device-specific actions, but a platform-specific file written in XML or CSS might contain code to make the presentation layer behave or look differently on a different platform. We'll explore this method in detail below.
 
 More information on modules can be found [here](http://developer.telerik.com/featured/nativescript-works/).
 
 ### Connecting the model to the back end with the http module
 
-You probably noticed, if you created your own user on the registration page, that data was passing magically...somewhere. There's actually no magic involved; there is a config file that contains an API Key to [Telerik BackEnd Services](http://www.telerik.com/backend-services), where we are storing our users' information. You don't have to use Telerik Backend Services; you can connect to any back end endpoint you like! The Groceries app just happens to use the Telerik endpoint.
+You probably noticed, if you created your own user on the registration page, that data was passing magically...somewhere. There's actually no magic involved; there is a config file that contains an API Key to [Telerik BackEnd Services](http://www.telerik.com/backend-services), where we are storing our users' information. You don't have to use Telerik Backend Services; you can connect to any HTTP endpoint you like! The Groceries app just happens to use the Telerik endpoint.
 
 Take a look at `app/shared/config.js`. There's only a small code snippet there, but it includes a hard-coded API Key that we use throughout the app to access the back end (in real life, you would of course use your own API Key):
 
