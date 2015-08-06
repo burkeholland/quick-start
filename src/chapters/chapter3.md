@@ -158,35 +158,17 @@ NativeScript provides view model functionality in the form of a module called 'O
 
 Observable is the view model in the MVVM design pattern. It provides a mechanism used for two-way data binding so as to enable communication between the UI and code-behind. This means that if the user updates the data in the UI the change will be reflected in the model and vice versa. 
 
-```
-    var model = new observable.Observable();
-	model.set("emailAddress", "me@myemail.com");
-	var options = {
-	    sourceProperty: "emailAddress",
-	    targetProperty: "text"
-	};
-	email.bind(options, model);
-```
->**Observables**: 
-
-In the next section, we'll show how to bind data back to the front end.
-
-###Data binding
-
-Although you can now see data reaching the view model from the front end XML file, you need to do more than that to actually complete login. The data has to reach a back end service, which for this app is referenced in the model in `app/shared/Models/User.js`.
-
 <h4 class="exercise-start">
-    <b>Exercise</b>: Bind data back to the front end
+    <b>Exercise</b>: Create a view model and bind it to the view
 </h4>
 
-You saw how to get data from the front end to the back end, but what if you need to show some pre-filled values in the front end?
-
-To allow for two-way data binding, replace the two existing TextField UI components with the two shown below, which include a new text attribute:
+To allow for two-way data binding using an Observable, replace the two existing TextField UI components with the two shown below, which include a new text attribute:
 
 ```
 <TextField id="email_address" text="{{ email_address }}" hint="Email Address"  keyboardType="email" />
 <TextField secure="true" text="{{ password }}" hint="Password" />
 ```
+
 >The use of two curly brackets surrounding the text attribute delineates a data-bound value, which will be set by the view model.
 
 At the top of `app/views/login/login.js`, edit the top code block to include the following libraries and a new User object, which you'll be using as this page's model:
@@ -194,31 +176,33 @@ At the top of `app/views/login/login.js`, edit the top code block to include the
 ```
 var dialogs = require("ui/dialogs");
 var frameModule = require("ui/frame");
-var User = require("../../shared/models/User");
+var observableModule = require("data/observable");
 
-var user = new User();
+var user = new observableModule.Observable({
+    email_address: "user@domain.com",
+    password: "password"
+});
 
 ```
+
 >You need to include the dialog module so that later on, we can show a more complex popup than an alert can give us. You'll use it later.
  
-Now, edit the load function to hard-code some values that will show up on the front end:
+Now, edit the load function to specify the observable as the binding context for the page.
 
 ```
 exports.load = function(args) {
 	
 	var page = args.object;
 	
-	user.set("email_address", "tj.vantoll@gmail.com");
-	user.set("password", "password");
-
 	page.bindingContext = user;
 	
 };
 ```
+
 What's going on here?
-- First, we're setting the user object's email_address and password properties to a hard-coded value so that we can see them on the frontend and thereby give a visible prompt to our users and a quick way to login.
-- Then, we bind the elements of the page whose arguments are passed to this load function to these values
-- The values appear as bound values on the front end as delineated by the curly brackets you added above
+- First, we're creating a user object that is based on the NativeScript observable module. The object is created with an "email_address" and "password" fields that are pre-populated.
+- Then, we bind the page to the user view model.
+- The values appear as bound values in the UI as delineated by the curly brackets you added above
   
 <div class="exercise-end"></div>
 
@@ -227,5 +211,5 @@ If you run your app, you'll see the fields prefilled:
 ![login 5](images/login-stage5-ios.png)
 ![login 5](images/login-stage5-android.png)
 
-Now that you have the ability to bind the front end to the back end, you need to be able to send that data to a database in order to complete the login routine. In the next chapter, you will connect the view and the view model to a back end service via the model.
+Now that you have the ability to bind the UI to a view model, you need to be able to send that data to a database in order to complete the login routine. In the next chapter, you will connect the view and the view model to a back end service.
 
