@@ -18,6 +18,10 @@ Once you have the setup complete, use the `npm install` command to install the N
 $ npm install -g nativescript
 ```
 
+>**Tip:** If you have errors when running the `npm install -g nativescript` command, you may need to run the command with elevated permissions.
+- **OS X / Linux:** Try running the command `sudo npm install -g nativescript`
+- **Windows:** Make sure you open the command line as administrator.
+
 You should now have two commands available from your terminal: `tns`—which is short for **T**elerik **N**ative**S**cript—and `nativescript`. The two commands are equivalent, so we'll stick with the shorter `tns` command throughout this guide.
 
 You can verify the installation was successful by running `tns` in your terminal. You should see something like this:
