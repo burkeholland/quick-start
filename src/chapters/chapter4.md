@@ -74,9 +74,7 @@ Now you can build out the login function. Paste in the following code in between
 ```
 What's going on here? 
 
-- First, you alias the `this` variable by assigning it to a private variable, `that`. This allows you to continue to access the original value of `this` in inner functions
-
-- Second, you return a new Promise, which primarily allows the caller ofthis function to execute code after the asynchronous login either completes successfully or fails.
+- You return a new Promise, which primarily allows the caller of this function to execute code after the asynchronous login either completes successfully or fails.
 
 >**Promises**: [Promises](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) are a part of ECMAScript 6 (the scripting language of which JavaScript is an implementation) that have been implemented in Google's V8 engine and JavaScriptCore framework (which provides a JavaScript engine for WebKit) and are thereby available in NativeScript apps.
 

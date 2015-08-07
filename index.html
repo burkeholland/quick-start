@@ -538,10 +538,7 @@ exports.signIn = function() {
     });
 </code></pre><p>What&#39;s going on here? </p>
 <ul>
-<li><p>First, you alias the <code>this</code> variable by assigning it to a private variable, <code>that</code>. This allows you to continue to access the original value of <code>this</code> in inner functions</p>
-</li>
-<li><p>Second, you return a new Promise, which primarily allows the caller ofthis function to execute code after the asynchronous login either completes successfully or fails.</p>
-</li>
+<li>You return a new Promise, which primarily allows the caller of this function to execute code after the asynchronous login either completes successfully or fails.</li>
 </ul>
 <blockquote>
 <p><strong>Promises</strong>: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promises</a> are a part of ECMAScript 6 (the scripting language of which JavaScript is an implementation) that have been implemented in Google&#39;s V8 engine and JavaScriptCore framework (which provides a JavaScript engine for WebKit) and are thereby available in NativeScript apps.</p>
