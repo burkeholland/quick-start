@@ -551,20 +551,27 @@ exports.signIn = function() {
 </ul>
 <div class="exercise-end"></div>
 
+<p>Now, instead of creating an observable in the <code>login.js</code>, you only need to create a new user view model object. This object is an observable, and it has the two functions you need to log users in and register them.</p>
+<h4 class="exercise-start">
+    <b>Exercise: Add UserViewModel to login code-behind</b>
+</h4>
+
+<p>In the <code>login.js</code> file, include a reference to the <code>shared/view-models/user-view-model</code>.</p>
+<pre><code>var UserViewModel = require(&quot;../../shared/view-models/user-view-model&quot;);
+</code></pre><p>Now, instead of creating an observable, you only need to create a new user view model object. This object is an observable, and it has the two functions you need to log users in and register them.</p>
+<pre><code>var user = new UserViewModel({
+    email_address: &quot;user@domain.com&quot;,
+    password: &quot;password&quot;
+});
+</code></pre><div class="exercise-end"></div>
+
 <h3 id="dialog-module">Dialog module</h3>
 <p>The dialog module can be used to show <a href="http://docs.nativescript.org/ApiReference/ui/dialogs/HOW-TO.html">several types</a> of popup UIs in your app, including action, confirm, alert, login, and prompt dialogs. It is a highly customizable module so that you can provide good prompts to your users, and it allows you to control the buttons you include in the alert, their text, and the messaging in the alert itself. Its code is found in the tns_modules/ui folder with other UI widgets.</p>
 <h4 class="exercise-start">
     <b>Exercise</b>: Handle an error with a dialog window
 </h4>
 
-<p>In the <code>login.js</code> file, include a reference to the <code>shared/view-models/user-view-model</code>.</p>
-<pre><code>var UserViewModel = require(&quot;../shared/view-models/user-view-model&quot;);
-</code></pre><p>Now, instead of creating an observable, you only need to create a new user view model object. This object is an observable, and it has the two functions you need to log users in and register them.</p>
-<pre><code>var user = new UserViewModel({
-    email_address: &quot;user@domain.com&quot;,
-    password: &quot;password&quot;
-});
-</code></pre><p>Last, rewrite your <code>signIn()</code> function to look like this:</p>
+<p>Re-write your <code>signIn()</code> function to look like this:</p>
 <pre><code>exports.signIn = function() {
     user.login()
         .then(function() {

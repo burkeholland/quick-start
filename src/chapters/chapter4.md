@@ -84,18 +84,16 @@ What's going on here?
 
 <div class="exercise-end"></div>
 
-### Dialog module
-
-The dialog module can be used to show [several types](http://docs.nativescript.org/ApiReference/ui/dialogs/HOW-TO.html) of popup UIs in your app, including action, confirm, alert, login, and prompt dialogs. It is a highly customizable module so that you can provide good prompts to your users, and it allows you to control the buttons you include in the alert, their text, and the messaging in the alert itself. Its code is found in the tns_modules/ui folder with other UI widgets.
+Now, instead of creating an observable in the `login.js`, you only need to create a new user view model object. This object is an observable, and it has the two functions you need to log users in and register them.
 
 <h4 class="exercise-start">
-	<b>Exercise</b>: Handle an error with a dialog window
+	<b>Exercise: Add UserViewModel to login code-behind</b>
 </h4>
 
 In the `login.js` file, include a reference to the `shared/view-models/user-view-model`.
 
 ```
-var UserViewModel = require("../shared/view-models/user-view-model");
+var UserViewModel = require("../../shared/view-models/user-view-model");
 ```
 
 Now, instead of creating an observable, you only need to create a new user view model object. This object is an observable, and it has the two functions you need to log users in and register them.
@@ -107,7 +105,17 @@ var user = new UserViewModel({
 });
 ```
 
-Last, rewrite your `signIn()` function to look like this:
+<div class="exercise-end"></div>
+
+### Dialog module
+
+The dialog module can be used to show [several types](http://docs.nativescript.org/ApiReference/ui/dialogs/HOW-TO.html) of popup UIs in your app, including action, confirm, alert, login, and prompt dialogs. It is a highly customizable module so that you can provide good prompts to your users, and it allows you to control the buttons you include in the alert, their text, and the messaging in the alert itself. Its code is found in the tns_modules/ui folder with other UI widgets.
+
+<h4 class="exercise-start">
+	<b>Exercise</b>: Handle an error with a dialog window
+</h4>
+
+Re-write your `signIn()` function to look like this:
 
 ```
 exports.signIn = function() {
