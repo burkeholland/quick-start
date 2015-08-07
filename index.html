@@ -522,8 +522,8 @@ exports.signIn = function() {
             url: config.apiUrl + &quot;oauth/token&quot;,
             method: &quot;POST&quot;,
             content: JSON.stringify({
-                username: that.get(&quot;email_address&quot;),
-                password: that.get(&quot;password&quot;),
+                username: viewModel.get(&quot;email_address&quot;),
+                password: viewModel.get(&quot;password&quot;),
                 grant_type: &quot;password&quot;
             }),
             headers: {

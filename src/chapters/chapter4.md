@@ -57,8 +57,8 @@ Now you can build out the login function. Paste in the following code in between
 			url: config.apiUrl + "oauth/token",
 			method: "POST",
 			content: JSON.stringify({
-				username: that.get("email_address"),
-				password: that.get("password"),
+				username: viewModel.get("email_address"),
+				password: viewModel.get("password"),
 				grant_type: "password"
 			}),
 			headers: {
