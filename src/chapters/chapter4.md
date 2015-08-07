@@ -24,9 +24,9 @@ module.exports = {
 };
 ```
 
-Take a look in `app/shared/view-models`. Normally, models and view models use a service to connect to and communicate with a back end. In this case, the connection code is added directly into the view model for simplicity. You can see this demonstrated in the `User.js` file "register" function.
+Take a look in `app/shared/view-models`. Normally, models and view models use a service to connect to and communicate with a back end. In this case, the connection code is added directly into the view model for simplicity. You can see this demonstrated in the `user-view-model.js` file "register" function.
 
-Note that the config file is used in all the model files, for example in User model: `app/shared/models/User.js`:
+Note that the config file is used in all the model files, for example in User model: `app/shared/view-models/user-view-model.js`:
 
 ```
 var config = require("../../shared/config");
@@ -42,7 +42,7 @@ var http = require("http");
     <b>Exercise</b>: Complete the login in the model
 </h4>
 
-To complete the login of a user, in `app/shared/Models/Users.js`, under the line where you require `config`, you need to require [the http module](http://docs.nativescript.org/ApiReference/http/README.html). This module allows the app to communicate with an external endpoint over HTTP.
+To complete the login of a user, in `app/shared/view-models/user-view-model.js`, under the line where you require `config`, you need to require [the http module](http://docs.nativescript.org/ApiReference/http/README.html). This module allows the app to communicate with an external endpoint over HTTP.
 
 ```
 var http = require("http");
