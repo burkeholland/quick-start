@@ -24,12 +24,18 @@ module.exports = {
 };
 ```
 
-Take a look in `app/shared/models`. Normally, models use a service to connect to and communicate with a back end. In this case, the connection code is added directly into the model for simplicity. You can see this demonstrated in the registration function.
+Take a look in `app/shared/view-models`. Normally, models and view models use a service to connect to and communicate with a back end. In this case, the connection code is added directly into the view model for simplicity. You can see this demonstrated in the `User.js` file "register" function.
 
 Note that the config file is used in all the model files, for example in User model: `app/shared/models/User.js`:
 
 ```
 var config = require("../../shared/config");
+```
+
+The [http module](http://docs.nativescript.org/ApiReference/http/README.html) that you examined in the tns_modules folder is present as well. This module allows the app to communicate with an external endpoint over HTTP.
+
+```
+var http = require("http");
 ```
 
 <h4 class="exercise-start">

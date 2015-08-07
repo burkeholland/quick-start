@@ -504,9 +504,11 @@ exports.signIn = function() {
 <pre><code>module.exports = {
     apiUrl: &quot;http://api.everlive.com/v1/GWfRtXi1Lwt4jcqK/&quot;
 };
-</code></pre><p>Take a look in <code>app/shared/models</code>. Normally, models use a service to connect to and communicate with a back end. In this case, the connection code is added directly into the model for simplicity. You can see this demonstrated in the registration function.</p>
+</code></pre><p>Take a look in <code>app/shared/view-models</code>. Normally, models and view models use a service to connect to and communicate with a back end. In this case, the connection code is added directly into the view model for simplicity. You can see this demonstrated in the <code>User.js</code> file &quot;register&quot; function.</p>
 <p>Note that the config file is used in all the model files, for example in User model: <code>app/shared/models/User.js</code>:</p>
 <pre><code>var config = require(&quot;../../shared/config&quot;);
+</code></pre><p>The <a href="http://docs.nativescript.org/ApiReference/http/README.html">http module</a> that you examined in the tns_modules folder is present as well. This module allows the app to communicate with an external endpoint over HTTP.</p>
+<pre><code>var http = require(&quot;http&quot;);
 </code></pre><h4 class="exercise-start">
     <b>Exercise</b>: Complete the login in the model
 </h4>
