@@ -86,13 +86,28 @@ What's going on here?
 
 ### Dialog module
 
-The dialog module can be used to show [several types](http://docs.nativescript.org/ApiReference/ui/dialogs/HOW-TO.html) of popup UIs in your app, including action, confirm, alert, login, and prompt dialogs. It is a highly customizable module so that you can provide good prompts to your users, and it allows you to control the buttons you include int he alert, their text, and the messaging in the alert itself. Its code is found in the tns_modules/ui folder with other UI widgets.
+The dialog module can be used to show [several types](http://docs.nativescript.org/ApiReference/ui/dialogs/HOW-TO.html) of popup UIs in your app, including action, confirm, alert, login, and prompt dialogs. It is a highly customizable module so that you can provide good prompts to your users, and it allows you to control the buttons you include in the alert, their text, and the messaging in the alert itself. Its code is found in the tns_modules/ui folder with other UI widgets.
 
 <h4 class="exercise-start">
 	<b>Exercise</b>: Handle an error with a dialog window
 </h4>
 
-Allow the view model to invoke the login function that you just added to the model. In  `app/views/login/login.js` rewrite your `signIn()` function to look like this:
+In the `login.js` file, include a reference to the `shared/view-models/user-view-model`.
+
+```
+var UserViewModel = require("../shared/view-models/user-view-model");
+```
+
+Now, instead of creating an observable, you only need to create a new user view model object. This object is an observable, and it has the two functions you need to log users in and register them.
+
+```
+var user = new UserViewModel({
+	email_address: "user@domain.com",
+	password: "password"
+});
+```
+
+Last, rewrite your `signIn()` function to look like this:
 
 ```
 exports.signIn = function() {
@@ -109,7 +124,7 @@ exports.signIn = function() {
 ```
 <div class="exercise-end"></div>
 
-What's happening here? In this case, the `login()` function uses the Promise approach that is returned by the login prototype in `app/shared/models/User.js` to handle both a successful and an unsuccessful login. If the login is unsuccessful, we show a dialog with a popup button stating that your account can't be found.
+What's happening here? In this case, the `login()` function uses the Promise approach that is returned by the login function in `app/shared/view-models/user-view-model.js` to handle both a successful and an unsuccessful login. If the login is unsuccessful, we show a dialog with a popup button stating that your account can't be found.
 
 Now that you are able to handle an unsuccessful login, you need to allow people to view their grocery list after they successfully login. Once the user logs in, you can use the "list" page to facilitate adding and removing groceries to and from a list. To do that, you need a module that will show items in a list, which is exactly what the ListView does.
 

@@ -552,12 +552,19 @@ exports.signIn = function() {
 <div class="exercise-end"></div>
 
 <h3 id="dialog-module">Dialog module</h3>
-<p>The dialog module can be used to show <a href="http://docs.nativescript.org/ApiReference/ui/dialogs/HOW-TO.html">several types</a> of popup UIs in your app, including action, confirm, alert, login, and prompt dialogs. It is a highly customizable module so that you can provide good prompts to your users, and it allows you to control the buttons you include int he alert, their text, and the messaging in the alert itself. Its code is found in the tns_modules/ui folder with other UI widgets.</p>
+<p>The dialog module can be used to show <a href="http://docs.nativescript.org/ApiReference/ui/dialogs/HOW-TO.html">several types</a> of popup UIs in your app, including action, confirm, alert, login, and prompt dialogs. It is a highly customizable module so that you can provide good prompts to your users, and it allows you to control the buttons you include in the alert, their text, and the messaging in the alert itself. Its code is found in the tns_modules/ui folder with other UI widgets.</p>
 <h4 class="exercise-start">
     <b>Exercise</b>: Handle an error with a dialog window
 </h4>
 
-<p>Allow the view model to invoke the login function that you just added to the model. In  <code>app/views/login/login.js</code> rewrite your <code>signIn()</code> function to look like this:</p>
+<p>In the <code>login.js</code> file, include a reference to the <code>shared/view-models/user-view-model</code>.</p>
+<pre><code>var UserViewModel = require(&quot;../shared/view-models/user-view-model&quot;);
+</code></pre><p>Now, instead of creating an observable, you only need to create a new user view model object. This object is an observable, and it has the two functions you need to log users in and register them.</p>
+<pre><code>var user = new UserViewModel({
+    email_address: &quot;user@domain.com&quot;,
+    password: &quot;password&quot;
+});
+</code></pre><p>Last, rewrite your <code>signIn()</code> function to look like this:</p>
 <pre><code>exports.signIn = function() {
     user.login()
         .then(function() {
@@ -571,7 +578,7 @@ exports.signIn = function() {
 };
 </code></pre><div class="exercise-end"></div>
 
-<p>What&#39;s happening here? In this case, the <code>login()</code> function uses the Promise approach that is returned by the login prototype in <code>app/shared/models/User.js</code> to handle both a successful and an unsuccessful login. If the login is unsuccessful, we show a dialog with a popup button stating that your account can&#39;t be found.</p>
+<p>What&#39;s happening here? In this case, the <code>login()</code> function uses the Promise approach that is returned by the login function in <code>app/shared/view-models/user-view-model.js</code> to handle both a successful and an unsuccessful login. If the login is unsuccessful, we show a dialog with a popup button stating that your account can&#39;t be found.</p>
 <p>Now that you are able to handle an unsuccessful login, you need to allow people to view their grocery list after they successfully login. Once the user logs in, you can use the &quot;list&quot; page to facilitate adding and removing groceries to and from a list. To do that, you need a module that will show items in a list, which is exactly what the ListView does.</p>
 <h3 id="listview">ListView</h3>
 <p>Let&#39;s use another UI module to craft a page to actually hold our grocery data. This is the page we want users to navigate to once they login, so let&#39;s add a line in <code>app/views/login/login.js</code> to allow this navigation to happen. In the <code>signIn()</code> function you edited above, add the following line after <code>.then(function(){</code>:</p>
