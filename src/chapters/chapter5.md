@@ -89,15 +89,15 @@ Now, include the social share plugin at the top of `app/views/list/list.js` usin
 var socialShare = require("nativescript-social-share");
 ```
 
-Make an area at the top of `app/views/list/list.xml` file to show a link to share a grocery list. Under the <Page> tag, add the following code. Once you build the `share()` function, tapping this link will open a native email sharing widget:
+Make an area at the top of `app/views/list/list.xml` file to show a link to share a grocery list. Right Under the opening <Page> tag, and above the opening <GridLayout> tag, add the following code. Once you build the `share()` function, tapping this link will open a native email sharing widget:
 
 ```
 <Page.actionBar>
-		<ActionBar title="Groceries">
-			<ActionBar.actionItems>
-				<ActionItem text="Share" tap="share" ios.position="right" />
-			</ActionBar.actionItems>
-		</ActionBar>
+	<ActionBar title="Groceries">
+		<ActionBar.actionItems>
+			<ActionItem text="Share" tap="share" ios.position="right" />
+		</ActionBar.actionItems>
+	</ActionBar>
 </Page.actionBar>
 ```
 You have now added an [ActionBar](https://docs.nativescript.org/ApiReference/ui/action-bar/ActionBar), which is a UI component that includes various menu items, enclosed in the `<ActionBar.actionItems>` tag. The title of the ActionBar allows page-specific titles to be displayed.

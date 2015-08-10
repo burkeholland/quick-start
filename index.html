@@ -849,13 +849,13 @@ exports.navigatedTo = function(args) {
 </code></pre><p>What just happened? The install process does the same thing that an <code>npm install</code> command does, in that it writes the dependency to <code>package.json</code>, and it also configures any native code that the plugin needs to use. </p>
 <p>Now, include the social share plugin at the top of <code>app/views/list/list.js</code> using <code>require()</code>:</p>
 <pre><code>var socialShare = require(&quot;nativescript-social-share&quot;);
-</code></pre><p>Make an area at the top of <code>app/views/list/list.xml</code> file to show a link to share a grocery list. Under the <Page> tag, add the following code. Once you build the <code>share()</code> function, tapping this link will open a native email sharing widget:</p>
+</code></pre><p>Make an area at the top of <code>app/views/list/list.xml</code> file to show a link to share a grocery list. Right Under the opening <Page> tag, and above the opening <GridLayout> tag, add the following code. Once you build the <code>share()</code> function, tapping this link will open a native email sharing widget:</p>
 <pre><code>&lt;Page.actionBar&gt;
-        &lt;ActionBar title=&quot;Groceries&quot;&gt;
-            &lt;ActionBar.actionItems&gt;
-                &lt;ActionItem text=&quot;Share&quot; tap=&quot;share&quot; ios.position=&quot;right&quot; /&gt;
-            &lt;/ActionBar.actionItems&gt;
-        &lt;/ActionBar&gt;
+    &lt;ActionBar title=&quot;Groceries&quot;&gt;
+        &lt;ActionBar.actionItems&gt;
+            &lt;ActionItem text=&quot;Share&quot; tap=&quot;share&quot; ios.position=&quot;right&quot; /&gt;
+        &lt;/ActionBar.actionItems&gt;
+    &lt;/ActionBar&gt;
 &lt;/Page.actionBar&gt;
 </code></pre><p>You have now added an <a href="https://docs.nativescript.org/ApiReference/ui/action-bar/ActionBar">ActionBar</a>, which is a UI component that includes various menu items, enclosed in the <code>&lt;ActionBar.actionItems&gt;</code> tag. The title of the ActionBar allows page-specific titles to be displayed.</p>
 <blockquote>
