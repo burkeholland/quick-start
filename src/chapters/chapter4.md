@@ -194,83 +194,114 @@ To be able to manage data in the grocery list, you need to build a connection be
 In app/views/list/list.js, add:
 
 ```
-var GroceryList = require("../../shared/models/GroceryList");
+var dialogs = require("ui/dialogs");
+var observableModule = require("data/observable");
+var view = require("ui/core/view");
+var GroceryList = require("../../shared/view-models/grocery-list-view-model");
 
 var page;
-var pageData = new observable.Observable();
-var groceryList = []; // create an empty array
-var tmpList = ["eggs","bread","cereal"];
 
-for (var i = 0, size = tmpList.length; i < size ; i++) {
-		groceryList.push({id: i, name: tmpList[i]});
-	}
+var groceryList = new GroceryList([
+	{ name: "eggs" },
+	{ name: "bread" },
+	{ name: "cereal" }	
+]);
 
-pageData.set("groceryList", groceryList);
-
+var pageData = new observableModule.Observable({
+		groceryList: groceryList
+});
 
 exports.navigatedTo = function(args) {
-	page = args.object;
-	page.bindingContext = pageData;
-	
+    page = args.object;
+    page.bindingContext = pageData;
 };
-
 ```
 
-Here, you're creating a new empty grocery array and, for the moment, populating it with some grocery items. You can see how this data is pulled into the page when you navigate to this page via the pageData observable object.
+Here, you're creating a new observable object called "pageData" which will be the object that the UI is bound to. Inside, you are setting the "groceries" property to be a new instance of GroceryList view model, which was required in at the top of the file. 
+
+Examine the contents of the GroceryList view model in the file `app/shared/view-models/grocery-list-view-model.js`.
+
+```
+var config = require("../../shared/config");
+var http = require("http");
+var observableArray = require("data/observable-array");
+
+function GroceryList(items) {
+	var viewModel = new observableArray.ObservableArray(items);
+	return viewModel;
+}
+
+module.exports = GroceryList;
+```
+
+Note that the GroceryList view model uses the "ObservableArray" module. This is another tns_module that is specifically for working with collections of objects and values. You can nest observable arrays inside of observable objects, just as you are currently doing with "pageData".
 
 Now if you were to run this code in the emulator, you would see a list of your hard-coded values:
 
 <>images
 
-You need, however, to load up any grocery items that exist in the database to which you just logged in, however, so edit the code above to change the hard-coded values into an object that references the model:
+Instead of a static list of items, you need to load up any grocery items that exist in the database to which you just logged in. Modify the code in `app/views/list/list.js` to clear out any existing items out of the groceries list and load in new ones using a "load" method.
 
 ```
-var GroceryList = require("../../shared/models/GroceryList");
+var dialogs = require("ui/dialogs");
+var observableModule = require("data/observable");
+var view = require("ui/core/view");
+var GroceryList = require("../../shared/view-models/grocery-list-view-model");
 
 var page;
-var pageData = new observable.Observable();
-var groceryList = new GroceryList();
 
-pageData.set("groceryList", groceryList);
+var groceryList = new GroceryList([]);
+
+var pageData = new observableModule.Observable({
+	groceryList: groceryList
+});
 
 exports.navigatedTo = function(args) {
-	page = args.object;
-	page.bindingContext = pageData;
+    page = args.object;
+    page.bindingContext = pageData;
 
-	groceryList.empty();
-	groceryList.load();
+    groceryList.clear();
+    groceryList.load();
 };
 ```
 
 In this code, groceryList is now referencing the grocery list model and in the navigatedTo function, the groceryList object is emptied and then reloaded from the database so that the data remains current.  
  
-Now you should build out the `empty()` and `load()` functions in the model so that we can get this data from the database.
+Now you should build out the `clear()` and `load()` functions in the model so that we can get this data from the database.
 
-In `app/shared/models/GroceryList.js`, grab any Grocery data that might exist in the back end and push it into the grocery array:
+In `app/shared/view-models/grocery-list-view-model.js`, grab any Grocery data that might exist in the back end and push it into the grocery array:
 
 ```
-GroceryList.prototype.load = function() {
-	var that = this;
-	http.getJSON({
-		url: config.apiUrl + "Groceries",
-		method: "GET",
-		headers: {
-			"Authorization": "Bearer " + config.token
-		}
-	}).then(function(data) {
-		data.Result.forEach(function(grocery) {
-			that.push({
-				name: grocery.Name,
-				id: grocery.Id
+function GroceryList(items) {
+
+	var viewModel = new observableArray.ObservableArray(items);
+	
+	viewModel.load = function() {
+		http.getJSON({
+			url: config.apiUrl + "Groceries",
+			method: "GET",
+			headers: {
+				"Authorization": "Bearer " + config.token
+			}
+		}).then(function(data) {
+			
+			data.Result.forEach(function(grocery) {
+				viewModel.push({
+					name: grocery.Name,
+					id: grocery.Id
+				});
 			});
 		});
-	});
-};
-GroceryList.prototype.empty = function() {
-	while (this.length) {
-		this.pop();
 	}
-};
+
+	viewModel.clear = function() {
+		while (viewModel.length) {
+			viewModel.pop();
+		}
+	}
+
+	return viewModel;
+}
 ```
 <div class="exercise-end"></div>
 
@@ -285,7 +316,7 @@ It's great that you can see data already in the database, but you also need to a
     <b>Exercise</b>: Add the ability to create a Grocery item
 </h4>
 
-First, add another parameter to the pageData observable object as an empty placeholder in `app/views/list/list.js` above the line: `pageData.set("groceryList", groceryList);`:
+First, add another parameter to the pageData observable object as an empty placeholder in `app/views/list/list.js` above the line: `exports.navigatedTo = function(args) {`
 
 ```
 pageData.set("grocery", "");
@@ -298,7 +329,7 @@ Edit the list view xml to allow for a two column layout with a text field and a 
 ```
 >This layout will include two rows, one auto-sized according to its children's dimensions, and the other stretchable to allow for the expanding list. It will have three auto-stretching columns as the text field will occupy two columns and the button one column.
 
-Add a text field and a button to have a place to enter grocery items. The text field will have the id 'grocery' and is bound to the grocery object, has a hint that will show on the front end to help the user, will occupy one row and two columns. The button will have a tap event - `tap` and will occupy the initial row as well and the third column - remember numbering of rows and columns starts at zero. Add these two lines after the GridLayout initial tag:
+Add a text field and a button to have a place to enter grocery items. The text field will have the id 'grocery' and is bound to the grocery object. It has a hint that will show on the front end to help the user, and will occupy one row and two columns. The button will have a tap event - `tap` and will occupy the initial row as well and the third column - remember numbering of rows and columns starts at zero. Add these two lines after the GridLayout initial tag:
 
 ```
 	<TextField id="grocery" text="{{ grocery }}" hint="Enter a grocery item" row="0" colspan="2" />
@@ -316,34 +347,33 @@ In app/views/list/list.js, add a function to respond to the 'add' tap event that
 
 ```
 exports.add = function() {
-	//check for empty submission
-	if (groceryList.isValidItem(pageData.get("grocery"))) {
-		//dismiss the keyboard
-		view.getViewById(page, "grocery").dismissSoftInput();
-		groceryList.add(pageData.get("grocery"))
-			.catch(function() {
-				dialogs.alert({
-					message: "An error occurred adding to your list.",
-					okButtonText: "OK"
-				});
-			});
-		//empty the input field
-		pageData.set("grocery", "");
-	} else {
-		dialogs.alert({
-			message: "Please enter a grocery item",
-			okButtonText: "OK"
-		});
-	}
+    //check for empty submission
+    if (pageData.get("grocery").trim() !== "") {
+        //dismiss the keyboard
+        view.getViewById(page, "grocery").dismissSoftInput();
+        groceryList.add(pageData.get("grocery"))
+            .catch(function() {
+                dialogs.alert({
+                    message: "An error occurred adding to your list.",
+                    okButtonText: "OK"
+                });
+            });
+        //empty the input field
+        pageData.set("grocery", "");
+    } else {
+        dialogs.alert({
+            message: "Please enter a grocery item",
+            okButtonText: "OK"
+        });
+    }
 };
 ```
 In this function, you test for an empty value, and if this test passes, dismiss the keyboard, then get the 'grocery' item from the input field and add it to the groceryList object. 
 
-Finally, let the manipulation of this new data be handled in the model by adding the following function under the 'empty' function in /app/shared/models/GroceryList.js:
+Finally, let the manipulation of this new data be handled in the model by adding the following function under the 'empty' function, but before the view model is returned in `/app/shared/view-models/grocery-list-view-model.js`
 
 ```
-GroceryList.prototype.add = function(grocery) {
-	var that = this;
+viewModel.add = function(grocery) {
 	return new Promise(function(resolve, reject) {
 		http.request({
 			url: config.apiUrl + "Groceries",
@@ -356,7 +386,7 @@ GroceryList.prototype.add = function(grocery) {
 				"Content-Type": "application/json"
 			}
 		}).then(function() {
-			that.push({ name: grocery });
+			viewModel.push({ name: grocery });
 			resolve();
 		}).catch(function() {
 			reject();

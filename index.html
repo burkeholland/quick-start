@@ -628,69 +628,96 @@ There are several modules that come out of the box with your NativeScript instal
 </h4>
 
 <p>In app/views/list/list.js, add:</p>
-<pre><code>var GroceryList = require(&quot;../../shared/models/GroceryList&quot;);
+<pre><code>var dialogs = require(&quot;ui/dialogs&quot;);
+var observableModule = require(&quot;data/observable&quot;);
+var view = require(&quot;ui/core/view&quot;);
+var GroceryList = require(&quot;../../shared/view-models/grocery-list-view-model&quot;);
 
 var page;
-var pageData = new observable.Observable();
-var groceryList = []; // create an empty array
-var tmpList = [&quot;eggs&quot;,&quot;bread&quot;,&quot;cereal&quot;];
 
-for (var i = 0, size = tmpList.length; i &lt; size ; i++) {
-        groceryList.push({id: i, name: tmpList[i]});
-    }
+var groceryList = new GroceryList([
+    { name: &quot;eggs&quot; },
+    { name: &quot;bread&quot; },
+    { name: &quot;cereal&quot; }    
+]);
 
-pageData.set(&quot;groceryList&quot;, groceryList);
-
+var pageData = new observableModule.Observable({
+        groceryList: groceryList
+});
 
 exports.navigatedTo = function(args) {
     page = args.object;
     page.bindingContext = pageData;
-
 };
-</code></pre><p>Here, you&#39;re creating a new empty grocery array and, for the moment, populating it with some grocery items. You can see how this data is pulled into the page when you navigate to this page via the pageData observable object.</p>
+</code></pre><p>Here, you&#39;re creating a new observable object called &quot;pageData&quot; which will be the object that the UI is bound to. Inside, you are setting the &quot;groceries&quot; property to be a new instance of GroceryList view model, which was required in at the top of the file. </p>
+<p>Examine the contents of the GroceryList view model in the file <code>app/shared/view-models/grocery-list-view-model.js</code>.</p>
+<pre><code>var config = require(&quot;../../shared/config&quot;);
+var http = require(&quot;http&quot;);
+var observableArray = require(&quot;data/observable-array&quot;);
+
+function GroceryList(items) {
+    var viewModel = new observableArray.ObservableArray(items);
+    return viewModel;
+}
+
+module.exports = GroceryList;
+</code></pre><p>Note that the GroceryList view model uses the &quot;ObservableArray&quot; module. This is another tns_module that is specifically for working with collections of objects and values. You can nest observable arrays inside of observable objects, just as you are currently doing with &quot;pageData&quot;.</p>
 <p>Now if you were to run this code in the emulator, you would see a list of your hard-coded values:</p>
 <p>&lt;&gt;images</p>
-<p>You need, however, to load up any grocery items that exist in the database to which you just logged in, however, so edit the code above to change the hard-coded values into an object that references the model:</p>
-<pre><code>var GroceryList = require(&quot;../../shared/models/GroceryList&quot;);
+<p>Instead of a static list of items, you need to load up any grocery items that exist in the database to which you just logged in. Modify the code in <code>app/views/list/list.js</code> to clear out any existing items out of the groceries list and load in new ones using a &quot;load&quot; method.</p>
+<pre><code>var dialogs = require(&quot;ui/dialogs&quot;);
+var observableModule = require(&quot;data/observable&quot;);
+var view = require(&quot;ui/core/view&quot;);
+var GroceryList = require(&quot;../../shared/view-models/grocery-list-view-model&quot;);
 
 var page;
-var pageData = new observable.Observable();
-var groceryList = new GroceryList();
 
-pageData.set(&quot;groceryList&quot;, groceryList);
+var groceryList = new GroceryList([]);
+
+var pageData = new observableModule.Observable({
+    groceryList: groceryList
+});
 
 exports.navigatedTo = function(args) {
     page = args.object;
     page.bindingContext = pageData;
 
-    groceryList.empty();
+    groceryList.clear();
     groceryList.load();
 };
 </code></pre><p>In this code, groceryList is now referencing the grocery list model and in the navigatedTo function, the groceryList object is emptied and then reloaded from the database so that the data remains current.  </p>
-<p>Now you should build out the <code>empty()</code> and <code>load()</code> functions in the model so that we can get this data from the database.</p>
-<p>In <code>app/shared/models/GroceryList.js</code>, grab any Grocery data that might exist in the back end and push it into the grocery array:</p>
-<pre><code>GroceryList.prototype.load = function() {
-    var that = this;
-    http.getJSON({
-        url: config.apiUrl + &quot;Groceries&quot;,
-        method: &quot;GET&quot;,
-        headers: {
-            &quot;Authorization&quot;: &quot;Bearer &quot; + config.token
-        }
-    }).then(function(data) {
-        data.Result.forEach(function(grocery) {
-            that.push({
-                name: grocery.Name,
-                id: grocery.Id
+<p>Now you should build out the <code>clear()</code> and <code>load()</code> functions in the model so that we can get this data from the database.</p>
+<p>In <code>app/shared/view-models/grocery-list-view-model.js</code>, grab any Grocery data that might exist in the back end and push it into the grocery array:</p>
+<pre><code>function GroceryList(items) {
+
+    var viewModel = new observableArray.ObservableArray(items);
+
+    viewModel.load = function() {
+        http.getJSON({
+            url: config.apiUrl + &quot;Groceries&quot;,
+            method: &quot;GET&quot;,
+            headers: {
+                &quot;Authorization&quot;: &quot;Bearer &quot; + config.token
+            }
+        }).then(function(data) {
+
+            data.Result.forEach(function(grocery) {
+                viewModel.push({
+                    name: grocery.Name,
+                    id: grocery.Id
+                });
             });
         });
-    });
-};
-GroceryList.prototype.empty = function() {
-    while (this.length) {
-        this.pop();
     }
-};
+
+    viewModel.clear = function() {
+        while (viewModel.length) {
+            viewModel.pop();
+        }
+    }
+
+    return viewModel;
+}
 </code></pre><div class="exercise-end"></div>
 
 <p>In the load function above, you are pulling down the list associated to the user&#39;s credentials. In the empty function, you clear out the array and get ready to reload it. If you rebuild, run the app, and login as tj.vantoll@gmail.com, you&#39;ll find a list of groceries pulled from Backend Services in the Groceries data type. It will look something like this:</p>
@@ -701,14 +728,14 @@ GroceryList.prototype.empty = function() {
     <b>Exercise</b>: Add the ability to create a Grocery item
 </h4>
 
-<p>First, add another parameter to the pageData observable object as an empty placeholder in <code>app/views/list/list.js</code> above the line: <code>pageData.set(&quot;groceryList&quot;, groceryList);</code>:</p>
+<p>First, add another parameter to the pageData observable object as an empty placeholder in <code>app/views/list/list.js</code> above the line: <code>exports.navigatedTo = function(args) {</code></p>
 <pre><code>pageData.set(&quot;grocery&quot;, &quot;&quot;);
 </code></pre><p>Edit the list view xml to allow for a two column layout with a text field and a button to add grocery items. Change the GridLayout in <code>app/views/list/list.xml</code> initial tag to account for this layout:</p>
 <pre><code>&lt;GridLayout rows=&quot;auto, *&quot; columns=&quot;*, *, *&quot;&gt;
 </code></pre><blockquote>
 <p>This layout will include two rows, one auto-sized according to its children&#39;s dimensions, and the other stretchable to allow for the expanding list. It will have three auto-stretching columns as the text field will occupy two columns and the button one column.</p>
 </blockquote>
-<p>Add a text field and a button to have a place to enter grocery items. The text field will have the id &#39;grocery&#39; and is bound to the grocery object, has a hint that will show on the front end to help the user, will occupy one row and two columns. The button will have a tap event - <code>tap</code> and will occupy the initial row as well and the third column - remember numbering of rows and columns starts at zero. Add these two lines after the GridLayout initial tag:</p>
+<p>Add a text field and a button to have a place to enter grocery items. The text field will have the id &#39;grocery&#39; and is bound to the grocery object. It has a hint that will show on the front end to help the user, and will occupy one row and two columns. The button will have a tap event - <code>tap</code> and will occupy the initial row as well and the third column - remember numbering of rows and columns starts at zero. Add these two lines after the GridLayout initial tag:</p>
 <pre><code>    &lt;TextField id=&quot;grocery&quot; text=&quot;{{ grocery }}&quot; hint=&quot;Enter a grocery item&quot; row=&quot;0&quot; colspan=&quot;2&quot; /&gt;
     &lt;Button text=&quot;Add&quot; tap=&quot;add&quot; row=&quot;0&quot; col=&quot;2&quot;&gt;&lt;/Button&gt;
 </code></pre><p>Finally, edit the <code>&lt;ListView&gt;</code> tag to ensure that it will expand across the new columns you created:</p>
@@ -717,7 +744,7 @@ GroceryList.prototype.empty = function() {
 <p>In app/views/list/list.js, add a function to respond to the &#39;add&#39; tap event that you just added. You&#39;ll put this underneath the navigatedTo function.</p>
 <pre><code>exports.add = function() {
     //check for empty submission
-    if (groceryList.isValidItem(pageData.get(&quot;grocery&quot;))) {
+    if (pageData.get(&quot;grocery&quot;).trim() !== &quot;&quot;) {
         //dismiss the keyboard
         view.getViewById(page, &quot;grocery&quot;).dismissSoftInput();
         groceryList.add(pageData.get(&quot;grocery&quot;))
@@ -737,9 +764,8 @@ GroceryList.prototype.empty = function() {
     }
 };
 </code></pre><p>In this function, you test for an empty value, and if this test passes, dismiss the keyboard, then get the &#39;grocery&#39; item from the input field and add it to the groceryList object. </p>
-<p>Finally, let the manipulation of this new data be handled in the model by adding the following function under the &#39;empty&#39; function in /app/shared/models/GroceryList.js:</p>
-<pre><code>GroceryList.prototype.add = function(grocery) {
-    var that = this;
+<p>Finally, let the manipulation of this new data be handled in the model by adding the following function under the &#39;empty&#39; function, but before the view model is returned in <code>/app/shared/view-models/grocery-list-view-model.js</code></p>
+<pre><code>viewModel.add = function(grocery) {
     return new Promise(function(resolve, reject) {
         http.request({
             url: config.apiUrl + &quot;Groceries&quot;,
@@ -752,7 +778,7 @@ GroceryList.prototype.empty = function() {
                 &quot;Content-Type&quot;: &quot;application/json&quot;
             }
         }).then(function() {
-            that.push({ name: grocery });
+            viewModel.push({ name: grocery });
             resolve();
         }).catch(function() {
             reject();
