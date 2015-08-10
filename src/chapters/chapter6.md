@@ -73,6 +73,7 @@ For Android, you are going to add an icon that will be hidden on iOS. To account
 	</ListView.itemTemplate>
 </ListView>
 ```
+
 In this code, you have created:
 
 - an itemTemplate, in which you can format the rows of your list view. In this itemTemplate you have nested a GridLayout with two columns, one stretched and one expanding only to the width of the child. 
@@ -99,31 +100,31 @@ exports.delete = function(args) {
 	groceryList.delete(index);
 };
 ```
+
 This code reads in the item that is tapped via the arguments passed into the function, matches that item to the index in the groceryList object, and sends that index to be deleted. It remains only to implement the actual deletion in the model.
 
-In `app/shared/models/GroceryList.js`, add a function to delete an item:
+In `app/shared/view-models/grocery-list-view-model.js`, add a function to delete an item. Remember to add this function toward the end of the file, right above the `return viewModel` line.:
 
 ```
-GroceryList.prototype.delete = function(index) {
-	var that = this;
+viewModel.delete = function() {
 	return new Promise(function(resolve, reject) {
-		http.request({
-			url: config.apiUrl + "Groceries/" + that.getItem(index).id,
-			method: "DELETE",
-			headers: {
-				"Authorization": "Bearer " + config.token,
-				"Content-Type": "application/json"
-			}
-		}).then(function() {
-			that.splice(index, 1);
-			resolve();
-		}).catch(function() {
-			reject();
-		});
-	});
+        http.request({
+            url: config.apiUrl + "Groceries/" + viewModel.getItem(index).id,
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + config.token,
+                "Content-Type": "application/json"
+            }
+        }).then(function() {
+            viewModel.splice(index, 1);
+            resolve();
+        }).catch(function() {
+            reject();
+        });
+    });
 };
-
 ```
+
 Similar to code elsewhere in the models, as you have seen, an item is passed to the function and a Promise is returned. Data is sent to Backend Services, including a URL with the id of the item to be deleted appended, the method (DELETE), and headers which include the token saved after the user logs in. If the deletion is successful, the item is removed from the grocery list observable that feeds the list view. 
 <div class="exercise-end"></div>
 
@@ -142,13 +143,14 @@ Include this library into `app/views/list/list.js` at the top, under the inclusi
 ```
 var swipeDelete = require("../../shared/utils/ios-swipe-delete");
 ```
+
 Then, add this code to the `navigatedTo()` function under `page = args.object;`:
 ```
-	var listView = view.getViewById(page, "groceryList");
-	swipeDelete.enable(listView, function(index) {
-		groceryList.delete(index);
-	});
-``` 
+var listView = view.getViewById(page, "groceryList");
+swipeDelete.enable(listView, function(index) {
+	groceryList.delete(index);
+});
+```
 
 <div class="exercise-end"></div>
 

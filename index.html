@@ -959,19 +959,18 @@ Sliding to delete list items is a common UI interaction on iOS. But since you wa
     groceryList.delete(index);
 };
 </code></pre><p>This code reads in the item that is tapped via the arguments passed into the function, matches that item to the index in the groceryList object, and sends that index to be deleted. It remains only to implement the actual deletion in the model.</p>
-<p>In <code>app/shared/models/GroceryList.js</code>, add a function to delete an item:</p>
-<pre><code>GroceryList.prototype.delete = function(index) {
-    var that = this;
+<p>In <code>app/shared/view-models/grocery-list-view-model.js</code>, add a function to delete an item. Remember to add this function toward the end of the file, right above the <code>return viewModel</code> line.:</p>
+<pre><code>viewModel.delete = function() {
     return new Promise(function(resolve, reject) {
         http.request({
-            url: config.apiUrl + &quot;Groceries/&quot; + that.getItem(index).id,
+            url: config.apiUrl + &quot;Groceries/&quot; + viewModel.getItem(index).id,
             method: &quot;DELETE&quot;,
             headers: {
                 &quot;Authorization&quot;: &quot;Bearer &quot; + config.token,
                 &quot;Content-Type&quot;: &quot;application/json&quot;
             }
         }).then(function() {
-            that.splice(index, 1);
+            viewModel.splice(index, 1);
             resolve();
         }).catch(function() {
             reject();
@@ -991,10 +990,10 @@ Sliding to delete list items is a common UI interaction on iOS. But since you wa
 <p>Include this library into <code>app/views/list/list.js</code> at the top, under the inclusion of the social share plugin:</p>
 <pre><code>var swipeDelete = require(&quot;../../shared/utils/ios-swipe-delete&quot;);
 </code></pre><p>Then, add this code to the <code>navigatedTo()</code> function under <code>page = args.object;</code>:</p>
-<pre><code>    var listView = view.getViewById(page, &quot;groceryList&quot;);
-    swipeDelete.enable(listView, function(index) {
-        groceryList.delete(index);
-    });
+<pre><code>var listView = view.getViewById(page, &quot;groceryList&quot;);
+swipeDelete.enable(listView, function(index) {
+    groceryList.delete(index);
+});
 </code></pre><div class="exercise-end"></div>
 
 <p>That&#39;s all you have to do to enable swipe-to-delete for iOS! What this code does is use this functionality from the included utility, invoking the <code>enable()</code> function from the swipeDelete utility for the referenced listView, and flagging the index of the list to be deleted.</p>
