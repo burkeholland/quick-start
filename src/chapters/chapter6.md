@@ -106,7 +106,7 @@ This code reads in the item that is tapped via the arguments passed into the fun
 In `app/shared/view-models/grocery-list-view-model.js`, add a function to delete an item. Remember to add this function toward the end of the file, right above the `return viewModel` line.:
 
 ```
-viewModel.delete = function() {
+viewModel.delete = function(index) {
 	return new Promise(function(resolve, reject) {
         http.request({
             url: config.apiUrl + "Groceries/" + viewModel.getItem(index).id,
@@ -115,10 +115,10 @@ viewModel.delete = function() {
                 "Authorization": "Bearer " + config.token,
                 "Content-Type": "application/json"
             }
-        }).then(function() {
+        }).then(function(data) {
             viewModel.splice(index, 1);
             resolve();
-        }).catch(function() {
+        }).catch(function(error) {
             reject();
         });
     });
@@ -154,9 +154,9 @@ swipeDelete.enable(listView, function(index) {
 
 <div class="exercise-end"></div>
 
-That's all you have to do to enable swipe-to-delete for iOS! What this code does is use this functionality from the included utility, invoking the `enable()` function from the swipeDelete utility for the referenced listView, and flagging the index of the list to be deleted.
+What this code does is use this functionality from the included utility, invoking the `enable()` function from the swipeDelete utility for the referenced listView, and flagging the index of the list to be deleted.
 
-
+>**Note:** Advanced ListView interactions like swipe-to-delete, pull-to-refresh, as well as other components such as calendars and charts are available as part of UI For NativeScript. [Read more about UI For NativeScript](https://www.nativescript.org/blog/welcome-to-telerik-ui-for-nativescript).
 
 >Learn more about how the NativeScript API leverages native code [here](http://developer.telerik.com/featured/nativescript-works/)
 

@@ -960,7 +960,7 @@ Sliding to delete list items is a common UI interaction on iOS. But since you wa
 };
 </code></pre><p>This code reads in the item that is tapped via the arguments passed into the function, matches that item to the index in the groceryList object, and sends that index to be deleted. It remains only to implement the actual deletion in the model.</p>
 <p>In <code>app/shared/view-models/grocery-list-view-model.js</code>, add a function to delete an item. Remember to add this function toward the end of the file, right above the <code>return viewModel</code> line.:</p>
-<pre><code>viewModel.delete = function() {
+<pre><code>viewModel.delete = function(index) {
     return new Promise(function(resolve, reject) {
         http.request({
             url: config.apiUrl + &quot;Groceries/&quot; + viewModel.getItem(index).id,
@@ -969,10 +969,10 @@ Sliding to delete list items is a common UI interaction on iOS. But since you wa
                 &quot;Authorization&quot;: &quot;Bearer &quot; + config.token,
                 &quot;Content-Type&quot;: &quot;application/json&quot;
             }
-        }).then(function() {
+        }).then(function(data) {
             viewModel.splice(index, 1);
             resolve();
-        }).catch(function() {
+        }).catch(function(error) {
             reject();
         });
     });
@@ -996,8 +996,9 @@ swipeDelete.enable(listView, function(index) {
 });
 </code></pre><div class="exercise-end"></div>
 
-<p>That&#39;s all you have to do to enable swipe-to-delete for iOS! What this code does is use this functionality from the included utility, invoking the <code>enable()</code> function from the swipeDelete utility for the referenced listView, and flagging the index of the list to be deleted.</p>
+<p>What this code does is use this functionality from the included utility, invoking the <code>enable()</code> function from the swipeDelete utility for the referenced listView, and flagging the index of the list to be deleted.</p>
 <blockquote>
+<p><strong>Note:</strong> Advanced ListView interactions like swipe-to-delete, pull-to-refresh, as well as other components such as calendars and charts are available as part of UI For NativeScript. <a href="https://www.nativescript.org/blog/welcome-to-telerik-ui-for-nativescript">Read more about UI For NativeScript</a>.</p>
 <p>Learn more about how the NativeScript API leverages native code <a href="http://developer.telerik.com/featured/nativescript-works/">here</a></p>
 </blockquote>
 <p>You&#39;ve created a functional, cross-platform app to manage your grocery list! In the process you created a unique UI for Android and iOS, leveraged plugins and npm modules, learned how to login and register, managed backend services, create a functioning list with add and delete options, and more. Congratulations!</p>
