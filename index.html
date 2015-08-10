@@ -812,12 +812,12 @@ exports.navigatedTo = function(args) {
         &quot;email-validator&quot;: &quot;^1.0.2&quot;
     }
 </code></pre><p>Then, the NativeScript CLI adds a folder to <code>node_modules</code> in the root called <code>email-validator</code>. In this folder is the code used by the module, in this case a small regex check in <code>app/node_modules/email_validator/index.js</code>. </p>
-<p>You&#39;re going to add this functionality to our list of groceries, so in <code>/app/shared/models/User.js</code>, require the module:</p>
+<p>You&#39;re going to add this functionality to our list of groceries, so in <code>/app/shared/view-models/user-view-model.js</code>, require the module:</p>
 <pre><code>var validator = require(&quot;email-validator/index&quot;);
 </code></pre><blockquote>
 <p>In this case, we need to explicitly point to the index.js file, because normally NativeScript is configured to look in an npm module&#39;s package.json file for the &quot;main&quot; value to reference a file, like <code>index.js</code>. In the case of this particular module, the <code>main</code> value is simply <code>index</code> so you need to reference the main file directly.</p>
 </blockquote>
-<p>To make use of this validator, add a function to <code>app/models/User.js</code> under the register function:</p>
+<p>To make use of this validator, add a function to <code>app/shared/view-models/user-view-model.js</code> under the register function:</p>
 <pre><code>User.prototype.isValidEmail = function() {
     var email = this.get(&quot;email_address&quot;);
     return validator.validate(email);

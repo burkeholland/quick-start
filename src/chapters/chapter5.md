@@ -30,7 +30,7 @@ What just happened? The install process does a few things in the background. Fir
 ```
 Then, the NativeScript CLI adds a folder to `node_modules` in the root called `email-validator`. In this folder is the code used by the module, in this case a small regex check in `app/node_modules/email_validator/index.js`. 
 
-You're going to add this functionality to our list of groceries, so in `/app/shared/models/User.js`, require the module:
+You're going to add this functionality to our list of groceries, so in `/app/shared/view-models/user-view-model.js`, require the module:
 
 ```
 var validator = require("email-validator/index");
@@ -39,7 +39,7 @@ var validator = require("email-validator/index");
 
 >In this case, we need to explicitly point to the index.js file, because normally NativeScript is configured to look in an npm module's package.json file for the "main" value to reference a file, like `index.js`. In the case of this particular module, the `main` value is simply `index` so you need to reference the main file directly.
 
-To make use of this validator, add a function to `app/models/User.js` under the register function:
+To make use of this validator, add a function to `app/shared/view-models/user-view-model.js` under the register function:
 
 ```
 User.prototype.isValidEmail = function() {
