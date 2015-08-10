@@ -160,5 +160,7 @@ What this code does is use this functionality from the included utility, invokin
 
 >Learn more about how the NativeScript API leverages native code [here](http://developer.telerik.com/featured/nativescript-works/)
 
-You've created a functional, cross-platform app to manage your grocery list! In the process you created a unique UI for Android and iOS, leveraged plugins and npm modules, learned how to login and register, managed backend services, create a functioning list with add and delete options, and more. Congratulations!
+You've created a functional, cross-platform app to manage your grocery list. In the process you created a unique UI for Android and iOS, leveraged plugins and npm modules, learned how to login and register, managed backend services, create a functioning list with add and delete options, and more. 
+
+Congratulations! 
 
