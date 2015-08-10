@@ -81,7 +81,7 @@ To install this plugin, type:
 ```
 tns plugin add nativescript-social-share
 ```
-What just happened? The install process does the same thing that an `npm install` command does, in that it writes the dependency to `package.json`, and it also configures any native span that the plugin needs to use. 
+What just happened? The install process does the same thing that an `npm install` command does, in that it writes the dependency to `package.json`, and it also configures any native code that the plugin needs to use. 
 
 Now, include the social share plugin at the top of `app/views/list/list.js` using `require()`:
 
@@ -89,7 +89,7 @@ Now, include the social share plugin at the top of `app/views/list/list.js` usin
 var socialShare = require("nativescript-social-share");
 ```
 
-Now, make an area at the top of `app/views/list/list.xml` file to show a link to share a grocery list. Under the <Page> tag, add the following span. Once you build the `share()` function, tapping this link will open a native email sharing widget:
+Make an area at the top of `app/views/list/list.xml` file to show a link to share a grocery list. Under the <Page> tag, add the following code. Once you build the `share()` function, tapping this link will open a native email sharing widget:
 
 ```
 <Page.actionBar>
