@@ -39,11 +39,11 @@ var validator = require("email-validator/index");
 
 >In this case, we need to explicitly point to the index.js file, because normally NativeScript is configured to look in an npm module's package.json file for the "main" value to reference a file, like `index.js`. In the case of this particular module, the `main` value is simply `index` so you need to reference the main file directly.
 
-To make use of this validator, add a function to `app/shared/view-models/user-view-model.js` under the register function:
+To make use of this validator, add a function to `app/shared/view-models/user-view-model.js` right above the line `return viewModel`:
 
 ```
-User.prototype.isValidEmail = function() {
-	var email = this.get("email_address");
+viewModel.isValidEmail = function() {
+	var email = this.get("email");
 	return validator.validate(email);
 };
 ```
@@ -76,7 +76,7 @@ In order to email grocery lists via your app, you need to install the Social Sha
     <b>Exercise</b>: Install and use the Social Sharing widget
 </h4>
 
-To install this plugin, all you need to do is type:
+To install this plugin, type:
 
 ```
 tns plugin add nativescript-social-share

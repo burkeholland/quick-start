@@ -817,9 +817,9 @@ exports.navigatedTo = function(args) {
 </code></pre><blockquote>
 <p>In this case, we need to explicitly point to the index.js file, because normally NativeScript is configured to look in an npm module&#39;s package.json file for the &quot;main&quot; value to reference a file, like <code>index.js</code>. In the case of this particular module, the <code>main</code> value is simply <code>index</code> so you need to reference the main file directly.</p>
 </blockquote>
-<p>To make use of this validator, add a function to <code>app/shared/view-models/user-view-model.js</code> under the register function:</p>
-<pre><code>User.prototype.isValidEmail = function() {
-    var email = this.get(&quot;email_address&quot;);
+<p>To make use of this validator, add a function to <code>app/shared/view-models/user-view-model.js</code> right above the line <code>return viewModel</code>:</p>
+<pre><code>viewModel.isValidEmail = function() {
+    var email = this.get(&quot;email&quot;);
     return validator.validate(email);
 };
 </code></pre><p>Then, edit the registration function in <code>app/views/register/register.js</code> to trap any malformed email addresses:</p>
@@ -844,7 +844,7 @@ exports.navigatedTo = function(args) {
     <b>Exercise</b>: Install and use the Social Sharing widget
 </h4>
 
-<p>To install this plugin, all you need to do is type:</p>
+<p>To install this plugin, type:</p>
 <pre><code>tns plugin add nativescript-social-share
 </code></pre><p>What just happened? The install process does the same thing that an <code>npm install</code> command does, in that it writes the dependency to <code>package.json</code>, and it also configures any native span that the plugin needs to use. </p>
 <p>Now, include the social share plugin at the top of <code>app/views/list/list.js</code> using <code>require()</code>:</p>
