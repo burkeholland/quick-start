@@ -67,8 +67,8 @@ For Android, you are going to add an icon that will be hidden on iOS. To account
 <ListView items="{{ groceryList }}" id="groceryList" row="1" colSpan="3">
 	<ListView.itemTemplate>
 		<GridLayout columns="*, auto">
-			<Label text="{{ name }}/>
-			<Image src="res://ic_menu_delete" ios:visibility='collapsed' col="1" tap="delete"/>
+			<Label text="{{ name }}"/>
+			<Image src="res://ic_menu_delete" ios:visibility="collapsed" col="1" tap="delete"/>
 		</GridLayout>
 	</ListView.itemTemplate>
 </ListView>

@@ -932,8 +932,8 @@ Sliding to delete list items is a common UI interaction on iOS. But since you wa
 <pre><code>&lt;ListView items=&quot;{{ groceryList }}&quot; id=&quot;groceryList&quot; row=&quot;1&quot; colSpan=&quot;3&quot;&gt;
     &lt;ListView.itemTemplate&gt;
         &lt;GridLayout columns=&quot;*, auto&quot;&gt;
-            &lt;Label text=&quot;{{ name }}/&gt;
-            &lt;Image src=&quot;res://ic_menu_delete&quot; ios:visibility=&#39;collapsed&#39; col=&quot;1&quot; tap=&quot;delete&quot;/&gt;
+            &lt;Label text=&quot;{{ name }}&quot;/&gt;
+            &lt;Image src=&quot;res://ic_menu_delete&quot; ios:visibility=&quot;collapsed&quot; col=&quot;1&quot; tap=&quot;delete&quot;/&gt;
         &lt;/GridLayout&gt;
     &lt;/ListView.itemTemplate&gt;
 &lt;/ListView&gt;
