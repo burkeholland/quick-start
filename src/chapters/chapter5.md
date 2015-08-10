@@ -1,6 +1,6 @@
 ## Plugins and npm modules
 
-Often, you need to include plugins and/or modules that are not by default available in the `tns_modules` folder to enable special functionality in your app. You can leverage [npm](https://www.npmjs.com/), node package manager, to import plugins and modules into your project. Alternately, you can install NativeScript plugins, which are simply npm modules that can access native span and leverage Android and iOS SDKs if required. 
+Often, you need to include plugins and/or modules that are not by default available in the `tns_modules` folder to enable special functionality in your app. You can leverage [npm](https://www.npmjs.com/), node package manager, to import plugins and modules into your project. Alternately, you can install NativeScript plugins, which are simply npm modules that can access native code and leverage Android and iOS SDKs if required. 
 
 In this section, you'll install and use an external module, an email validator, so that you can check email addresses for validity as they are entered in the login screen. Then, you'll add a NativeScript plugin, the [NativeScript Social Share widget](https://www.npmjs.com/package/nativescript-social-share), to manage sharing grocery lists. 
 
